@@ -19,7 +19,7 @@
     <br>
 
 
-    @if (_listaListFiltered == null)
+    @if (_tableListFiltered == null)
     {
         <MudSimpleTable>
             <thead>
@@ -40,18 +40,18 @@
             </tbody>
         </MudSimpleTable>
     }
-    else if (_listaListFiltered.Count == 0)
+    else if (_tableListFiltered.Count == 0)
     {
         <MudContainer>
             <br>
             <br>
             <br>
-            <h2 style="text-align: center !important;">Você não tem nenhuma lista nesta página.</h2>
+            <h2 style="text-align: center !important;">Você não tem nenhuma item nesta página.</h2>
         </MudContainer>
     }
     else
     {
-        <MudTable Items="@_listaListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
         SortLabel="Sort By" T="UsuarioPerfil">
             <HeaderContent>
                 <MudTh>
