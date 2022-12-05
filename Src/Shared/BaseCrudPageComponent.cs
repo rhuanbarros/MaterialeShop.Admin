@@ -78,4 +78,5 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         model = item;
         ModoEdicao = true;
     }
+    
 }

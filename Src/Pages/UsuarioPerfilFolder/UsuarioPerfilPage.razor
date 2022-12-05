@@ -70,49 +70,37 @@
 
     @if (_tableListFiltered == null)
     {
-        <MudSimpleTable>
-            <thead>
-                <tr>
-                    <th>Título</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <MudSkeleton />
-                    </td>
-                    <td>
-                        <MudSkeleton />
-                    </td>
-                </tr>
-            </tbody>
-        </MudSimpleTable>
-    }
-    else if (_tableListFiltered.Count == 0)
-    {
-        <MudContainer>
-            <br>
-            <br>
-            <br>
-            <h2 style="text-align: center !important;">Você não tem nenhuma item nesta página.</h2>
-        </MudContainer>
-    }
-    else
+        <LoadingTable/>
+    } else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="UsuarioPerfil">
+
+            <ToolBarContent>
+                <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="MudBlazor.Size.Medium" Class="mt-0" Clearable="true"
+                ValueChanged="@(s=>OnValueChangedSearch(s))" Placeholder="Pesquisa" />
+            </ToolBarContent>
+
             <HeaderContent>
                 <MudTh>
-                    Nome completo
+                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.NomeCompleto)">
+                            Nome completo
+                    </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    Email
+                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.Email)">
+                        Email
+                    </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    CPF
+                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.Cpf)">
+                        CPF
+                    </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    Telefone
+                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.Telefone)">
+                        Telefone
+                    </MudTableSortLabel>                    
                 </MudTh>
                 <MudTh>
                     Ações
@@ -132,6 +120,13 @@
                         OnClick="@(async (e) => { await OnClickDelete(context); })" />
                 </MudTd>
             </RowTemplate>
+
+            <NoRecordsContent>
+                <br>
+                <h4 style="text-align: center !important;">Você não tem nenhuma item nesta página.</h4>
+                <br>
+            </NoRecordsContent>
+
             <PagerContent>
                 <MudTablePager PageSizeOptions="new int[]{50, 100}" />
             </PagerContent>
