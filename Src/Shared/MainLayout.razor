@@ -45,23 +45,26 @@
             
             <br>
             <MudNavMenu Color="Color.Secondary">
+                <MudNavLink Href="/clientes" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.People">
+                    Clientes
+                </MudNavLink>
+                <MudNavLink Href="/lojas" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Shop">
+                    Lojas
+                </MudNavLink>
                 <MudNavLink Href="/listas" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.List">
                     Listas de compras
                 </MudNavLink>
-                <MudNavLink Href="/orcamentos" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.FormatListNumberedRtl">
-                    Orçamentos recebidos
+                <MudNavLink Href="/aguardando-orcamentos" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.FilePresent">
+                    Aguardando orçamentos
                 </MudNavLink>
-                <MudNavLink Href="/compras_aguardando" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.LocalShipping">
-                    Compras aguardando entrega
+                <MudNavLink Href="/carrinhos" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.AddShoppingCart">
+                    Ver carrinhos de compras
                 </MudNavLink>
-                <MudNavLink Href="/compras_finalizadas" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Receipt">
-                    Compras finalizadas
+                <MudNavLink Href="/pedidos" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.LocalShipping">
+                    Ver pedidos
                 </MudNavLink>
                 <MudNavLink Href="/configuracoes" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Settings">
                     Configurações
-                </MudNavLink>
-                <MudNavLink Href="/crud" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Storage">
-                    Crud table
                 </MudNavLink>
             </MudNavMenu>
 
