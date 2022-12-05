@@ -6,8 +6,6 @@ namespace MaterialeShop.Admin.Src.Pages.UsuarioPerfilFolder;
 
 public partial class UsuarioPerfilPage
 {
-    private string Titulo = "Minhas listas de compras";
-
     //TODO: usar OnParametersSetAsync ?    
     protected override async Task OnInitializedAsync()
     {

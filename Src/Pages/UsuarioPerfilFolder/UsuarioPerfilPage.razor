@@ -1,20 +1,21 @@
-@page "/UsuarioPerfil"
+@page "/clientes"
 
 @inherits BasePageComponent
-@* @attribute [Authorize] *@
 
 @using Dtos
+@using MaterialeShop.Admin.Src.Shared.Components
+
 @inject UsuarioPerfilService UsuarioPerfilService
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
 
-<PageTitle>UsuarioPerfilPage</PageTitle>
+<PageTitle>MaterialeShop - Clientes</PageTitle>
 
 <AppBarCustom />
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
-    <MudText Typo="Typo.h5">UsuarioPerfil</MudText>
+    <MudText Typo="Typo.h5">Clientes</MudText>
     <br>
 
 
