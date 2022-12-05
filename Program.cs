@@ -66,6 +66,8 @@ builder.Services.AddSingleton<AppGlobals>();
 
 // builder.Services.AddScoped<MyCustomTheme>(); //nao funcionou nao sei pq
 
+// ---------- TABLE SERVICES
+builder.Services.AddScoped<CrudService>();
 builder.Services.AddScoped<UsuarioPerfilService>();
 builder.Services.AddScoped<ListasService>();
 
