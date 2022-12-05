@@ -5,9 +5,9 @@
 @inject ISnackbar Snackbar
 
 <MudAppBar Elevation="3">
-    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+    @* <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true"> *@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@((e) => DrawerToggleAsync())" />
-    </MudHidden>
+    @* </MudHidden> *@
     <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="false">
         <div class='d-flex flex-row justify-center align-center' style="width: 100% !important">
             <Logotipo />

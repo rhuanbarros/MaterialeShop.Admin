@@ -13,7 +13,7 @@
 
 <MudLayout>
 
-    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true" >
+    @* <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true" > *@
     
         <MudDrawer @bind-Open="@AppGlobals.DrawerOpen" Elevation="2" Variant="@DrawerVariant.Mini">
             <MudDrawerHeader Class="pa-2 pt-4">
@@ -73,15 +73,15 @@
 
         </MudDrawer>
 
-    </MudHidden>
+    @* </MudHidden> *@
 
     <MudMainContent Class="d-flex flex-column" Style="height:100vh !important">
         @Body
     </MudMainContent>
 
-    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="false">
+    @* <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="false">
         <BottomNavBar />
-    </MudHidden>
+    </MudHidden> *@
 
 </MudLayout>
 
