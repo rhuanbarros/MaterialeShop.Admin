@@ -22,13 +22,12 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     
     protected async Task GetTable()
     {
-        _tableList = await CrudService.From<TModel>();
+        _tableList = await CrudService.SelectFrom<TModel>();
         _tableListFiltered = _tableList;
         await InvokeAsync(StateHasChanged);
     }
 
     // ---------------- CREATE NEW
-
     protected TModel model = new();
     protected bool success = false;
     protected string[] errors = { };
@@ -37,11 +36,36 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected async Task OnClickSave()
     {
         _processingNewItem = true;
-        await CrudService.Insert<TModel>(model);
+        if(ModoEdicao == false)
+        {
+            await CrudService.Insert<TModel>(model);
+        } else 
+        {
+            await CrudService.Edit<TModel>(model);            
+            ModoEdicao = false;
+        }
+
         model = new();
         await GetTable();
         success = false;
         _processingNewItem = false;
     }
 
+    // ---------------- DELETE
+    protected async Task OnClickDelete(TModel item)
+    {
+        await CrudService.Delete<TModel>(item);        
+        await GetTable();
+    }
+
+    // ---------------- EDIT MODEL
+    protected bool ModoEdicao = false;
+    protected async Task OnClickEdit(TModel item)
+    {
+        //essa linha gera um bug q ele edita a instancia e ja aperece na tabela na tela.
+        //isso acontece por causa da passagem por referencia.
+        // teria q criar um novo
+        model = item;
+        ModoEdicao = true;
+    }
 }

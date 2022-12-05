@@ -27,35 +27,39 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' LINHA>
+                <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
                     <MudTextField Label="Nome completo" @bind-Value="model.NomeCompleto" For="@(() => model.NomeCompleto)" Required="true"
                         Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Email" @bind-Value="model.Email" For="@(() => model.Email)" Required="true"
+                    <MudTextField Label="Email" @bind-Value="model.Email" For="@(() => model.Email)"
                         Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="CPF" @bind-Value="model.Cpf" For="@(() => model.Cpf)" Required="true"
+                    <MudTextField Label="CPF" @bind-Value="model.Cpf" For="@(() => model.Cpf)"
                         Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Telefone" @bind-Value="model.Telefone" For="@(() => model.Telefone)" Required="true"
+                    <MudTextField Label="Telefone" @bind-Value="model.Telefone" For="@(() => model.Telefone)"
                         Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Uuid" @bind-Value="model.Uuid" For="@(() => model.Uuid)" Required="true"
+                    <MudTextField Label="Uuid" @bind-Value="model.Uuid" For="@(() => model.Uuid)"
                         Immediate="true" Variant="Variant.Outlined"/>
                 </div>
-
-
-
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto"
-                    OnClick="OnClickSave">
-                    @if (_processingNewItem)
-                    {
-                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                        <MudText Class="ms-2">Processando</MudText>
-                    }
-                    else
-                    {
-                        <MudText>Salvar</MudText>
-                    }
-                </MudButton>
+                <div class='d-flex flex-row justify-end align-center gap-2' style='width: 100% !important' LINHA>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" 
+                        OnClick="@( (e) => { model = new(); } )">
+                            <MudText>Cancelar</MudText>
+                    </MudButton>
+
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" 
+                        OnClick="OnClickSave">
+                        @if (_processingNewItem)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">Processando</MudText>
+                        }
+                        else
+                        {
+                            <MudText><strong>Salvar</strong></MudText>
+                        }
+                    </MudButton>
+                </div>
             </MudCardActions>
 
         </MudCard>
@@ -100,10 +104,10 @@
         SortLabel="Ordenar por" T="UsuarioPerfil">
             <HeaderContent>
                 <MudTh>
-                    Título
+                    Nome completo
                 </MudTh>
                 <MudTh>
-                    Nome completo
+                    Email
                 </MudTh>
                 <MudTh>
                     CPF
@@ -116,11 +120,18 @@
                 </MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Título">@context?.Email</MudTd>
-                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
-                <MudTd DataLabel="NomeCompleto">@context?.Cpf</MudTd>
-                <MudTd DataLabel="NomeCompleto">@context?.Telefone</MudTd>
-                <MudTd> botao </MudTd>
+                <MudTd DataLabel="Nome completo">@context?.NomeCompleto</MudTd>
+                <MudTd DataLabel="Email">@context?.Email</MudTd>
+                <MudTd DataLabel="CPF">@context?.Cpf</MudTd>
+                <MudTd DataLabel="Telefone">@context?.Telefone</MudTd>
+                <MudTd DataLabel="Ação">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit"
+                        Size="MudBlazor.Size.Small"
+                        OnClick="@(async (e) => { await OnClickEdit(context); })"
+                        />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
+                        OnClick="@(async (e) => { await OnClickDelete(context); })" />
+                </MudTd>
             </RowTemplate>
             <PagerContent>
                 <MudTablePager PageSizeOptions="new int[]{50, 100}" />

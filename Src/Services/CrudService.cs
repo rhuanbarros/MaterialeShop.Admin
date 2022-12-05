@@ -26,7 +26,7 @@ public class CrudService
         this.logger = logger;
     }
 
-    public async Task<IReadOnlyList<TModel>> From<TModel>() where TModel : BaseModel, new()
+    public async Task<IReadOnlyList<TModel>> SelectFrom<TModel>() where TModel : BaseModel, new()
     {
         Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.From<TModel>().Get();
         return modeledResponse.Models;
@@ -41,6 +41,12 @@ public class CrudService
     public async Task<List<TModel>> Insert<TModel>(TModel item) where TModel : BaseModel, new()
     {
         Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.From<TModel>().Insert(item);
+        return modeledResponse.Models;
+    }
+    
+    public async Task<List<TModel>> Edit<TModel>(TModel item) where TModel : BaseModel, new()
+    {
+        Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.From<TModel>().Update(item);
         return modeledResponse.Models;
     }
 
