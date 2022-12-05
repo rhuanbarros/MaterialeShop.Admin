@@ -9,6 +9,8 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
 {
     [Inject] 
     protected CrudService CrudService {get; set;}
+    [Inject]
+    protected IDialogService DialogService { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -54,7 +56,15 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     // ---------------- DELETE
     protected async Task OnClickDelete(TModel item)
     {
-        await CrudService.Delete<TModel>(item);        
+        bool? result = await DialogService.ShowMessageBox(
+            "Atenção",
+            "Você deseja apagar este item?", 
+            yesText:"Sim", cancelText:"Não");
+        
+        if(result == true)
+        {
+            await CrudService.Delete<TModel>(item);
+        }
         await GetTable();
     }
 
