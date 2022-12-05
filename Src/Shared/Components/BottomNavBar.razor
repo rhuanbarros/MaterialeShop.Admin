@@ -1,0 +1,107 @@
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<MudAppBar Bottom="true" Fixed="true" Color="Color.Secondary" Elevation="3" Class="btm-nav-bar-App-Bar py-1 px-0">
+    <MudStack Row=true Class="d-flex align-content-center justify-space-around flex-grow-1 text-center" Spacing="0">
+        <MudButton Href="/menu" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary"
+            Class="mud-ripple:after px-0">
+            <MudStack Row=false Class="d-flex align-content-center align-center text-center" Spacing="1">
+                <span class="material-symbols-outlined btm-nav-bar-inline-icon @menuAtivado">menu</span>
+                <p class="btm-nav-bar-title @menuAtivado">Menu</p>
+            </MudStack>
+        </MudButton>
+        <MudButton Href="/compras" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary"
+            Class="mud-ripple:after px-0">
+            <MudStack Row=false Class="d-flex align-content-center align-center text-center" Spacing="1">
+                <span class="material-symbols-outlined btm-nav-bar-inline-icon @comprasAtivado">receipt_long</span>
+                <p class="btm-nav-bar-title @comprasAtivado">Compras</p>
+            </MudStack>
+        </MudButton>
+        <MudButton Href="/orcamentos" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary"
+            Class="mud-ripple:after px-0">
+            <MudStack Row=false Class="d-flex align-content-center align-center text-center" Spacing="1">
+                <span
+                    class="material-symbols-outlined btm-nav-bar-inline-icon @orcamentosAtivado">format_list_numbered</span>
+                <p class="btm-nav-bar-title @orcamentosAtivado">Orçamentos</p>
+            </MudStack>
+        </MudButton>
+        <MudButton Href="/listas" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary"
+            Class="mud-ripple:after px-0">
+            <MudStack Row=false Class="d-flex align-content-center align-center text-center" Spacing="1">
+                <span class="material-symbols-outlined btm-nav-bar-inline-icon @listasAtivado">add_circle</span>
+                <p class="btm-nav-bar-title @listasAtivado">Listas</p>
+            </MudStack>
+        </MudButton>
+    </MudStack>
+</MudAppBar>
+
+@code
+{
+    private string listasAtivado = "";
+    private string orcamentosAtivado = "";
+    private string comprasAtivado = "";
+    private string menuAtivado = "";
+
+    protected override void OnInitialized()
+    {
+        string url = null;
+        url = NavigationManager.Uri.ToString();
+        @* Console.WriteLine("================OnInitialized==============url");
+        Console.WriteLine(url); *@
+        ativaBotao(url);
+
+        // Subscribe to the event
+        NavigationManager.LocationChanged += LocationChanged;
+        base.OnInitialized();
+    }
+
+    void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        @* Console.WriteLine("================LocationChanged==============url");
+        Console.WriteLine(e.Location); *@
+        ativaBotao(e.Location);
+    }
+    private void ativaBotao(string url)
+    {
+        url = url.Split("/")[3];
+        @* Console.WriteLine(""+url); *@
+        switch (url)
+        {
+            case "listas":
+                listasAtivado = "ativado";
+                orcamentosAtivado = "";
+                comprasAtivado = "";
+                menuAtivado = "";
+                break;
+            case "orcamentos":
+                listasAtivado = "";
+                orcamentosAtivado = "ativado";
+                comprasAtivado = "";
+                menuAtivado = "";
+                break;
+            case "compras":
+                listasAtivado = "";
+                orcamentosAtivado = "";
+                comprasAtivado = "ativado";
+                menuAtivado = "";
+                break;
+            case "menu":
+                listasAtivado = "";
+                orcamentosAtivado = "";
+                comprasAtivado = "";
+                menuAtivado = "ativado";
+                break;
+            default:
+                // code block
+                break;
+        }
+        StateHasChanged();
+    }
+
+    void IDisposable.Dispose()
+    {
+        // Unsubscribe from the event when our component is disposed
+        NavigationManager.LocationChanged -= LocationChanged;
+    }
+
+}

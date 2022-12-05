@@ -1,0 +1,40 @@
+@using MaterialeShop.Admin.Src.Shared.Components
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudContainer Class="d-flex justify-center align-center ma-0 centralizador">
+    <MudPaper Elevation="5" Class="pa-2 py-8 pa-xs-2 py-xs-8 pa-sm-4 py-sm-8 pa-md-6 py-md-8 pa-xl-10"
+        style="text-align:center">
+        <MudContainer Class="d-flex flex-column justify-center pa-xs-2 pa-sm-4 pa-md-6 pa-xl-10">
+            <div class="d-flex gap-2 justify-center align-center">
+                <MudImage Src="images\casinha com borda preta.fw.png" Alt="Logotipo MaterialeShop" Style="height:25px"
+                    Fluid />
+                <MudImage Src="images\MaterialeShop com borda preta.png" Alt="Logotipo MaterialeShop"
+                    Style="height:25px" Fluid />
+                @* <MudImage Src="images\MaterialeShop com casinha e com borda preta.fw.png" Alt="Logotipo
+                    MaterialeShop"
+                    Height="10" Fluid/> *@
+            </div>
+            <br>
+
+            <MudText Typo="Typo.h5">Bem-vindo</MudText>
+            <br>
+            <MudTextField Label="Email" @bind-Value="email" Variant="Variant.Outlined"></MudTextField>
+            <MudTextField Label="Password" @bind-Value="password" Variant="Variant.Outlined"
+                InputType="InputType.Password"></MudTextField>
+            <br>
+            <MudButton Variant="Variant.Filled" FullWidth Color="Color.Primary" OnClick="OnClickLogin">Login</MudButton>
+        </MudContainer>
+    </MudPaper>
+</MudContainer>
+
+@* Nao funciona criar um arquivo Login.razor.css. Tem uma issue no github, mas nao foi resolvida
+    https://github.com/MudBlazor/MudBlazor/issues/591  *@
+<style>
+    .centralizador {
+        height: 100vh !important;
+        background-color: #FFBD4A !important;
+        max-width: 100% !important;
+    }
+</style>

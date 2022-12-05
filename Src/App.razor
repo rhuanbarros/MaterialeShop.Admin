@@ -1,0 +1,24 @@
+﻿@using MaterialeShop.Admin.Src.Shared.Components
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <RedirectToLogin></RedirectToLogin>
+                    @* <h1>NotAuthorized</h1> *@
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Materiale Shop - Página não encontrada</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <MudContainer Class="d-flex justify-center align-center flex-column" Style="height:60vh !important">
+                    <MudImage Src="images\NotFound.jpg" Alt="Logotipo MaterialeShop" Width="280" Height="250" />
+                    <p role="alert">Desculpe, mas a página solicitada não foi encontrada</p>
+                </MudContainer>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

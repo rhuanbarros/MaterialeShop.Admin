@@ -1,0 +1,79 @@
+@page "/UsuarioPerfil"
+
+@inherits BasePageComponent
+@* @attribute [Authorize] *@
+
+@using Dtos
+@inject UsuarioPerfilService UsuarioPerfilService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<PageTitle>UsuarioPerfilPage</PageTitle>
+
+<AppBarCustom />
+
+<div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
+
+    <MudText Typo="Typo.h5">UsuarioPerfil</MudText>
+    <br>
+
+
+    @if (_listaListFiltered == null)
+    {
+        <MudSimpleTable>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <MudSkeleton />
+                    </td>
+                    <td>
+                        <MudSkeleton />
+                    </td>
+                </tr>
+            </tbody>
+        </MudSimpleTable>
+    }
+    else if (_listaListFiltered.Count == 0)
+    {
+        <MudContainer>
+            <br>
+            <br>
+            <br>
+            <h2 style="text-align: center !important;">Você não tem nenhuma lista nesta página.</h2>
+        </MudContainer>
+    }
+    else
+    {
+        <MudTable Items="@_listaListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
+        SortLabel="Sort By" T="UsuarioPerfil">
+            <HeaderContent>
+                <MudTh>
+                    Título
+                </MudTh>
+                <MudTh>
+                    NomeCompleto
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Título">@context?.Email</MudTd>
+                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+    }
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>

@@ -1,0 +1,38 @@
+@inherits LayoutComponentBase
+@* @inject MyCustomTheme MyCustomTheme *@
+
+<MudThemeProvider Theme="MyCustomTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+@Body
+
+@code
+{
+    MudTheme MyCustomTheme = new()
+    {
+        Palette = new()
+        {
+            Primary = "#FFBD4A",
+            PrimaryContrastText = Colors.Shades.Black,
+            Secondary = Colors.Shades.Black,
+            SecondaryContrastText = Colors.Grey.Lighten5,
+            Tertiary = Colors.Grey.Lighten5,
+            TertiaryContrastText = Colors.Shades.Black,
+            AppbarBackground = "#FFBD4A"
+        },
+
+        PaletteDark = new()
+        {
+            Primary = Colors.Amber.Lighten1
+        },
+
+        LayoutProperties = new()
+        {
+            DrawerWidthLeft = "360px",
+            DrawerWidthRight = "360px"
+        }
+
+        // Typography = new MaterialeShopTypography()
+    };
+}

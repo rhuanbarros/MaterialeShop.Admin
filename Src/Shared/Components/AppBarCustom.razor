@@ -1,0 +1,32 @@
+@using System.Security.Claims
+@inject AppGlobals AppGlobals
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudAppBar Elevation="3">
+    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@((e) => DrawerToggleAsync())" />
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="false">
+        <div class='d-flex flex-row justify-center align-center' style="width: 100% !important">
+            <Logotipo />
+        </div>
+    </MudHidden>
+    
+    <MudSpacer />
+
+    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+        <AuthorizeView>
+            <Authorized>
+                <MudText Color="Color.Secondary">Bem-vindo,
+                    @context?.User?.FindFirst("email")?.ToString()?.Split(":")[1] </MudText>
+                <MudChip Color="Color.Primary" OnClick="OnClickLogout">Logout</MudChip>
+            </Authorized>
+            <NotAuthorized>
+                <MudChip Color="Color.Primary" Link="/login">Login</MudChip>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudHidden>
+
+</MudAppBar>

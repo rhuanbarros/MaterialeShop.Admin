@@ -1,0 +1,89 @@
+﻿@using MaterialeShop.Admin.Src.Shared.Components
+@inherits LayoutComponentBase
+
+@* @inject MyCustomTheme MyCustomTheme *@
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+@inject AppGlobals AppGlobals
+
+<MudThemeProvider Theme="MyCustomTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+
+    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true" >
+    
+        <MudDrawer @bind-Open="@AppGlobals.DrawerOpen" Elevation="2" Variant="@DrawerVariant.Mini">
+            <MudDrawerHeader Class="pa-2 pt-4">
+
+                <MudImage class="@logoPequenoVisible"
+                    Src="images\logo 2022 1024x1024 - Copia (2) - Copia - Copia - Copia.png" Alt="Logotipo MaterialeShop" 
+                    Width="50" Height="40"/>
+
+                <div class="@logoGrandeVisible">
+                    <div class="d-flex gap-2">
+
+                        <Logotipo></Logotipo>
+
+                        @* <MudImage Src="images\casinha com borda preta.fw.png" Alt="Logotipo MaterialeShop" 
+                            Style="height:25px" Fluid />
+                            @* Width="50" Height="40"/> *@
+                        @* <MudImage Src="images\MaterialeShop com borda preta.png" Alt="Logotipo MaterialeShop"  *@
+                            @* Style="height:25px" Fluid /> *@ 
+                            
+                            @* Width="270" Height="45"/> *@
+                        @* <MudImage Src="images\MaterialeShop com casinha e com borda preta.fw.png" Alt="Logotipo MaterialeShop" 
+                            Height="10" Fluid/> *@
+                    </div>
+                </div>
+
+            </MudDrawerHeader>
+
+            @* ********************************** MENU ********************************** *@
+            
+            <br>
+            <MudNavMenu Color="Color.Secondary">
+                <MudNavLink Href="/listas" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.List">
+                    Listas de compras
+                </MudNavLink>
+                <MudNavLink Href="/orcamentos" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.FormatListNumberedRtl">
+                    Orçamentos recebidos
+                </MudNavLink>
+                <MudNavLink Href="/compras_aguardando" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.LocalShipping">
+                    Compras aguardando entrega
+                </MudNavLink>
+                <MudNavLink Href="/compras_finalizadas" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Receipt">
+                    Compras finalizadas
+                </MudNavLink>
+                <MudNavLink Href="/configuracoes" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Settings">
+                    Configurações
+                </MudNavLink>
+                <MudNavLink Href="/crud" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Storage">
+                    Crud table
+                </MudNavLink>
+            </MudNavMenu>
+
+
+            @* ********************************** MENU ********************************** *@
+
+        </MudDrawer>
+
+    </MudHidden>
+
+    <MudMainContent Class="d-flex flex-column" Style="height:100vh !important">
+        @Body
+    </MudMainContent>
+
+    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="false">
+        <BottomNavBar />
+    </MudHidden>
+
+</MudLayout>
+
+<style>
+    @* Fontes usadas nos logotipos principalmente *@
+    @@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+    @@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Poppins:wght@500&display=swap');
+</style>
