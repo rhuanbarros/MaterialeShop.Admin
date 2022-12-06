@@ -22,8 +22,9 @@ public class UsuarioPerfil : BaseModel
     [EmailAddress]
     public string? Email { get; set; }
     
+    [Required]
     [Column("nomecompleto")]
-    public string? NomeCompleto { get; set; }
+    public string NomeCompleto { get; set; }
     
     [Column("cpf")]
     public string? Cpf { get; set; }
