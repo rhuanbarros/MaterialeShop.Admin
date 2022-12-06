@@ -21,15 +21,28 @@ public class UsuarioPerfil : BaseModel
     [Column("email")]
     [EmailAddress]
     public string? Email { get; set; }
-    
+
     [Required]
     [Column("nomecompleto")]
     public string NomeCompleto { get; set; }
-    
+
     [Column("cpf")]
     public string? Cpf { get; set; }
-    
+
     [Column("telefone")]
     public string? Telefone { get; set; }
+
+    // Note: this is important so the MudSelect can compare pizzas
+    public override bool Equals(object o)
+    {
+        var other = o as UsuarioPerfil;
+        return other?.Id == Id;
+    }
+
+    // Note: this is important too!
+    public override int GetHashCode() => NomeCompleto?.GetHashCode() ?? 0;
+
+    // Implement this for the Pizza to display correctly in MudSelect
+    public override string ToString() => NomeCompleto;
 
 }

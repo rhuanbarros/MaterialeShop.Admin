@@ -5,7 +5,20 @@ using MudBlazor;
 namespace MaterialeShop.Admin.Src.Pages.ListasFolder.VerListasFolder;
 
 public partial class VerListasPage
-{    
+{
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetTable();
+        await GetTableUsuarioPerfil();
+
+        foreach (var item in _UsuarioPerfilList)
+        {
+            Console.WriteLine("item");
+            Console.WriteLine(item.NomeCompleto);
+        }
+    }
+
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
@@ -13,23 +26,24 @@ public partial class VerListasPage
     }
 
     // ---------------- CREATE NEW
-    // protected async Task OnClickSave()
-    // {
-    //     _processingNewItem = true;
-    //     if(ModoEdicao == false)
-    //     {
-    //         await CrudService.Insert<Lista>(model);
-    //     } else 
-    //     {
-    //         await CrudService.Edit<Lista>(model);            
-    //         ModoEdicao = false;
-    //     }
+    protected new Lista model = new();
+    protected new async Task OnClickSave()
+    {
+        _processingNewItem = true;
+        if(ModoEdicao == false)
+        {
+            await CrudService.Insert<Lista>(model);
+        } else 
+        {
+            await CrudService.Edit<Lista>(model);            
+            ModoEdicao = false;
+        }
 
-    //     model = new();
-    //     await GetTable();
-    //     success = false;
-    //     _processingNewItem = false;
-    // }
+        model = new();
+        await GetTable();
+        success = false;
+        _processingNewItem = false;
+    }
 
     // ---------------- DELETE
     protected new async Task OnClickDelete(ListasView item)
@@ -49,5 +63,16 @@ public partial class VerListasPage
         }
         await GetTable();
     }
+
+    //////////////////////// ---------------- CAMPO UsuarioPerfil no MODEL
+    // ---------------- SELECT TABLE UsuarioPerfil
+    protected IReadOnlyList<UsuarioPerfil>? _UsuarioPerfilList { get; set; }
+    protected async Task GetTableUsuarioPerfil()
+    {
+        _UsuarioPerfilList = await CrudService.SelectFrom<UsuarioPerfil>();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private Func<UsuarioPerfil, string> convertFuncPapel = ci => ci?.NomeCompleto;
     
 }

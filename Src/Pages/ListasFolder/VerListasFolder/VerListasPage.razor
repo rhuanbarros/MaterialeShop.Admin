@@ -28,20 +28,36 @@
             </MudCardHeader>
             <MudCardContent>
                 <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
-                    <MudTextField Label="NomeCompleto" @bind-Value="model.NomeCompleto" For="@(() => model.NomeCompleto)" Required="true"
-                        Immediate="true" Variant="Variant.Outlined"/>
+                    @* <MudTextField Label="UsuarioPerfilId" @bind-Value="model.UsuarioPerfilId" For="@(() =>
+                        model.UsuarioPerfilId)" Required="true"
+                        Immediate="true" Variant="Variant.Outlined"/> *@
+
+                    @if(_UsuarioPerfilList is not null)
+                    {
+                        <MudSelect T="UsuarioPerfil" Label="Cliente" Variant="Variant.Outlined"                            
+                            >
+                            @foreach (var item in _UsuarioPerfilList)
+                            {
+                                <MudSelectItem Value="@item" />
+                            }
+
+                        </MudSelect>
+                    } else
+                    {
+                        <MudSkeleton Width="150px" />
+                    }
+
                     <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
-                        Immediate="true" Variant="Variant.Outlined"/>
+                        Immediate="true" Variant="Variant.Outlined" />
                 </div>
             </MudCardContent>
             <MudCardActions>
                 <div class='d-flex flex-row justify-end align-center gap-2' style='width: 100% !important' LINHA>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" 
-                        OnClick="@( (e) => { model = new(); } )">
-                            <MudText>Cancelar</MudText>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@( (e) => { model = new(); } )">
+                        <MudText>Cancelar</MudText>
                     </MudButton>
 
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" 
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)"
                         OnClick="OnClickSave">
                         @if (_processingNewItem)
                         {
@@ -64,10 +80,12 @@
 
     @if (_tableListFiltered == null)
     {
-        <LoadingTable/>
-    } else
+        <LoadingTable />
+    }
+    else
     {
-        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="ListasView">
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
+        T="ListasView">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -78,7 +96,7 @@
             <HeaderContent>
                 <MudTh>
                     <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.NomeCompleto)">
-                            NomeCompleto
+                        NomeCompleto
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
@@ -100,12 +118,10 @@
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit"
-                        Size="MudBlazor.Size.Small"
-                        OnClick="@(async (e) => { await OnClickEdit(context); })"
-                        />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
+                    OnClick="@(async (e) => { await OnClickEdit(context); })" />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
-                        OnClick="@(async (e) => { await OnClickDelete(context); })" />
+                    OnClick="@(async (e) => { await OnClickDelete(context); })" />
                 </MudTd>
             </RowTemplate>
 
