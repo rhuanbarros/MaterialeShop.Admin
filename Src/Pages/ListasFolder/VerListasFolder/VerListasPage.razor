@@ -1,6 +1,6 @@
 @page "/listas"
 
-@inherits BaseCrudPageComponent<Lista>
+@inherits BaseCrudPageComponent<ListasView>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -28,7 +28,7 @@
             </MudCardHeader>
             <MudCardContent>
                 <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
-                    <MudTextField Label="UsuarioPerfilId" @bind-Value="model.UsuarioPerfilId" For="@(() => model.UsuarioPerfilId)" Required="true"
+                    <MudTextField Label="NomeCompleto" @bind-Value="model.NomeCompleto" For="@(() => model.NomeCompleto)" Required="true"
                         Immediate="true" Variant="Variant.Outlined"/>
                     <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
                         Immediate="true" Variant="Variant.Outlined"/>
@@ -67,7 +67,7 @@
         <LoadingTable/>
     } else
     {
-        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="Lista">
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="ListasView">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -77,17 +77,17 @@
 
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Lista, object>(x=>x.UsuarioPerfilId)">
-                            UsuarioPerfilId
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.NomeCompleto)">
+                            NomeCompleto
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Lista, object>(x=>x.Endereco)">
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Endereco)">
                         Endereco
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Lista, object>(x=>x.Status)">
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
                         Status
                     </MudTableSortLabel>
                 </MudTh>
@@ -96,7 +96,7 @@
                 </MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="UsuarioPerfilId">@context?.UsuarioPerfilId</MudTd>
+                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
