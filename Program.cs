@@ -34,7 +34,7 @@ builder.Services.AddScoped<Supabase.Client>(
         new Supabase.SupabaseOptions
         {
             AutoRefreshToken = true,
-            AutoConnectRealtime = true,
+            AutoConnectRealtime = false,
             PersistSession = true,
             SessionHandler = new CustomSupabaseSessionHandler(
                 provider.GetRequiredService<ILocalStorageService>(),

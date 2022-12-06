@@ -32,8 +32,12 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
     {
         logger.LogInformation("------------------- GetAuthenticationStateAsync() -------------------");
 
-        // Sets client auth and connects to realtime (if enabled)
-        await client.InitializeAsync();
+        try {
+            // Sets client auth and connects to realtime (if enabled)
+            await client.InitializeAsync();
+        } catch {
+            logger.LogInformation("Houve uma falha na conexão a um dos serviços do Supabase. Verifique a sua conexão de rede. Também é possível que o servidor esteja fora do ar.");
+        }
         
         var identity = new ClaimsIdentity();
 
