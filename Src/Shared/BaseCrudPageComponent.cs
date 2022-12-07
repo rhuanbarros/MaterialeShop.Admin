@@ -22,7 +22,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected IReadOnlyList<TModel>? _tableListFiltered { get; set; }
     protected MudTable<TModel>? table;
     
-    protected async Task GetTable()
+    protected virtual async Task GetTable()
     {
         _tableList = await CrudService.SelectAllFrom<TModel>();
         _tableListFiltered = _tableList;
@@ -35,22 +35,33 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected string[] errors = { };
     protected MudForm? form;
     protected bool _processingNewItem = false;
-    protected async Task OnClickSave()
+    protected virtual async Task OnClickSave()
     {
-        _processingNewItem = true;
-        if(ModoEdicao == false)
+        form?.Validate();
+        
+        if(form.IsValid)
         {
-            await CrudService.Insert<TModel>(model);
-        } else 
-        {
-            await CrudService.Edit<TModel>(model);            
-            ModoEdicao = false;
-        }
+            _processingNewItem = true;
+            if(ModoEdicao == false)
+            {
+                await CrudService.Insert<TModel>(model);
+            } else 
+            {
+                await CrudService.Edit<TModel>(model);            
+                ModoEdicao = false;
+            }
 
+            model = new();
+            await GetTable();
+            success = false;
+            _processingNewItem = false;
+        }
+    }
+
+    protected async Task OnClickCancel()
+    {
+        form?.Reset();
         model = new();
-        await GetTable();
-        success = false;
-        _processingNewItem = false;
     }
 
     // ---------------- DELETE

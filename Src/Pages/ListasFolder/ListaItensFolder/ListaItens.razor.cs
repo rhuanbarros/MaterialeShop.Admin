@@ -13,10 +13,21 @@ public partial class ListaItens
     [Inject] 
     protected ListasViewService ListasViewService {get; set;}
 
+    [Inject] 
+    protected ListaItensService ListaItensService {get; set;}
+
     protected override async Task OnParametersSetAsync()
     {
         await GetListaView();
-        // await GetTable();
+        await GetTable();
+    }
+
+    // ---------------- SELECT TABLE
+    protected override async Task GetTable()
+    {
+        _tableList = await ListaItensService.SelectAllByListaId(ListaId);
+        _tableListFiltered = _tableList;
+        await InvokeAsync(StateHasChanged);
     }
 
 
@@ -32,22 +43,43 @@ public partial class ListaItens
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        Func<Loja, bool> predicate = row =>
+        Func<ListaItem, bool> predicate = row =>
         {
             if (
-                !string.IsNullOrEmpty(row.Nome) && row.Nome.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Cnpj) && row.Cnpj.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Email) && row.Email.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Telefone) && row.Telefone.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Cidade) && row.Cidade.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Estado) && row.Estado.ToLower().Contains(text.ToLower())
+                !string.IsNullOrEmpty(row.Descricao) && row.Descricao.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Quantidade) && row.Quantidade.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.UnidadeMedida) && row.UnidadeMedida.ToLower().Contains(text.ToLower())
             )
                 return true;
             else
                 return false;
         };
         _tableListFiltered = _tableList?.Where(predicate).ToList();
+    }
+
+    // ---------------- CREATE NEW
+    protected override async Task OnClickSave()
+    {
+        form?.Validate();
+        
+        if(form.IsValid)
+        {
+            _processingNewItem = true;
+            if(ModoEdicao == false)
+            {
+                model.ListaId = ListaId;
+                await CrudService.Insert<ListaItem>(model);
+            } else 
+            {
+                await CrudService.Edit<ListaItem>(model);
+                ModoEdicao = false;
+            }
+
+            model = new();
+            await GetTable();
+            success = false;
+            _processingNewItem = false;
+        }
     }
 
 }

@@ -71,6 +71,7 @@ builder.Services.AddScoped<CrudService>();
 builder.Services.AddScoped<UsuarioPerfilService>();
 builder.Services.AddScoped<ListasService>();
 builder.Services.AddScoped<ListasViewService>();
+builder.Services.AddScoped<ListaItensService>();
 
 
 

@@ -1,6 +1,6 @@
 @page "/lista/{ListaId:int}"
 
-@inherits BaseCrudPageComponent<Loja>
+@inherits BaseCrudPageComponent<ListaItem>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -24,26 +24,18 @@
             </MudCardHeader>
             <MudCardContent>
                 <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
-                    <MudTextField Label="Nome" @bind-Value="model.Nome" For="@(() => model.Nome)" Required="true"
+                    <MudTextField Label="Descricao" @bind-Value="model.Descricao" For="@(() => model.Descricao)" Required="true"
                         Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Cnpj" @bind-Value="model.Cnpj" For="@(() => model.Cnpj)"
+                    <MudTextField Label="Quantidade" @bind-Value="model.Quantidade" For="@(() => model.Quantidade)"
                         Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Email" @bind-Value="model.Email" For="@(() => model.Email)"
-                        Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Telefone" @bind-Value="model.Telefone" For="@(() => model.Telefone)"
-                        Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Endereco" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
-                        Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Cidade" @bind-Value="model.Cidade" For="@(() => model.Cidade)"
-                        Immediate="true" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Estado" @bind-Value="model.Estado" For="@(() => model.Estado)"
+                    <MudTextField Label="Unidade de medida" @bind-Value="model.UnidadeMedida" For="@(() => model.UnidadeMedida)"
                         Immediate="true" Variant="Variant.Outlined"/>
                 </div>
             </MudCardContent>
             <MudCardActions>
                 <div class='d-flex flex-row justify-end align-center gap-2' style='width: 100% !important' LINHA>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" 
-                        OnClick="@( (e) => { model = new(); } )">
+                        OnClick="OnClickCancel">
                             <MudText>Cancelar</MudText>
                     </MudButton>
 
@@ -73,7 +65,7 @@
         <LoadingTable/>
     } else
     {
-        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="Loja">
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="ListaItem">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -83,38 +75,18 @@
 
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Nome)">
-                            Nome
+                    <MudTableSortLabel SortBy="new Func<ListaItem, object>(x=>x.Descricao)">
+                            Descricao
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Cnpj)">
-                        Cnpj
+                    <MudTableSortLabel SortBy="new Func<ListaItem, object>(x=>x.Quantidade)">
+                        Quantidade
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Email)">
-                        Email
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Telefone)">
-                        Telefone
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Endereco)">
-                        Endereco
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Cidade)">
-                        Cidade
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<Loja, object>(x=>x.Estado)">
-                        Estado
+                    <MudTableSortLabel SortBy="new Func<ListaItem, object>(x=>x.UnidadeMedida)">
+                        UnidadeMedida
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
@@ -122,13 +94,9 @@
                 </MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Nome">@context?.Nome</MudTd>
-                <MudTd DataLabel="Cnpj">@context?.Cnpj</MudTd>
-                <MudTd DataLabel="Email">@context?.Email</MudTd>
-                <MudTd DataLabel="Telefone">@context?.Telefone</MudTd>
-                <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
-                <MudTd DataLabel="Cidade">@context?.Cidade</MudTd>
-                <MudTd DataLabel="Estado">@context?.Estado</MudTd>
+                <MudTd DataLabel="Descricao">@context?.Descricao</MudTd>
+                <MudTd DataLabel="Quantidade">@context?.Quantidade</MudTd>
+                <MudTd DataLabel="UnidadeMedida">@context?.UnidadeMedida</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit"
                         Size="MudBlazor.Size.Small"
