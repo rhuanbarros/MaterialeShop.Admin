@@ -22,7 +22,17 @@ public partial class VerListasPage
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        _tableListFiltered = _tableList?.Where(row => row.Endereco.Contains(text)).ToList();
+        Func<ListasView, bool> predicate = row => {
+            if(
+                !string.IsNullOrEmpty(row.NomeCompleto) && row.NomeCompleto.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Status) && row.Status.ToLower().Contains(text.ToLower())
+            )
+                return true;
+            else
+                return false;                
+        };        
+        _tableListFiltered = _tableList?.Where(predicate).ToList();
     }
 
     // ---------------- CREATE NEW

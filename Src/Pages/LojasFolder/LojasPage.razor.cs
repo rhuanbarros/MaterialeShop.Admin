@@ -9,7 +9,21 @@ public partial class LojasPage
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        _tableListFiltered = _tableList?.Where(row => row.Nome.Contains(text)).ToList();
+        Func<Loja, bool> predicate = row => {
+            if(
+                !string.IsNullOrEmpty(row.Nome) && row.Nome.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Cnpj) && row.Cnpj.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Email) && row.Email.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Telefone) && row.Telefone.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Cidade) && row.Cidade.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Estado) && row.Estado.ToLower().Contains(text.ToLower())
+            )
+                return true;
+            else
+                return false;                
+        };        
+        _tableListFiltered = _tableList?.Where(predicate).ToList();
     }
 
     // private void OnValueChangedSearch(string text)
