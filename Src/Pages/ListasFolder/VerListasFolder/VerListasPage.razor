@@ -39,7 +39,9 @@
                         </MudSelect>
                     } else
                     {
-                        <MudSkeleton Width="150px" />
+                        <MudSelect T="string" Label="Cliente" Variant="Variant.Outlined" Text="Carregando clientes" >
+                            <MudSelectItem T="string"> Carregando clientes </MudSelectItem>
+                        </MudSelect>
                     }
 
                     <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
