@@ -1,0 +1,145 @@
+@page "/lista/{ListaId:int}/selecionar-loja"
+
+@inherits BaseCrudPageComponent<ListasView>
+
+@using Dtos
+@using MaterialeShop.Admin.Src.Shared.Components
+
+@inject UsuarioPerfilService UsuarioPerfilService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<PageTitle>MaterialeShop - Lista de compras de @NomeCliente</PageTitle>
+
+<AppBarCustom />
+
+<div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
+
+    <MudText Typo="Typo.h5">Lista de compras de @NomeCliente</MudText>
+
+    <br>
+
+    <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">
+        <MudCard Outlined="true">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <h4>Novo item</h4>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
+                    @if(_UsuarioPerfilList is not null)
+                    {
+                        <MudSelect T="int" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente" Text="Selecione o cliente"
+                            @bind-Value="model!.UsuarioPerfilId" >
+                            @foreach (var item in _UsuarioPerfilList)
+                            {
+                                <MudSelectItem Value="@item.Id" >@item.NomeCompleto</MudSelectItem>
+                            }
+                        </MudSelect>
+                    } else
+                    {
+                        <MudSelect T="string" Label="Cliente" Variant="Variant.Outlined" Text="Carregando clientes" >
+                            <MudSelectItem T="string"> Carregando clientes </MudSelectItem>
+                        </MudSelect>
+                    }
+
+                    <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
+                        Immediate="true" Variant="Variant.Outlined" />
+                </div>
+            </MudCardContent>
+            <MudCardActions>
+                <div class='d-flex flex-row justify-end align-center gap-2' style='width: 100% !important' LINHA>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnClickCancel">
+                        <MudText>Cancelar</MudText>
+                    </MudButton>
+
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)"
+                        OnClick="OnClickSave">
+                        @if (_processingNewItem)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">Processando</MudText>
+                        }
+                        else
+                        {
+                            <MudText><strong>Salvar</strong></MudText>
+                        }
+                    </MudButton>
+                </div>
+            </MudCardActions>
+
+        </MudCard>
+    </MudForm>
+
+    <br>
+
+
+    @if (_tableListFiltered == null)
+    {
+        <LoadingTable />
+    }
+    else
+    {
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
+            T="ListasView" OnRowClick="RowClickEvent">
+
+            <ToolBarContent>
+                <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="MudBlazor.Size.Medium" Class="mt-0" Clearable="true"
+                ValueChanged="@(s=>OnValueChangedSearch(s))" Placeholder="Pesquisa" />
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.NomeCompleto)">
+                        NomeCompleto
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Endereco)">
+                        Endereco
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
+                        Status
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    Ações
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
+                <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
+                <MudTd DataLabel="Status">@context?.Status</MudTd>
+                <MudTd DataLabel="Ação">
+                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="edit" Size="MudBlazor.Size.Small"
+                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.Id}"))' />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
+                    OnClick="@(async (e) => await OnClickEdit(context) )" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
+                    OnClick="@(async (e) => await OnClickDelete(context) )" />
+                </MudTd>
+            </RowTemplate>
+
+            <NoRecordsContent>
+                <br>
+                <h4 style="text-align: center !important;">Você não tem nenhum item nesta página.</h4>
+                <br>
+            </NoRecordsContent>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+    }
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
