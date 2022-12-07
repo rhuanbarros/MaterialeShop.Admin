@@ -72,6 +72,8 @@ builder.Services.AddScoped<UsuarioPerfilService>();
 builder.Services.AddScoped<ListasService>();
 builder.Services.AddScoped<ListasViewService>();
 builder.Services.AddScoped<ListaItensService>();
+builder.Services.AddScoped<OrcamentoService>();
+builder.Services.AddScoped<OrcamentoViewService>();
 
 
 

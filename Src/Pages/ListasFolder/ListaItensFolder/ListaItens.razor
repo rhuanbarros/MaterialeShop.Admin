@@ -5,6 +5,8 @@
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
 
+@inject NavigationManager NavigationManager
+
 <PageTitle>MaterialeShop - Lista de compras de @NomeCliente</PageTitle>
 
 <AppBarCustom />
@@ -13,6 +15,12 @@
 
     <MudText Typo="Typo.h5">Lista de compras de @NomeCliente</MudText>
 
+    <br>
+        <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" 
+            OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{ListaId}/selecionar-loja"))' >
+            Selecionar lojas
+        </MudButton>
+    <br>
     <br>
 
     <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">
