@@ -24,7 +24,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     
     protected async Task GetTable()
     {
-        _tableList = await CrudService.SelectFrom<TModel>();
+        _tableList = await CrudService.SelectAllFrom<TModel>();
         _tableListFiltered = _tableList;
         await InvokeAsync(StateHasChanged);
     }

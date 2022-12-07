@@ -11,12 +11,6 @@ public partial class VerListasPage
     {
         await GetTable();
         await GetTableUsuarioPerfil();
-
-        foreach (var item in _UsuarioPerfilList)
-        {
-            Console.WriteLine("item");
-            Console.WriteLine(item.NomeCompleto);
-        }
     }
 
     // ---------------- SEARCH
@@ -79,7 +73,7 @@ public partial class VerListasPage
     protected IReadOnlyList<UsuarioPerfil>? _UsuarioPerfilList { get; set; }
     protected async Task GetTableUsuarioPerfil()
     {
-        _UsuarioPerfilList = await CrudService.SelectFrom<UsuarioPerfil>();
+        _UsuarioPerfilList = await CrudService.SelectAllFrom<UsuarioPerfil>();
         await InvokeAsync(StateHasChanged);
     }
 

@@ -26,7 +26,7 @@ public class CrudService
         this.logger = logger;
     }
 
-    public async Task<IReadOnlyList<TModel>> SelectFrom<TModel>() where TModel : BaseModel, new()
+    public async Task<IReadOnlyList<TModel>> SelectAllFrom<TModel>() where TModel : BaseModel, new()
     {
         Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.From<TModel>().Get();
         return modeledResponse.Models;
