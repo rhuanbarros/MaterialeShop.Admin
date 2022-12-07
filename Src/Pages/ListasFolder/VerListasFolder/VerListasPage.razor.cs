@@ -29,6 +29,12 @@ public partial class VerListasPage
         _tableListFiltered = _tableList?.Where(predicate).ToList();
     }
 
+    // ---------------- CLICK NA LINHA DA TABELA
+    private void RowClickEvent(TableRowClickEventArgs<ListasView> e)
+    {
+        NavigationManager.NavigateTo($"/lista/{e.Item.Id}");
+    }
+
     // ---------------- CREATE NEW
     protected new Lista model = new();
     protected new async Task OnClickSave()
@@ -68,7 +74,8 @@ public partial class VerListasPage
         await GetTable();
     }
 
-    //////////////////////// ---------------- CAMPO UsuarioPerfil no MODEL
+    // -------------------START------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
+
     // ---------------- SELECT TABLE UsuarioPerfil
     protected IReadOnlyList<UsuarioPerfil>? _UsuarioPerfilList { get; set; }
     protected async Task GetTableUsuarioPerfil()
@@ -78,5 +85,6 @@ public partial class VerListasPage
     }
 
     private Func<UsuarioPerfil, string> convertFuncPapel = ci => ci?.NomeCompleto;
-    
+    // -----------------END--------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
+
 }
