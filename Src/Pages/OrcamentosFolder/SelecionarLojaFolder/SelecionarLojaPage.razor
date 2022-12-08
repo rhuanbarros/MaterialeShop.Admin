@@ -1,6 +1,6 @@
 @page "/lista/{ListaId:int}/selecionar-loja"
 
-@inherits BaseCrudPageComponent<ListasView>
+@inherits BaseCrudViewPageComponent<Orcamento, OrcamentoView>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -28,23 +28,9 @@
             </MudCardHeader>
             <MudCardContent>
                 <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
-                    @if(_UsuarioPerfilList is not null)
-                    {
-                        <MudSelect T="int" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente" Text="Selecione o cliente"
-                            @bind-Value="model!.UsuarioPerfilId" >
-                            @foreach (var item in _UsuarioPerfilList)
-                            {
-                                <MudSelectItem Value="@item.Id" >@item.NomeCompleto</MudSelectItem>
-                            }
-                        </MudSelect>
-                    } else
-                    {
-                        <MudSelect T="string" Label="Cliente" Variant="Variant.Outlined" Text="Carregando clientes" >
-                            <MudSelectItem T="string"> Carregando clientes </MudSelectItem>
-                        </MudSelect>
-                    }
 
-                    <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
+
+                    <MudTextField Label="LojaId" @bind-Value="model.LojaId" For="@(() => model.LojaId)"
                         Immediate="true" Variant="Variant.Outlined" />
                 </div>
             </MudCardContent>
@@ -82,7 +68,7 @@
     else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-            T="ListasView" OnRowClick="RowClickEvent">
+            T="OrcamentoView" >
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -92,18 +78,18 @@
 
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.NomeCompleto)">
-                        NomeCompleto
+                    <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.Nome)">
+                        Nome
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Endereco)">
-                        Endereco
+                    <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.Recebido)">
+                        Recebido
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
-                        Status
+                    <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.CodigoLoja)">
+                        CodigoLoja
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
@@ -111,12 +97,10 @@
                 </MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
-                <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
-                <MudTd DataLabel="Status">@context?.Status</MudTd>
+                <MudTd DataLabel="Nome">@context?.Nome</MudTd>
+                <MudTd DataLabel="Recebido">@context?.Recebido</MudTd>
+                <MudTd DataLabel="CodigoLoja">@context?.CodigoLoja</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="edit" Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.Id}"))' />
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
                     OnClick="@(async (e) => await OnClickEdit(context) )" />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"

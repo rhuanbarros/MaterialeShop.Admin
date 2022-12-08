@@ -5,7 +5,12 @@ namespace MaterialeShop.Admin.Src.Shared;
 public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageComponent<TViewModel> where TCrudModel : BaseModel, new() where TViewModel : BaseModel, new()
 {
     // ---------------- CREATE NEW
-    protected new TCrudModel model = new();
+    protected new TCrudModel model {get;set;} = new();
+    // usar isso para setar o id da chave estrangeira
+    protected virtual TCrudModel SetModelReferenceId(TCrudModel item)
+    {
+        return item;
+    }
     protected override async Task OnClickSave()
     {
         form?.Validate();
@@ -15,6 +20,7 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
             _processingNewItem = true;
             if (ModoEdicao == false)
             {
+                model = SetModelReferenceId(model);
                 await CrudService.Insert<TCrudModel>(model);
             }
             else
@@ -51,5 +57,19 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
         await GetTable();
     }
 
+    // ---------------- EDIT MODEL
+    protected bool ModoEdicao = false;
+    protected virtual TCrudModel SetModelIdToEdit(TViewModel item)
+    {
+        throw new NotImplementedException();
+    }
+    protected virtual async Task OnClickEdit(TViewModel item)
+    {
+        //essa linha gera um bug q ele edita a instancia e ja aperece na tabela na tela.
+        //isso acontece por causa da passagem por referencia.
+        // teria q criar um novo
+        model = SetModelIdToEdit(item);
+        ModoEdicao = true;
+    }
 
 }

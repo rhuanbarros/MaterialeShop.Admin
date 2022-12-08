@@ -22,12 +22,10 @@ public partial class SelecionarLojaPage
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        Func<ListasView, bool> predicate = row =>
+        Func<OrcamentoView, bool> predicate = row =>
         {
             if (
-                !string.IsNullOrEmpty(row.NomeCompleto) && row.NomeCompleto.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Status) && row.Status.ToLower().Contains(text.ToLower())
+                !string.IsNullOrEmpty(row.Nome) && row.Nome.ToLower().Contains(text.ToLower())
             )
                 return true;
             else
@@ -45,68 +43,42 @@ public partial class SelecionarLojaPage
         NomeCliente = _ListaView?.NomeCompleto;
     }
 
-    // ---------------- CLICK NA LINHA DA TABELA
-    private void RowClickEvent(TableRowClickEventArgs<ListasView> e)
+    // ---------------- DELETE
+    protected override Orcamento SetModelIdToDelete(OrcamentoView item)
     {
-        NavigationManager.NavigateTo($"/lista/{e.Item.Id}");
+        return new Orcamento()
+            {
+                Id = item.OrcamentoId
+            };
     }
 
     // ---------------- CREATE NEW
-    protected new Lista model = new();
-    protected new async Task OnClickSave()
+    protected override Orcamento SetModelReferenceId(Orcamento item)
     {
-        form?.Validate();
+        item.ListaId = ListaId;
+        return item;
+    }
 
-        if (form.IsValid)
+    // ---------------- EDIT MODEL
+    protected override Orcamento SetModelIdToEdit(OrcamentoView item)
+    {
+        return new Orcamento()
         {
-            _processingNewItem = true;
-            if (ModoEdicao == false)
-            {
-                await CrudService.Insert<Lista>(model);
-            }
-            else
-            {
-                await CrudService.Edit<Lista>(model);
-                ModoEdicao = false;
-            }
+            Id = item.OrcamentoId,
+            LojaId = item.LojaId,
+            ListaId = ListaId
+        };
+        
+    ////////////////////////////////////////////////////////////////
 
-            model = new();
-            await GetTable();
-            success = false;
-            _processingNewItem = false;
-        }
+                // Fazer a view retornar a Loja.Id tbm para poder setar aqui         
+                // depois tem q fazer o campo de selecionar a loja para criar um novo
+                // tbm tem q fazer o campo ser setado corretamente na hora de editar
+                // tbm tem q arrumar a outra pagina q ja usa o BaseCrudViewPageComponent
+
+    ////////////////////////////////
+
     }
 
-    // ---------------- DELETE
-    protected new async Task OnClickDelete(ListasView item)
-    {
-        bool? result = await DialogService.ShowMessageBox(
-            "Atenção",
-            "Você deseja apagar este item?",
-            yesText: "Sim", cancelText: "Não");
-
-        if (result == true)
-        {
-            Lista newItem = new()
-            {
-                Id = item.Id
-            };
-            await CrudService.Delete<Lista>(newItem);
-        }
-        await GetTable();
-    }
-
-    // -------------------START------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
-
-    // ---------------- SELECT TABLE UsuarioPerfil
-    protected IReadOnlyList<UsuarioPerfil>? _UsuarioPerfilList { get; set; }
-    protected async Task GetTableUsuarioPerfil()
-    {
-        _UsuarioPerfilList = await CrudService.SelectAllFrom<UsuarioPerfil>();
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private Func<UsuarioPerfil, string> convertFuncPapel = ci => ci?.NomeCompleto;
-    // -----------------END--------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
 
 }

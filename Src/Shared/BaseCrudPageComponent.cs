@@ -30,7 +30,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     }
 
     // ---------------- CREATE NEW
-    protected TModel model = new();
+    protected virtual TModel model {get;set;} = new();
     protected bool success = false;
     protected string[] errors = { };
     protected MudForm? form;
