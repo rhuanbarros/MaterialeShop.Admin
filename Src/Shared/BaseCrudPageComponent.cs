@@ -35,6 +35,12 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected string[] errors = { };
     protected MudForm? form;
     protected bool _processingNewItem = false;
+    
+    // usar isso para setar o id da chave estrangeira
+    protected virtual TModel SetModelReferenceId(TModel item)
+    {
+        return item;
+    }
     protected virtual async Task OnClickSave()
     {
         form?.Validate();
@@ -44,6 +50,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
             _processingNewItem = true;
             if(ModoEdicao == false)
             {
+                model = SetModelReferenceId(model);
                 await CrudService.Insert<TModel>(model);
             } else 
             {
@@ -58,14 +65,14 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         }
     }
 
-    protected async Task OnClickCancel()
+    protected virtual async Task OnClickCancel()
     {
         form?.Reset();
         model = new();
     }
 
     // ---------------- DELETE
-    protected async Task OnClickDelete(TModel item)
+    protected virtual async Task OnClickDelete(TModel item)
     {
         bool? result = await DialogService.ShowMessageBox(
             "Atenção",
@@ -81,7 +88,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
 
     // ---------------- EDIT MODEL
     protected bool ModoEdicao = false;
-    protected async Task OnClickEdit(TModel item)
+    protected virtual async Task OnClickEdit(TModel item)
     {
         //essa linha gera um bug q ele edita a instancia e ja aperece na tabela na tela.
         //isso acontece por causa da passagem por referencia.

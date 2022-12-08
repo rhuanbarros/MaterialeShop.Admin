@@ -1,6 +1,6 @@
 @page "/listas"
 
-@inherits BaseCrudPageComponent<ListasView>
+@inherits BaseCrudViewPageComponent<Lista, ListasView>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -31,7 +31,7 @@
                     @if(_UsuarioPerfilList is not null)
                     {
                         <MudSelect T="int" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente" Text="Selecione o cliente"
-                            @bind-Value="model!.UsuarioPerfilId" >
+                            @bind-Value="model!.UsuarioPerfilId" For="@(() => model.UsuarioPerfilId)" Required="true">
                             @foreach (var item in _UsuarioPerfilList)
                             {
                                 <MudSelectItem Value="@item.Id" >@item.NomeCompleto</MudSelectItem>

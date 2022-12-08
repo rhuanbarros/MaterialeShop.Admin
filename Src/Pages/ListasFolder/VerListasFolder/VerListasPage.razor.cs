@@ -16,16 +16,17 @@ public partial class VerListasPage
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        Func<ListasView, bool> predicate = row => {
-            if(
+        Func<ListasView, bool> predicate = row =>
+        {
+            if (
                 !string.IsNullOrEmpty(row.NomeCompleto) && row.NomeCompleto.ToLower().Contains(text.ToLower())
                 || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
                 || !string.IsNullOrEmpty(row.Status) && row.Status.ToLower().Contains(text.ToLower())
             )
                 return true;
             else
-                return false;                
-        };        
+                return false;
+        };
         _tableListFiltered = _tableList?.Where(predicate).ToList();
     }
 
@@ -35,43 +36,13 @@ public partial class VerListasPage
         NavigationManager.NavigateTo($"/lista/{e.Item.Id}");
     }
 
-    // ---------------- CREATE NEW
-    protected new Lista model = new();
-    protected new async Task OnClickSave()
-    {
-        _processingNewItem = true;
-        if(ModoEdicao == false)
-        {
-            await CrudService.Insert<Lista>(model);
-        } else 
-        {
-            await CrudService.Edit<Lista>(model);            
-            ModoEdicao = false;
-        }
-
-        model = new();
-        await GetTable();
-        success = false;
-        _processingNewItem = false;
-    }
-
     // ---------------- DELETE
-    protected new async Task OnClickDelete(ListasView item)
+    protected override Lista SetModelIdToDelete(ListasView item)
     {
-        bool? result = await DialogService.ShowMessageBox(
-            "Atenção",
-            "Você deseja apagar este item?", 
-            yesText:"Sim", cancelText:"Não");
-        
-        if(result == true)
-        {
-            Lista newItem = new()
+        return new Lista()
             {
                 Id = item.Id
             };
-            await CrudService.Delete<Lista>(newItem);
-        }
-        await GetTable();
     }
 
     // -------------------START------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------

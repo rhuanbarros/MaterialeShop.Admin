@@ -58,28 +58,10 @@ public partial class ListaItens
     }
 
     // ---------------- CREATE NEW
-    protected override async Task OnClickSave()
+    protected override ListaItem SetModelReferenceId(ListaItem item)
     {
-        form?.Validate();
-        
-        if(form.IsValid)
-        {
-            _processingNewItem = true;
-            if(ModoEdicao == false)
-            {
-                model.ListaId = ListaId;
-                await CrudService.Insert<ListaItem>(model);
-            } else 
-            {
-                await CrudService.Edit<ListaItem>(model);
-                ModoEdicao = false;
-            }
-
-            model = new();
-            await GetTable();
-            success = false;
-            _processingNewItem = false;
-        }
+        item.ListaId = ListaId;
+        return item;
     }
 
 }
