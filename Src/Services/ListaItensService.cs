@@ -56,7 +56,7 @@ public class ListaItensService
     {
         logger.LogInformation("------------------- ListaItensService SelectAllByListaId -------------------");
 
-        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client.From<ListaItem>().Filter("ListaId", Postgrest.Constants.Operator.Equals, id).Get();
+        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client.From<ListaItem>().Filter(nameof(ListaItem.ListaId), Postgrest.Constants.Operator.Equals, id).Get();
         return modeledResponse.Models;
     }
 

@@ -33,7 +33,7 @@ public class OrcamentoViewService
     public async Task<IReadOnlyList<OrcamentoView>> SelectAllByListaId(int id)
     {
         logger.LogInformation("------------------- OrcamentoViewService SelectAllByListaId -------------------");
-        Postgrest.Responses.ModeledResponse<OrcamentoView> modeledResponse = await client.From<OrcamentoView>().Filter("ListaId", Postgrest.Constants.Operator.Equals, id).Get();
+        Postgrest.Responses.ModeledResponse<OrcamentoView> modeledResponse = await client.From<OrcamentoView>().Filter(nameof(OrcamentoView.ListaId), Postgrest.Constants.Operator.Equals, id).Get();
         return modeledResponse.Models;
     }
     

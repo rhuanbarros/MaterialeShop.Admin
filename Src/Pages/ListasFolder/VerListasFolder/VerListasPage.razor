@@ -116,7 +116,7 @@
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="edit" Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.Id}"))' />
+                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))' />
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
                     OnClick="@(async (e) => await OnClickEdit(context) )" />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"

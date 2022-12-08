@@ -20,6 +20,9 @@ public class OrcamentoView : BaseModel
 
     [Column("nome")]
     public string Nome { get; set; }
+
+    [Column("ListaId")]
+    public int ListaId { get; set; }
     
     [Column("SolicitacaoData")]
     public DateTime? SolicitacaoData { get; set; }

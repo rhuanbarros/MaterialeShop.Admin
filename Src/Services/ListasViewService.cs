@@ -38,7 +38,7 @@ public class ListasViewService
     public async Task<ListasView> SelectAllByListaId(int id)
     {
         logger.LogInformation("------------------- ListasViewService SelectAllByListaId -------------------");
-        return await client.From<ListasView>().Filter("id", Postgrest.Constants.Operator.Equals, id).Single();
+        return await client.From<ListasView>().Filter(nameof(ListasView.ListaId), Postgrest.Constants.Operator.Equals, id).Single();
     }
     
     

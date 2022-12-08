@@ -8,11 +8,14 @@ namespace MaterialeShop.Admin.Src.Dtos;
 [Table("listasview")]
 public class ListasView : BaseModel
 {
-    [Column("id")]
-    public int Id { get; set; }
+    [Column("ListaId")]
+    public int ListaId { get; set; }
     
     [Column("created_at")]
     public string? CreatedAt { get; set; }
+
+    [Column("UsuarioPerfilId")]
+    public int UsuarioPerfilId { get; set; }
 
     [Column("nomecompleto")]
     public string? NomeCompleto { get; set; }

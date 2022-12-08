@@ -55,6 +55,9 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
             await CrudService.Delete<TCrudModel>(newItem);
         }
         await GetTable();
+
+        form?.Reset();
+        model = new();
     }
 
     // ---------------- EDIT MODEL

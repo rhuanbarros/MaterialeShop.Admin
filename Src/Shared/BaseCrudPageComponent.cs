@@ -84,6 +84,9 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
             await CrudService.Delete<TModel>(item);
         }
         await GetTable();
+        
+        form?.Reset();
+        model = new();
     }
 
     // ---------------- EDIT MODEL

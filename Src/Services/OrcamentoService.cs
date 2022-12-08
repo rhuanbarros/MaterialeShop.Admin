@@ -56,7 +56,7 @@ public class OrcamentoService
     {
         logger.LogInformation("------------------- OrcamentoService SelectAllByListaId -------------------");
 
-        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client.From<Orcamento>().Filter("ListaId", Postgrest.Constants.Operator.Equals, id).Get();
+        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client.From<Orcamento>().Filter(nameof(Orcamento.ListaId), Postgrest.Constants.Operator.Equals, id).Get();
         return modeledResponse.Models;
     }
 

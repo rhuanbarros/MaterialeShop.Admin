@@ -33,7 +33,7 @@ public partial class VerListasPage
     // ---------------- CLICK NA LINHA DA TABELA
     private void RowClickEvent(TableRowClickEventArgs<ListasView> e)
     {
-        NavigationManager.NavigateTo($"/lista/{e.Item.Id}");
+        NavigationManager.NavigateTo($"/lista/{e.Item.ListaId}");
     }
 
     // ---------------- DELETE
@@ -41,8 +41,20 @@ public partial class VerListasPage
     {
         return new Lista()
             {
-                Id = item.Id
+                Id = item.ListaId
             };
+    }
+
+    // ---------------- EDIT MODEL
+    protected override Lista SetModelIdToEdit(ListasView item)
+    {
+        return new Lista()
+        {
+            Id = item.ListaId,
+            UsuarioPerfilId = item.UsuarioPerfilId,
+            Endereco = item.Endereco,
+            Status = item.Status            
+        };
     }
 
     // -------------------START------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------

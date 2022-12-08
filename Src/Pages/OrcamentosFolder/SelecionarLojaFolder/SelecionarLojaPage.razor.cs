@@ -68,7 +68,8 @@ public partial class SelecionarLojaPage
             LojaId = item.LojaId,
             ListaId = ListaId
         };
-        
+    }
+
     ////////////////////////////////////////////////////////////////
 
                 // Fazer a view retornar a Loja.Id tbm para poder setar aqui         
@@ -77,8 +78,5 @@ public partial class SelecionarLojaPage
                 // tbm tem q arrumar a outra pagina q ja usa o BaseCrudViewPageComponent
 
     ////////////////////////////////
-
-    }
-
 
 }
