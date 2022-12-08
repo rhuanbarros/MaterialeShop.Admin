@@ -11,19 +11,19 @@ public class ListasView : BaseModel
     [Column("ListaId")]
     public int ListaId { get; set; }
     
-    [Column("created_at")]
+    [Column("CreatedAt")]
     public string? CreatedAt { get; set; }
 
-    [Column("UsuarioPerfilId")]
-    public int UsuarioPerfilId { get; set; }
+    [Column("PerfilId")]
+    public int PerfilId { get; set; }
 
-    [Column("nomecompleto")]
+    [Column("NomeCompleto")]
     public string? NomeCompleto { get; set; }
 
-    [Column("endereco")]
+    [Column("Endereco")]
     public string? Endereco { get; set; }
 
-    [Column("status")]
+    [Column("Status")]
     public string? Status { get; set; }
 
 }

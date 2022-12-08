@@ -86,7 +86,7 @@ public partial class VerListasPage
         return new Lista()
         {
             Id = item.ListaId,
-            PerfilId = item.UsuarioPerfilId,
+            PerfilId = item.PerfilId,
             Endereco = item.Endereco,
             Status = item.Status
         };

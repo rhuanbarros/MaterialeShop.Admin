@@ -12,13 +12,13 @@ public class OrcamentoView : BaseModel
     [Column("OrcamentoId")]
     public int OrcamentoId { get; set; }
     
-    [Column("created_at")]
+    [Column("CreatedAt")]
     public string? CreatedAt { get; set; }
 
     [Column("LojaId")]
     public int LojaId { get; set; }
 
-    [Column("nome")]
+    [Column("Nome")]
     public string Nome { get; set; }
 
     [Column("ListaId")]
