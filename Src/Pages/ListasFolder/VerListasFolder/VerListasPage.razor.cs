@@ -19,7 +19,7 @@ public partial class VerListasPage
     // ---------------- SELECT TABLE
     protected override async Task GetTable()
     {
-        _tableList = await ListasViewService.SelectAllByStatus("Em criação");
+        _tableList = await ListasViewService.SelectAllByStatus(ListasView.StatusConst.EmCriacao);
         _tableListFiltered = _tableList;
         await InvokeAsync(StateHasChanged);
     }
