@@ -41,6 +41,13 @@ public class ListasViewService
         return await client.From<ListasView>().Filter(nameof(ListasView.ListaId), Postgrest.Constants.Operator.Equals, id).Single();
     }
     
+    public async Task<IReadOnlyList<ListasView>> SelectAllByStatus(string status)
+    {
+        logger.LogInformation("------------------- ListasViewService SelectAllByStatus -------------------");
+        Postgrest.Responses.ModeledResponse<ListasView> modeledResponse = await client.From<ListasView>().Filter(nameof(ListasView.Status), Postgrest.Constants.Operator.Equals, status).Get();
+        return modeledResponse.Models;
+    }
+    
     
 
 }

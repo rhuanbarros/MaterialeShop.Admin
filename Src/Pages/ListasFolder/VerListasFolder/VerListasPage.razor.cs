@@ -1,17 +1,29 @@
 using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace MaterialeShop.Admin.Src.Pages.ListasFolder.VerListasFolder;
 
 public partial class VerListasPage
 {
+    [Inject] 
+    protected ListasViewService ListasViewService {get; set;}
 
     protected override async Task OnParametersSetAsync()
     {
         await GetTable();
         await GetTableUsuarioPerfil();
     }
+
+    // ---------------- SELECT TABLE
+    protected override async Task GetTable()
+    {
+        _tableList = await ListasViewService.SelectAllByStatus("Em criação");
+        _tableListFiltered = _tableList;
+        await InvokeAsync(StateHasChanged);
+    }
+    
 
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
@@ -74,7 +86,7 @@ public partial class VerListasPage
         return new Lista()
         {
             Id = item.ListaId,
-            UsuarioPerfilId = item.UsuarioPerfilId,
+            PerfilId = item.UsuarioPerfilId,
             Endereco = item.Endereco,
             Status = item.Status
         };

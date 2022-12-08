@@ -1,11 +1,11 @@
-CREATE VIEW ListasView AS
-SELECT "Lista".id as "ListaId", "UsuarioPerfil"."id" as "UsuarioPerfilId", "UsuarioPerfil".nomecompleto, "Lista".endereco, "Lista".status, "Lista".created_at FROM "Lista"
-LEFT JOIN "UsuarioPerfil" ON "Lista"."UsuarioPerfil_id" = "UsuarioPerfil".id
+CREATE VIEW "ListasView" AS
+SELECT "Lista"."Id" as "ListaId", "Perfil"."Id" as "PerfilId", "Perfil"."NomeCompleto", "Lista"."Endereco", "Lista"."Status", "Lista"."CreatedAt" FROM "Lista"
+LEFT JOIN "Perfil" ON "Lista"."PerfilId" = "Perfil"."Id"
 
-CREATE VIEW OrcamentoView AS
-SELECT "Orcamento"."id" as "OrcamentoId", "Orcamento"."created_at", "Loja"."id" as "LojaId", "Loja"."nome", "Orcamento"."ListaId", "Orcamento"."SolicitacaoData", "Orcamento"."Recebido", "Orcamento"."RecebidoData", 
+CREATE VIEW "OrcamentoView" AS
+SELECT "Orcamento"."Id" as "OrcamentoId", "Orcamento"."CreatedAt", "Loja"."Id" as "LojaId", "Loja"."Nome", "Orcamento"."ListaId", "Orcamento"."SolicitacaoData", "Orcamento"."Recebido", "Orcamento"."RecebidoData", 
 "Orcamento"."EntregaPreco" , "Orcamento"."EntregaPrazo" , "Orcamento"."DescontoNoTotal" , "Orcamento"."OrcamentoAnexo" , "Orcamento"."CodigoLoja" 
 FROM "Orcamento"
-LEFT JOIN "Loja" ON "Orcamento"."LojaId" = "Loja".id
+LEFT JOIN "Loja" ON "Orcamento"."LojaId" = "Loja"."Id"
 
 
