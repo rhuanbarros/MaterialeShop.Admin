@@ -17,6 +17,7 @@ public partial class SelecionarLojaPage
     {
         await GetTable();
         await GetListaView();
+        await GetTableLoja();
     }
 
     // ---------------- SEARCH
@@ -37,10 +38,12 @@ public partial class SelecionarLojaPage
     // ---------------- GET ListaView
     private ListasView _ListaView { get; set; }
     private string NomeCliente = "Carregando";
+    private string Endereco = "Carregando";
     protected async Task GetListaView()
     {
         _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
         NomeCliente = _ListaView?.NomeCompleto;
+        Endereco = _ListaView?.Endereco;
     }
 
     // ---------------- DELETE
@@ -70,13 +73,17 @@ public partial class SelecionarLojaPage
         };
     }
 
-    ////////////////////////////////////////////////////////////////
+    // -------------------START------------------- CAMPO LojaId no MODEL  ----------------------------------------
 
-                // Fazer a view retornar a Loja.Id tbm para poder setar aqui         
-                // depois tem q fazer o campo de selecionar a loja para criar um novo
-                // tbm tem q fazer o campo ser setado corretamente na hora de editar
-                // tbm tem q arrumar a outra pagina q ja usa o BaseCrudViewPageComponent
+    // ---------------- SELECT TABLE Loja
+    protected IReadOnlyList<Loja>? _LojaList { get; set; }
+    protected async Task GetTableLoja()
+    {
+        _LojaList = await CrudService.SelectAllFrom<Loja>();
+        await InvokeAsync(StateHasChanged);
+    }
 
-    ////////////////////////////////
+    private Func<Loja, string> convertFuncPapel = ci => ci?.Nome;
+    // -----------------END--------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
 
 }

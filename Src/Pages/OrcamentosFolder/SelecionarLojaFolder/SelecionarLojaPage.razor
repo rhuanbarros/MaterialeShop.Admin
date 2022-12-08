@@ -9,13 +9,17 @@
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
 
-<PageTitle>MaterialeShop - Lista de compras de @NomeCliente</PageTitle>
+<PageTitle>MaterialeShop - Selecionar lojas</PageTitle>
 
 <AppBarCustom />
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
-    <MudText Typo="Typo.h5">Lista de compras de @NomeCliente</MudText>
+    <MudText Typo="Typo.h5">Selecionar lojas</MudText>
+    <br>
+
+    <p>Cliente: @NomeCliente</p>
+    <p>Endereço: @Endereco</p>
 
     <br>
 
@@ -29,9 +33,24 @@
             <MudCardContent>
                 <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
 
+                    @if (_LojaList is not null)
+                    {
+                        <MudSelect T="int" Label="Loja" Variant="Variant.Outlined" Placeholder="Selecione a loja"
+                        Text="Selecione a loja" @bind-Value="model!.LojaId"
+                        For="@(() => model.LojaId)" Required="true">
+                            @foreach (var item in _LojaList)
+                            {
+                                <MudSelectItem Value="@item.Id">@item.Nome</MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                    else
+                    {
+                        <MudSelect T="string" Label="Loja" Variant="Variant.Outlined" Text="Carregando lojas">
+                            <MudSelectItem T="string"> Carregando lojas </MudSelectItem>
+                        </MudSelect>
+                    }
 
-                    <MudTextField Label="LojaId" @bind-Value="model.LojaId" For="@(() => model.LojaId)"
-                        Immediate="true" Variant="Variant.Outlined" />
                 </div>
             </MudCardContent>
             <MudCardActions>
@@ -68,7 +87,7 @@
     else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-            T="OrcamentoView" >
+        T="OrcamentoView">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
