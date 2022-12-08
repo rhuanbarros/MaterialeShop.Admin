@@ -15,9 +15,9 @@ public class AuthService
     private readonly UsuarioPerfilService usuarioPerfilService;
     private readonly ILocalStorageService localStorage;
     private readonly ILogger<AuthService> logger;
-    public UsuarioPerfil UsuarioPerfil {get;set;}
+    public Perfil UsuarioPerfil {get;set;}
 
-    public UsuarioPerfil? UsuarioLogado { get; private set; }
+    public Perfil? UsuarioLogado { get; private set; }
 
     public AuthService(
         Supabase.Client client,
@@ -52,7 +52,7 @@ public class AuthService
         await customAuthStateProvider.GetAuthenticationStateAsync();
 
         //guarda o perfi do usuario
-        IReadOnlyList<UsuarioPerfil> perfil = await usuarioPerfilService.GetByUserId(client?.Auth?.CurrentUser?.Id);
+        IReadOnlyList<Perfil> perfil = await usuarioPerfilService.GetByUserId(client?.Auth?.CurrentUser?.Id);
         UsuarioPerfil = perfil.Single();
     }
     

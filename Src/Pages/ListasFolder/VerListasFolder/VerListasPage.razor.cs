@@ -95,14 +95,14 @@ public partial class VerListasPage
     // -------------------START------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
 
     // ---------------- SELECT TABLE UsuarioPerfil
-    protected IReadOnlyList<UsuarioPerfil>? _UsuarioPerfilList { get; set; }
+    protected IReadOnlyList<Perfil>? _UsuarioPerfilList { get; set; }
     protected async Task GetTableUsuarioPerfil()
     {
-        _UsuarioPerfilList = await CrudService.SelectAllFrom<UsuarioPerfil>();
+        _UsuarioPerfilList = await CrudService.SelectAllFrom<Perfil>();
         await InvokeAsync(StateHasChanged);
     }
 
-    private Func<UsuarioPerfil, string> convertFuncPapel = ci => ci?.NomeCompleto;
+    private Func<Perfil, string> convertFuncPapel = ci => ci?.NomeCompleto;
     // -----------------END--------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
 
 }

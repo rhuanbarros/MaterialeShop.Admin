@@ -5,7 +5,7 @@ using Supabase;
 
 namespace MaterialeShop.Admin.Src.Dtos;
 
-[Table("listasview")]
+[Table("ListasView")]
 public class ListasView : BaseModel
 {
     [Column("ListaId")]

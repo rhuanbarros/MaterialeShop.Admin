@@ -24,15 +24,15 @@ public class UsuarioPerfilService
         this.client = databaseProvider.client;
     }
 
-    public async Task<IReadOnlyList<UsuarioPerfil>> From()
+    public async Task<IReadOnlyList<Perfil>> From()
     {
-        Postgrest.Responses.ModeledResponse<UsuarioPerfil> modeledResponse = await client.From<UsuarioPerfil>().Get();
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client.From<Perfil>().Get();
         return modeledResponse.Models;
     }
     
-    public async Task<IReadOnlyList<UsuarioPerfil>> GetByUserId(string userId)
+    public async Task<IReadOnlyList<Perfil>> GetByUserId(string userId)
     {
-        Postgrest.Responses.ModeledResponse<UsuarioPerfil> modeledResponse = await client.From<UsuarioPerfil>().Filter(nameof(UsuarioPerfil.Id), Postgrest.Constants.Operator.Equals, userId).Get();
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client.From<Perfil>().Filter(nameof(Perfil.Id), Postgrest.Constants.Operator.Equals, userId).Get();
         return modeledResponse.Models;
     }
     

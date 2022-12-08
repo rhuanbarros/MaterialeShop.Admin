@@ -6,7 +6,7 @@ using Supabase;
 
 namespace MaterialeShop.Admin.Src.Dtos;
 
-[Table("orcamentoview")]
+[Table("OrcamentoView")]
 public class OrcamentoView : BaseModel
 {
     [Column("OrcamentoId")]

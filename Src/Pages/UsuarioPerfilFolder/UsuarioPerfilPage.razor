@@ -1,6 +1,6 @@
 @page "/clientes"
 
-@inherits BaseCrudPageComponent<UsuarioPerfil>
+@inherits BaseCrudPageComponent<Perfil>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -73,7 +73,7 @@
         <LoadingTable/>
     } else
     {
-        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="UsuarioPerfil">
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="Perfil">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -83,22 +83,22 @@
 
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.NomeCompleto)">
+                    <MudTableSortLabel SortBy="new Func<Perfil, object>(x=>x.NomeCompleto)">
                             Nome completo
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.Email)">
+                    <MudTableSortLabel SortBy="new Func<Perfil, object>(x=>x.Email)">
                         Email
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.Cpf)">
+                    <MudTableSortLabel SortBy="new Func<Perfil, object>(x=>x.Cpf)">
                         CPF
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UsuarioPerfil, object>(x=>x.Telefone)">
+                    <MudTableSortLabel SortBy="new Func<Perfil, object>(x=>x.Telefone)">
                         Telefone
                     </MudTableSortLabel>                    
                 </MudTh>

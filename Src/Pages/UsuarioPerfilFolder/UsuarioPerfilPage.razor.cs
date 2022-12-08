@@ -9,7 +9,7 @@ public partial class UsuarioPerfilPage
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        Func<UsuarioPerfil, bool> predicate = row => {
+        Func<Perfil, bool> predicate = row => {
             if(
                 !string.IsNullOrEmpty(row.Email) && row.Email.ToLower().Contains(text.ToLower())
                 || !string.IsNullOrEmpty(row.NomeCompleto) && row.NomeCompleto.ToLower().Contains(text.ToLower())
