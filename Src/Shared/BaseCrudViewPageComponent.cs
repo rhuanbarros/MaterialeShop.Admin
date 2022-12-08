@@ -5,7 +5,14 @@ namespace MaterialeShop.Admin.Src.Shared;
 public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageComponent<TViewModel> where TCrudModel : BaseModel, new() where TViewModel : BaseModel, new()
 {
     // ---------------- CREATE NEW
-    protected new TCrudModel model {get;set;} = new();
+    protected new virtual TCrudModel model {get;set;} = new();
+
+    protected virtual TCrudModel CreateNewModel()
+    {
+        model = new();
+        return model;
+    }
+
     // usar isso para setar o id da chave estrangeira
     protected virtual TCrudModel SetModelReferenceId(TCrudModel item)
     {
@@ -29,7 +36,7 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
                 ModoEdicao = false;
             }
 
-            model = new();
+            model = CreateNewModel();
             await GetTable();
             success = false;
             _processingNewItem = false;
@@ -57,7 +64,7 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
         await GetTable();
 
         form?.Reset();
-        model = new();
+        model = CreateNewModel();
     }
 
     // ---------------- EDIT MODEL

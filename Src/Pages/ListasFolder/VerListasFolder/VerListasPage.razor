@@ -46,6 +46,14 @@
 
                     <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
                         Immediate="true" Variant="Variant.Outlined" />
+                    
+                    <MudSelect T="string" Label="Status" Variant="Variant.Outlined"
+                        @bind-Value="model!.Status" For="@(() => model.Status)" > 
+                        <MudSelectItem Value="@("Em criação")"/>
+                        <MudSelectItem Value="@("Aguardando orçamentos")"/>
+                        <MudSelectItem Value="@("Aguardando cliente")"/>
+                    </MudSelect>
+
                 </div>
             </MudCardContent>
             <MudCardActions>

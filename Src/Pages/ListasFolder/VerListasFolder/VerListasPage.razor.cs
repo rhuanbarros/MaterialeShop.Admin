@@ -21,7 +21,7 @@ public partial class VerListasPage
             if (
                 !string.IsNullOrEmpty(row.NomeCompleto) && row.NomeCompleto.ToLower().Contains(text.ToLower())
                 || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Status) && row.Status.ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Status.ToString()) && row.Status.ToString().ToLower().Contains(text.ToLower())
             )
                 return true;
             else
@@ -34,6 +34,29 @@ public partial class VerListasPage
     private void RowClickEvent(TableRowClickEventArgs<ListasView> e)
     {
         NavigationManager.NavigateTo($"/lista/{e.Item.ListaId}");
+    }
+
+    protected override Lista model {get;set;} = new()
+    {
+        Status = "Em criação"
+    };
+
+    // ---------------- CREATE NEW
+    protected override Lista CreateNewModel()
+    {
+        model = new()
+        {
+            Status = "Em criação"
+        };
+        return model;
+    }
+
+    
+    protected override async Task OnClickCancel()
+    {
+        //precisei sobrescrever o OnClickCancel pq essa classe nao tava chamando o CreateNewModel dessa classe e sim das classes base
+        form?.Reset();
+        model = CreateNewModel();
     }
 
     // ---------------- DELETE
@@ -53,7 +76,7 @@ public partial class VerListasPage
             Id = item.ListaId,
             UsuarioPerfilId = item.UsuarioPerfilId,
             Endereco = item.Endereco,
-            Status = item.Status            
+            Status = item.Status
         };
     }
 

@@ -35,6 +35,12 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected string[] errors = { };
     protected MudForm? form;
     protected bool _processingNewItem = false;
+
+    protected virtual TModel CreateNewModel()
+    {
+        model = new();
+        return model;
+    }
     
     // usar isso para setar o id da chave estrangeira
     protected virtual TModel SetModelReferenceId(TModel item)
@@ -58,7 +64,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
                 ModoEdicao = false;
             }
 
-            model = new();
+            model = CreateNewModel();
             await GetTable();
             success = false;
             _processingNewItem = false;
@@ -68,7 +74,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected virtual async Task OnClickCancel()
     {
         form?.Reset();
-        model = new();
+        model = CreateNewModel();
     }
 
     // ---------------- DELETE
@@ -86,7 +92,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         await GetTable();
         
         form?.Reset();
-        model = new();
+        model = CreateNewModel();
     }
 
     // ---------------- EDIT MODEL
