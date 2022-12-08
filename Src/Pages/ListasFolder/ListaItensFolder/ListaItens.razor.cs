@@ -34,10 +34,12 @@ public partial class ListaItens
     // ---------------- GET ListaView
     private ListasView _ListaView {get; set;}
     private string NomeCliente = "Carregando";
+    private string Endereco = "Carregando";
     protected async Task GetListaView()
     {
         _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
         NomeCliente = _ListaView?.NomeCompleto;
+        Endereco = _ListaView?.Endereco;
     }
 
     // ---------------- SEARCH

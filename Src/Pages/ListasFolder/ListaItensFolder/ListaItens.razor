@@ -16,12 +16,21 @@
     <MudText Typo="Typo.h5">Lista de compras de @NomeCliente</MudText>
 
     <br>
+
+    <MudCard Elevation=3>
+        <MudCardContent>
+            <p>Endereço: @Endereco</p>
+        </MudCardContent>
+    </MudCard>
+
+    <br>
         <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" 
             OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{ListaId}/selecionar-loja"))' >
             Selecionar lojas
         </MudButton>
+    <br>    
     <br>
-    <br>
+
 
     <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">
         <MudCard Outlined="true">
