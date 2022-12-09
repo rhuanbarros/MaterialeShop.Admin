@@ -17,18 +17,7 @@
 
     <MudText Typo="Typo.h5">Selecionar lojas</MudText>
     <br>
-
-    <MudCard Elevation=3>
-        <MudCardHeader>
-            <CardHeaderContent>
-                <MudText Typo="Typo.h6">Cliente: @NomeCliente</MudText>
-            </CardHeaderContent>
-        </MudCardHeader>
-        <MudCardContent>
-            <p>Endereço: @Endereco</p>
-        </MudCardContent>
-    </MudCard>
-
+    <ListaViewCard ListaId="ListaId"></ListaViewCard>
     <br>
 
     <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">

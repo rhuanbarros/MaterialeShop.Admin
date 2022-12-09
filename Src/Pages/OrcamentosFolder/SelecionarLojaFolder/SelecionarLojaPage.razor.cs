@@ -10,13 +10,9 @@ public partial class SelecionarLojaPage
     [Parameter]
     public int ListaId { get; set; }
 
-    [Inject]
-    protected ListasViewService ListasViewService { get; set; }
-
     protected override async Task OnParametersSetAsync()
     {
         await GetTable();
-        await GetListaView();
         await GetTableLoja();
     }
 
@@ -33,17 +29,6 @@ public partial class SelecionarLojaPage
                 return false;
         };
         _tableListFiltered = _tableList?.Where(predicate).ToList();
-    }
-
-    // ---------------- GET ListaView
-    private ListasView _ListaView { get; set; }
-    private string NomeCliente = "Carregando";
-    private string Endereco = "Carregando";
-    protected async Task GetListaView()
-    {
-        _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
-        NomeCliente = _ListaView?.NomeCompleto;
-        Endereco = _ListaView?.Endereco;
     }
 
     // ---------------- DELETE
