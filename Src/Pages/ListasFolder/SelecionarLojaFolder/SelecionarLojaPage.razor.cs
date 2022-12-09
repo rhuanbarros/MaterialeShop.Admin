@@ -3,7 +3,7 @@ using MaterialeShop.Admin.Src.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace MaterialeShop.Admin.Src.Pages.OrcamentosFolder.SelecionarLojaFolder;
+namespace MaterialeShop.Admin.Src.Pages.ListasFolder.SelecionarLojaFolder;
 
 public partial class SelecionarLojaPage
 {
