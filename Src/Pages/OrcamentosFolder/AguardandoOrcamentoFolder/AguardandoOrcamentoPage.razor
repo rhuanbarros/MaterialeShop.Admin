@@ -28,7 +28,7 @@
     else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-            T="ListasView" OnRowClick="RowClickEvent">
+        T="ListasView" OnRowClick="RowClickEvent">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -61,12 +61,22 @@
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="edit" Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))' />
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
-                    OnClick="@(async (e) => await OnClickEdit(context) )" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
-                    OnClick="@(async (e) => await OnClickDelete(context) )" />
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Edit"
+                            OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))'>
+                            Editar itens da lista de compras
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Filled.AddCircleOutline" IconColor="Color.Primary"
+                            OnClick='@(async (e) => NavigationManager.NavigateTo($"/novo-orcamento/{context.ListaId}"))' >
+                            Adicionar orçamentos
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Filled.TableChart">
+                            Ver comparativo de orçamentos
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Filled.Send">
+                            Enviar orçamento para cliente
+                        </MudMenuItem>
+                    </MudMenu>
                 </MudTd>
             </RowTemplate>
 
