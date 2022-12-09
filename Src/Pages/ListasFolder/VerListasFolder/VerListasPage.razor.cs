@@ -58,7 +58,8 @@ public partial class VerListasPage
     {
         model = new()
         {
-            Status = "Em criação"
+            Status = "Em criação",
+            CreatedAt = DateTime.Now
         };
         return model;
     }

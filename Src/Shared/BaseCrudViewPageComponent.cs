@@ -1,15 +1,19 @@
+using MaterialeShop.Admin.Src.Dtos;
 using Postgrest.Models;
 
 namespace MaterialeShop.Admin.Src.Shared;
 
-public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageComponent<TViewModel> where TCrudModel : BaseModel, new() where TViewModel : BaseModel, new()
+public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageComponent<TViewModel> where TCrudModel : BaseModelApp, new() where TViewModel : BaseModelApp, new()
 {
     // ---------------- CREATE NEW
     protected new virtual TCrudModel model {get;set;} = new();
 
     protected virtual TCrudModel CreateNewModel()
     {
-        model = new();
+        model = new()
+        {
+            CreatedAt = DateTime.Now
+        };
         return model;
     }
 

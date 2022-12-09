@@ -7,13 +7,13 @@ using Supabase;
 namespace MaterialeShop.Admin.Src.Dtos;
 
 [Table("OrcamentoView")]
-public class OrcamentoView : BaseModel
+public class OrcamentoView : BaseModelApp
 {
     [Column("OrcamentoId")]
     public int OrcamentoId { get; set; }
     
     [Column("CreatedAt")]
-    public string? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; } = new DateTime();
 
     [Column("LojaId")]
     public int LojaId { get; set; }

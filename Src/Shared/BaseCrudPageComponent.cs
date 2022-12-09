@@ -1,3 +1,4 @@
+using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -5,7 +6,7 @@ using Postgrest.Models;
 
 namespace MaterialeShop.Admin.Src.Shared;
 
-public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : BaseModel, new()
+public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : BaseModelApp, new()
 {
     [Inject] 
     protected CrudService CrudService {get; set;}
@@ -38,7 +39,10 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
 
     protected virtual TModel CreateNewModel()
     {
-        model = new();
+        model = new()
+        {
+            CreatedAt = DateTime.Now
+        };
         return model;
     }
     

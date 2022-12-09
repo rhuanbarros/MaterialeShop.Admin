@@ -6,13 +6,13 @@ using Supabase;
 namespace MaterialeShop.Admin.Src.Dtos;
 
 [Table("ListasView")]
-public class ListasView : BaseModel
+public class ListasView : BaseModelApp
 {
     [Column("ListaId")]
     public int ListaId { get; set; }
 
     [Column("CreatedAt")]
-    public string? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; } = new DateTime();
 
     [Column("PerfilId")]
     public int PerfilId { get; set; }
