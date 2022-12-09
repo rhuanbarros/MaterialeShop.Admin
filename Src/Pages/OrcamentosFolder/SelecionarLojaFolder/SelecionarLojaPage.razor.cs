@@ -10,6 +10,8 @@ public partial class SelecionarLojaPage
     [Parameter]
     public int ListaId { get; set; }
 
+    // TODO: colocar campo para escolher a data de envio. ja vir preenchido com a datae hora atual
+
     protected override async Task OnParametersSetAsync()
     {
         await GetTable();

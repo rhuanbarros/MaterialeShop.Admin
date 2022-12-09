@@ -9,52 +9,62 @@ public partial class NovoOrcamentoPage
 {    
     [Parameter]
     public int ListaId { get; set; }
-    
-    // ---------------- SEARCH
-    private void OnValueChangedSearch(string text)
+
+    [Inject] 
+    protected OrcamentoService OrcamentoService {get; set;}
+
+    [Inject] 
+    protected OrcamentoViewService OrcamentoViewService {get; set;}
+
+    protected override async Task OnParametersSetAsync()
     {
-        Func<Loja, bool> predicate = row => {
-            if(
-                !string.IsNullOrEmpty(row.Nome) && row.Nome.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Cnpj) && row.Cnpj.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Email) && row.Email.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Telefone) && row.Telefone.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Cidade) && row.Cidade.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Estado) && row.Estado.ToLower().Contains(text.ToLower())
-            )
-                return true;
-            else
-                return false;                
-        };        
-        _tableListFiltered = _tableList?.Where(predicate).ToList();
+        await GetTable();
+        await GetOrcamentoViewByListaId();
     }
 
-    // private void OnValueChangedSearch(string text)
-    // {
-    //     if(text == "")
-    //     {
-    //         _tableListFiltered = _tableList;
-    //     } else
-    //     {
-    //         var colunas = typeof(UsuarioPerfil).GetProperties();
-    //         _tableListFiltered = new List<UsuarioPerfil>();
+    // ---------------- SELECT TABLE ORCAMENTO
+    protected override async Task GetTable()
+    {
+        _tableList = await OrcamentoService.SelectAllByListaId(ListaId);
+        await InvokeAsync(StateHasChanged);
+    }                         
 
-    //         // _tableListFiltered = _tableList?.Where(row => row..Contains(text)).ToList();
-    //         foreach (var linha in _tableList)
-    //         {
-    //             foreach (var coluna in colunas)
-    //             {
-    //                 string value = typeof(UsuarioPerfil)?.GetProperty(coluna.ToString())?.GetValue(linha)?.ToString();
-    //                 if(value?.Contains(text) == true)
-    //                 {
-    //                     _tableListFiltered = (IReadOnlyList<UsuarioPerfil>)_tableListFiltered.Append(linha);
-    //                 }
-    //             }
-                
-    //         }
-    //     }
-    // }
+    // -------------------START------------------- CAMPO Loja no MODEL  ----------------------------------------
 
+    // ---------------- SELECT TABLE ORCAMENTOVIEW
+    protected IReadOnlyList<OrcamentoView>? _OrcamentoViewList { get; set; }
+    protected async Task GetOrcamentoViewByListaId()
+    {
+        _OrcamentoViewList = await OrcamentoViewService.SelectAllByListaId(ListaId);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private OrcamentoView selectedLoja {get;set;}
+
+    private Func<OrcamentoView, string> convertFuncPapel = ci => ci?.Nome;
+
+    private async Task selectedValuesChangedLoja(IEnumerable<OrcamentoView> values)
+    {
+        OrcamentoView orcamentoSelected = values.First();
+
+        model = _tableList.Where(f => f.Id == orcamentoSelected.OrcamentoId).First();
+    }
+
+    // -----------------END--------------------- CAMPO Loja no MODEL  ----------------------------------------
+
+    protected override async Task OnClickSave()
+    {
+        form?.Validate();
+        
+        if(form.IsValid)
+        {
+            _processingNewItem = true;
+            await CrudService.Edit<Orcamento>(model);            
+
+            await GetTable();
+            success = false;
+            _processingNewItem = false;
+        }
+    }
     
 }
