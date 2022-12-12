@@ -3,7 +3,7 @@ SELECT "Lista"."Id" as "ListaId", "Perfil"."Id" as "PerfilId", "Perfil"."NomeCom
 LEFT JOIN "Perfil" ON "Lista"."PerfilId" = "Perfil"."Id"
 
 CREATE VIEW "OrcamentoView" AS
-SELECT "Orcamento"."Id" as "OrcamentoId", "Orcamento"."CreatedAt", "Loja"."Id" as "LojaId", "Loja"."Nome", "Orcamento"."ListaId", "Orcamento"."SolicitacaoData", "Orcamento"."Recebido", "Orcamento"."RecebidoData", 
+SELECT "Orcamento"."Id" as "OrcamentoId", "Orcamento"."CreatedAt", "Loja"."Id" as "LojaId", "Loja"."Nome", "Orcamento"."ListaId", "Orcamento"."SolicitacaoData", "Orcamento"."SolicitacaoHora", "Orcamento"."Recebido", "Orcamento"."RecebidoData", 
 "Orcamento"."EntregaPreco" , "Orcamento"."EntregaPrazo" , "Orcamento"."DescontoNoTotal" , "Orcamento"."OrcamentoAnexo" , "Orcamento"."CodigoLoja" 
 FROM "Orcamento"
 LEFT JOIN "Loja" ON "Orcamento"."LojaId" = "Loja"."Id"

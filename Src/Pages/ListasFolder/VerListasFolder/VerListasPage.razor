@@ -123,11 +123,13 @@
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="edit" Size="MudBlazor.Size.Small"
+                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens" Title="Adicionar itens" Size="MudBlazor.Size.Small"
                     OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))' />
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
+                    <MudIconButton Icon="@Icons.Filled.Store" aria-label="Selecionar lojas" Title="Selecionar lojas" Size="MudBlazor.Size.Small"
+                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}/selecionar-loja"))' />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="Editar" Title="Editar" Size="MudBlazor.Size.Small"
                     OnClick="@(async (e) => await OnClickEdit(context) )" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="Apagar" Title="Apagar" Size="MudBlazor.Size.Small"
                     OnClick="@(async (e) => await OnClickDelete(context) )" />
                 </MudTd>
             </RowTemplate>

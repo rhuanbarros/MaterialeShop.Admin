@@ -43,12 +43,14 @@
                     }
                     else
                     {
-                        <MudSelect T="string" Label="Loja" Variant="Variant.Outlined" Text="Carregando lojas">
+                        <MudSelect T="string" Label="Loja" Variant="Variant.Outlined" Text="Carregando lojas" Required="true">
                             <MudSelectItem T="string"> Carregando lojas </MudSelectItem>
                         </MudSelect>
                     }
 
-                    @* TODO: colocar campo para escolher a data de envio. ja vir preenchido com a datae hora atual *@
+                    <MudDatePicker Label="Solicitação data" Variant="Variant.Outlined" @bind-Date="model.SolicitacaoData" Clearable />
+                    
+                    <MudTimePicker Label="Solicitação hora"Variant="Variant.Outlined" @bind-Time="model.SolicitacaoHora" Clearable />
 
                 </div>
             </MudCardContent>
@@ -111,6 +113,16 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.SolicitacaoData)">
+                        SolicitacaoData
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.SolicitacaoHora)">
+                        SolicitacaoHora
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
                     Ações
                 </MudTh>
             </HeaderContent>
@@ -118,6 +130,8 @@
                 <MudTd DataLabel="Nome">@context?.Nome</MudTd>
                 <MudTd DataLabel="Recebido">@context?.Recebido</MudTd>
                 <MudTd DataLabel="CodigoLoja">@context?.CodigoLoja</MudTd>
+                <MudTd DataLabel="SolicitacaoData">@context?.SolicitacaoData</MudTd>
+                <MudTd DataLabel="SolicitacaoHora">@context?.SolicitacaoHora</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" Size="MudBlazor.Size.Small"
                     OnClick="@(async (e) => await OnClickEdit(context) )" />

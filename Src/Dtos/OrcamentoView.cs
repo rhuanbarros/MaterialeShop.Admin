@@ -26,6 +26,9 @@ public class OrcamentoView : BaseModelApp
     
     [Column("SolicitacaoData")]
     public DateTime? SolicitacaoData { get; set; }
+
+    [Column("SolicitacaoHora")]
+    public TimeSpan? SolicitacaoHora { get; set; }
     
     [Column("Recebido")]
     public bool? Recebido { get; set; }

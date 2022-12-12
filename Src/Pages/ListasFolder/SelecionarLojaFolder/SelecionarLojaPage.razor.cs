@@ -42,7 +42,6 @@ public partial class SelecionarLojaPage
             };
     }
 
-    // ---------------- CREATE NEW
     protected override Orcamento SetModelReferenceId(Orcamento item)
     {
         item.ListaId = ListaId;
@@ -56,7 +55,9 @@ public partial class SelecionarLojaPage
         {
             Id = item.OrcamentoId,
             LojaId = item.LojaId,
-            ListaId = ListaId
+            ListaId = ListaId,
+            SolicitacaoData = item.SolicitacaoData,
+            SolicitacaoHora = item.SolicitacaoHora
         };
     }
 
