@@ -1,0 +1,29 @@
+@page "/lista/{ListaId:int}/orcamentos"
+
+@inherits BasePageComponent
+
+@using Dtos
+@using MaterialeShop.Admin.Src.Shared.Components
+
+@inject UsuarioPerfilService UsuarioPerfilService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<PageTitle>MaterialeShop - Orçamentos</PageTitle>
+
+<AppBarCustom />
+
+<div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
+
+    <MudText Typo="Typo.h5">Orçamentos</MudText>
+    <br>
+
+    <OrcamentosComponent></OrcamentosComponent>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
