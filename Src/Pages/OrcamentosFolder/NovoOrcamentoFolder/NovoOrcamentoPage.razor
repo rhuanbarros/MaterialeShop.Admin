@@ -1,4 +1,4 @@
-@page "/lista/{ListaId:int}/orcamento"
+@page "/lista/{ListaId:int}/orcamento/{OrcamentoId:int}"
 
 @inherits BaseCrudPageComponent<Orcamento>
 
@@ -7,89 +7,19 @@
 
 @inject NavigationManager NavigationManager
 
-<PageTitle>MaterialeShop - Adicionar orçamento</PageTitle>
+<PageTitle>MaterialeShop - Cadastrar orçamento</PageTitle>
 
 <AppBarCustom />
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
-    <MudText Typo="Typo.h5">Adicionar orçamento</MudText>
+    <MudText Typo="Typo.h5">Cadastrar orçamento</MudText>
 
     <br>
     <ListaViewCard ListaId="ListaId"></ListaViewCard>
     <br>
-    <MudButton Variant="Variant.Filled" Color="Color.Primary"
-        OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{ListaId}/selecionar-loja"))'>
-        <MudText>Cadastrar nova loja</MudText>
-    </MudButton>
-    <br>
-    <br>
+    
 
-    <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">
-        <MudCard Outlined="true">
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <h3>Loja</h3>
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                @if (_OrcamentoViewList is not null)
-                {
-                    <MudSelect T="OrcamentoView" Label="Loja" Variant="Variant.Outlined" Placeholder="Selecione a loja"
-                    Text="Selecione a loja" @bind-Value="selectedLoja" SelectedValuesChanged="selectedValuesChangedLoja">
-                        @foreach (var item in _OrcamentoViewList)
-                        {
-                            <MudSelectItem Value="@item">@item.Nome</MudSelectItem>
-                        }
-                    </MudSelect>
-                }
-                else
-                {
-                    <MudSelect T="string" Label="Loja" Variant="Variant.Outlined" Text="Carregando lojas">
-                        <MudSelectItem T="string"> Carregando lojas </MudSelectItem>
-                    </MudSelect>
-                }
-
-                @if(selectedLoja is not null)
-                {
-                    <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
-                        
-                        <MudTextField Label="EntregaPreco" @bind-Value="model.EntregaPreco" For="@(() => model.EntregaPreco)"
-                            Immediate="true" Variant="Variant.Outlined"/>
-                        <MudTextField Label="EntregaPrazo" @bind-Value="model.EntregaPrazo" For="@(() => model.EntregaPrazo)"
-                            Immediate="true" Variant="Variant.Outlined"/>
-                        <MudTextField Label="DescontoNoTotal" @bind-Value="model.DescontoNoTotal" For="@(() => model.DescontoNoTotal)"
-                            Immediate="true" Variant="Variant.Outlined"/>
-                        <MudTextField Label="CodigoLoja" @bind-Value="model.CodigoLoja" For="@(() => model.CodigoLoja)"
-                            Immediate="true" Variant="Variant.Outlined"/>
-                        
-                    </div>
-                }
-            </MudCardContent>
-            <MudCardActions>
-                <div class='d-flex flex-row justify-end align-center gap-2' style='width: 100% !important' LINHA>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" 
-                        OnClick="OnClickCancel">
-                            <MudText>Cancelar</MudText>
-                    </MudButton>
-
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success || selectedLoja is null)" 
-                        OnClick="OnClickSave">
-                        @if (_processingNewItem)
-                        {
-                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                            <MudText Class="ms-2">Processando</MudText>
-                        }
-                        else
-                        {
-                            <MudText><strong>Salvar</strong></MudText>
-                        }
-                    </MudButton>
-                </div>
-            </MudCardActions>
-
-        </MudCard>
-    </MudForm>
 
     <br>
     <br>
