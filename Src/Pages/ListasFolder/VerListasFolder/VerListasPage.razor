@@ -1,4 +1,4 @@
-@page "/listas"
+@attribute [Route(Rotas.listas)]
 
 @inherits BaseCrudViewPageComponent<Lista, ListasView>
 
@@ -15,6 +15,8 @@
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
+    <Breadcrumbs Items="_items"></Breadcrumbs>
+
     <MudText Typo="Typo.h5">Listas de compras</MudText>
 
     <br>
@@ -28,30 +30,32 @@
             </MudCardHeader>
             <MudCardContent>
                 <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
-                    @if(_UsuarioPerfilList is not null)
+                    @if (_UsuarioPerfilList is not null)
                     {
-                        <MudSelect T="int" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente" Text="Selecione o cliente"
-                            @bind-Value="model!.PerfilId" For="@(() => model.PerfilId)" Required="true">
+                        <MudSelect T="int" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente"
+                        Text="Selecione o cliente" @bind-Value="model!.PerfilId" For="@(() => model.PerfilId)"
+                        Required="true">
                             @foreach (var item in _UsuarioPerfilList)
                             {
-                                <MudSelectItem Value="@item.Id" >@item.NomeCompleto</MudSelectItem>
+                                <MudSelectItem Value="@item.Id">@item.NomeCompleto</MudSelectItem>
                             }
                         </MudSelect>
-                    } else
+                    }
+                    else
                     {
-                        <MudSelect T="string" Label="Cliente" Variant="Variant.Outlined" Text="Carregando clientes" >
+                        <MudSelect T="string" Label="Cliente" Variant="Variant.Outlined" Text="Carregando clientes">
                             <MudSelectItem T="string"> Carregando clientes </MudSelectItem>
                         </MudSelect>
                     }
 
                     <MudTextField Label="Endereço" @bind-Value="model.Endereco" For="@(() => model.Endereco)"
                         Immediate="true" Variant="Variant.Outlined" />
-                    
-                    <MudSelect T="string" Label="Status" Variant="Variant.Outlined"
-                        @bind-Value="model!.Status" For="@(() => model.Status)" > 
-                        <MudSelectItem Value="@("Em criação")"/>
-                        <MudSelectItem Value="@("Aguardando orçamentos")"/>
-                        <MudSelectItem Value="@("Aguardando cliente")"/>
+
+                    <MudSelect T="string" Label="Status" Variant="Variant.Outlined" @bind-Value="model!.Status"
+                        For="@(() => model.Status)">
+                        <MudSelectItem Value="@("Em criação")" />
+                        <MudSelectItem Value="@("Aguardando orçamentos")" />
+                        <MudSelectItem Value="@("Aguardando cliente")" />
                     </MudSelect>
 
                 </div>
@@ -90,7 +94,7 @@
     else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-            T="ListasView" OnRowClick="RowClickEvent">
+        T="ListasView" OnRowClick="RowClickEvent">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -123,14 +127,16 @@
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens" Title="Adicionar itens" Size="MudBlazor.Size.Small"
+                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens"
+                    Title="Adicionar itens" Size="MudBlazor.Size.Small"
                     OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))' />
-                    <MudIconButton Icon="@Icons.Filled.Store" aria-label="Selecionar lojas" Title="Selecionar lojas" Size="MudBlazor.Size.Small"
+                    <MudIconButton Icon="@Icons.Filled.Store" aria-label="Selecionar lojas" Title="Selecionar lojas"
+                    Size="MudBlazor.Size.Small"
                     OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}/selecionar-loja"))' />
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="Editar" Title="Editar" Size="MudBlazor.Size.Small"
-                    OnClick="@(async (e) => await OnClickEdit(context) )" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="Apagar" Title="Apagar" Size="MudBlazor.Size.Small"
-                    OnClick="@(async (e) => await OnClickDelete(context) )" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="Editar" Title="Editar"
+                    Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickEdit(context) )" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="Apagar" Title="Apagar"
+                    Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickDelete(context) )" />
                 </MudTd>
             </RowTemplate>
 

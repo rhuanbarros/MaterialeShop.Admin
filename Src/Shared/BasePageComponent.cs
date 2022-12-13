@@ -16,9 +16,12 @@ public class BasePageComponent : ComponentBase
     public BasePageComponent()
     {
     }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        Console.WriteLine("_navManager.Uri");
+        Console.WriteLine(_navManager.Uri);
         _pageHistoryStateService.AddPageToHistory(_navManager.Uri);
     }
 

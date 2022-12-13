@@ -1,0 +1,14 @@
+@using Microsoft.AspNetCore.Components;
+
+<MudBreadcrumbs Items="Items" Class="px-0">
+    <SeparatorTemplate>
+        <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
+    </SeparatorTemplate>
+</MudBreadcrumbs>
+
+
+@code
+{
+    [Parameter]
+    public List<BreadcrumbItem> Items {get;set;}
+}

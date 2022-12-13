@@ -1,5 +1,6 @@
 using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
+using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -9,6 +10,12 @@ public partial class VerListasPage
 {
     [Inject] 
     protected ListasViewService ListasViewService {get; set;}
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "#", icon: Icons.Material.Filled.Home),
+        new BreadcrumbItem("Listas", href: Rotas.listas, icon: Icons.Material.Filled.List),
+    };
 
     protected override async Task OnParametersSetAsync()
     {
