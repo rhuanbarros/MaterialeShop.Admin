@@ -10,10 +10,20 @@ public partial class OrcamentosComponent
     [Parameter]
     public int ListaId { get; set; }
 
+    [Inject] 
+    protected OrcamentoViewService OrcamentoViewService {get; set;}
+
     protected override async Task OnParametersSetAsync()
     {
         await GetTable();
         await GetTableLoja();
+    }
+
+    protected override async Task GetTable()
+    {
+        _tableList = await OrcamentoViewService.SelectAllByListaId(ListaId);
+        _tableListFiltered = _tableList;
+        await InvokeAsync(StateHasChanged);
     }
 
     // ---------------- SEARCH

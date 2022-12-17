@@ -14,7 +14,8 @@ public partial class SelecionarLojaPage
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
     {
         new BreadcrumbItem("Home", href: "#", icon: Icons.Material.Filled.Home),
-        new BreadcrumbItem("Lista", href: Rotas.listas, icon: Icons.Material.Filled.List),
+        //TODO: colocar o nome e arrumar o link
+        new BreadcrumbItem("Lista de PESSOA X", href: Rotas.listas, icon: Icons.Material.Filled.List),
         new BreadcrumbItem("Selecionar loja", href: null, icon: Icons.Material.Filled.Shop),
     };
 
