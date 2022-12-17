@@ -13,7 +13,7 @@ public class ListaItem : BaseModelApp
     public int Id { get; set; }
     
     [Column("CreatedAt")]
-    public DateTime? CreatedAt { get; set; } = new DateTime();
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     [Required]
     [Column("Descricao")]

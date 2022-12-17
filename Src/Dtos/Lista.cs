@@ -12,7 +12,7 @@ public class Lista : BaseModelApp
     public int Id { get; set; }
     
     [Column("CreatedAt")]
-    public DateTime? CreatedAt { get; set; } = new DateTime();
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     [Column("PerfilId")]
     public int PerfilId { get; set; }

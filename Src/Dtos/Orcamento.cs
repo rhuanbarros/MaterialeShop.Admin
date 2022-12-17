@@ -15,7 +15,7 @@ public class Orcamento : BaseModelApp
 
     // TODO: nenhum campo CreatedAt esta funcionando
     [Column("CreatedAt")]
-    public DateTime? CreatedAt { get; set; } = new DateTime();
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     [Required]
     [Column("ListaId")]

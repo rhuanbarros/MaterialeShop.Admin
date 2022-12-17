@@ -14,6 +14,8 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
         {
             CreatedAt = DateTime.Now
         };
+        // Console.WriteLine("CreateNewModel");
+        // Console.WriteLine(model.CreatedAt);
         return model;
     }
 

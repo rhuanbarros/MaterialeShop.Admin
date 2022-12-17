@@ -16,7 +16,7 @@ public class Perfil : BaseModelApp
     public string? Uuid { get; set; }
 
     [Column("CreatedAt")]
-    public DateTime? CreatedAt { get; set; } = new DateTime();
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     [Column("Email")]
     [EmailAddress]

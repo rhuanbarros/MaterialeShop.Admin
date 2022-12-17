@@ -13,7 +13,7 @@ public class OrcamentoView : BaseModelApp
     public int OrcamentoId { get; set; }
     
     [Column("CreatedAt")]
-    public DateTime? CreatedAt { get; set; } = new DateTime();
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     [Column("LojaId")]
     public int LojaId { get; set; }
