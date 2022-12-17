@@ -52,7 +52,7 @@ public partial class VerListasPage
     // ---------------- CLICK NA LINHA DA TABELA
     private void RowClickEvent(TableRowClickEventArgs<ListasView> e)
     {
-        NavigationManager.NavigateTo($"/lista/{e.Item.ListaId}");
+        NavigationManager.NavigateTo(Rotas.Lista(e.Item.ListaId));
     }
 
     protected override Lista model {get;set;} = new()

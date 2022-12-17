@@ -129,10 +129,10 @@
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens"
                     Title="Adicionar itens" Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))' />
+                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
                     <MudIconButton Icon="@Icons.Filled.Store" aria-label="Selecionar lojas" Title="Selecionar lojas"
                     Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}/selecionar-loja"))' />
+                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Selecionar_loja(context.ListaId)))' />
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="Editar" Title="Editar"
                     Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickEdit(context) )" />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="Apagar" Title="Apagar"

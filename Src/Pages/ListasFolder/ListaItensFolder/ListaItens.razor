@@ -27,7 +27,7 @@
 
     <br>
         <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" 
-            OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{ListaId}/selecionar-loja"))' >
+            OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Selecionar_loja(ListaId)))' >
             Selecionar lojas
         </MudButton>
     <br>    

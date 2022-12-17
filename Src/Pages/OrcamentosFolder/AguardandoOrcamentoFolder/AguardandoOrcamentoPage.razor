@@ -63,7 +63,7 @@
                 <MudTd DataLabel="Ação">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert">
                         <MudMenuItem Icon="@Icons.Material.Filled.Edit"
-                            OnClick='@(async (e) => NavigationManager.NavigateTo($"/lista/{context.ListaId}"))'>
+                            OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))'>
                             Editar itens da lista de compras
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Filled.AddCircleOutline" IconColor="Color.Primary"
