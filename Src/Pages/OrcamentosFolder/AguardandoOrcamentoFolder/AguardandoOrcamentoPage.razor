@@ -67,7 +67,7 @@
                             Editar itens da lista de compras
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Filled.AddCircleOutline" IconColor="Color.Primary"
-                            OnClick='@(async (e) => NavigationManager.NavigateTo($"/novo-orcamento/{context.ListaId}"))' >
+                            OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_lista(context.ListaId)))' >
                             Adicionar orçamentos
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Filled.TableChart">

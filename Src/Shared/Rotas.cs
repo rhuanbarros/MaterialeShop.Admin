@@ -19,5 +19,10 @@ public static class Rotas
     {
         return $"/lista/{ListaId}/selecionar-loja";
     }
+    
+    public static string Orcamentos_lista(int ListaId)
+    {
+        return $"/lista/{ListaId}/orcamentos";
+    }
 
 }
