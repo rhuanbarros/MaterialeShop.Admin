@@ -17,6 +17,7 @@ public partial class OrcamentoItensPage
     {
         await GetTable();
         await GetListaItensByListaId();
+        await GetOrcamentoView();
     }
 
     // ---------------- SELECT TABLE
@@ -59,7 +60,6 @@ public partial class OrcamentoItensPage
         return item;
     }
 
-
     // -------------------START------------------- CAMPO ListaItemId no MODEL  ----------------------------------------
 
     [Inject] 
@@ -76,5 +76,17 @@ public partial class OrcamentoItensPage
     private Func<ListaItem, string> convertFuncPapel = ci => ci?.Descricao;
 
     // -----------------END--------------------- CAMPO ListaItemId no MODEL  ----------------------------------------
+
+    // ---------------- GET OrcamentoView
+    [Inject] 
+    protected OrcamentoViewService OrcamentoViewService {get; set;}
+
+    private OrcamentoView _OrcamentoView {get; set;}
+    private string NomeLoja = "Carregando";
+    protected async Task GetOrcamentoView()
+    {
+        _OrcamentoView = await OrcamentoViewService.SelectByOrcamentoId(OrcamentoId);
+        NomeLoja = _OrcamentoView?.Nome;
+    }
     
 }
