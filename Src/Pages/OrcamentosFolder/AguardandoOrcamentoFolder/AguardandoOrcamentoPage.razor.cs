@@ -1,5 +1,6 @@
 using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
+using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -34,6 +35,12 @@ public partial class AguardandoOrcamentoPage
                 return false;
         };
         _tableListFiltered = _tableList?.Where(predicate).ToList();
+    }
+
+    // ---------------- CLICK NA LINHA DA TABELA
+    private void RowClickEvent(TableRowClickEventArgs<ListasView> e)
+    {
+        NavigationManager.NavigateTo(Rotas.Orcamentos_lista(e.Item.ListaId));
     }
 
 

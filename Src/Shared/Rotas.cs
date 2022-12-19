@@ -24,5 +24,10 @@ public static class Rotas
     {
         return $"/lista/{ListaId}/orcamentos";
     }
+    
+    public static string Orcamentos_itens(int ListaId, int OrcamentoId)
+    {
+        return $"/lista/{ListaId}/orcamento/{OrcamentoId}";
+    }
 
 }

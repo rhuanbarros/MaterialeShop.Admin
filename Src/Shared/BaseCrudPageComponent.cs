@@ -10,6 +10,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
 {
     [Inject] 
     protected CrudService CrudService {get; set;}
+    
     [Inject]
     protected IDialogService DialogService { get; set; }
 

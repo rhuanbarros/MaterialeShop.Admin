@@ -28,7 +28,7 @@
     else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-        T="ListasView" >
+        T="ListasView" OnRowClick="RowClickEvent" >
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"

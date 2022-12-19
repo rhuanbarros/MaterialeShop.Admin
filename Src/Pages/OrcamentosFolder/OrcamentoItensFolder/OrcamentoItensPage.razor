@@ -1,6 +1,6 @@
 @page "/lista/{ListaId:int}/orcamento/{OrcamentoId:int}"
 
-@inherits BaseCrudPageComponent<Orcamento>
+@inherits BaseCrudPageComponent<OrcamentoItem>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -18,7 +18,149 @@
     <br>
     <ListaViewCard ListaId="ListaId"></ListaViewCard>
     <br>
-    
+
+    <MudText Typo="Typo.h6">Loja: </MudText>
+
+    <br>
+
+    <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">
+        <MudCard Outlined="true">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <h4>Novo item</h4>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
+
+                    @if (_ListaItensList is not null)
+                    {
+                        <MudSelect T="int" Label="Item solicitado" Variant="Variant.Outlined" Placeholder="Selecione o item solicitado"
+                        Text="Selecione o item solicitado " @bind-Value="model!.ListaItemId"
+                        For="@(() => model.ListaItemId)" Required="true">
+                            @foreach (var item in _ListaItensList)
+                            {
+                                <MudSelectItem Value="@item.Id">@item.Descricao</MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                    else
+                    {
+                        <MudSelect T="string" Label="Loja" Variant="Variant.Outlined" Text="Carregando itens" Required="true">
+                            <MudSelectItem T="string"> Carregando itens </MudSelectItem>
+                        </MudSelect>
+                    }
+
+                    <MudTextField Label="Descricao" @bind-Value="model.Descricao" For="@(() => model.Descricao)" Required="true"
+                        Immediate="true" Variant="Variant.Outlined"/>
+                    <MudTextField Label="Quantidade" @bind-Value="model.Quantidade" For="@(() => model.Quantidade)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+                    <MudTextField Label="Observacao" @bind-Value="model.Observacao" For="@(() => model.Observacao)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+                    <MudTextField Label="Preco" @bind-Value="model.Preco" For="@(() => model.Preco)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+                    <MudTextField Label="Desconto" @bind-Value="model.Desconto" For="@(() => model.Desconto)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+                </div>
+            </MudCardContent>
+            <MudCardActions>
+                <div class='d-flex flex-row justify-end align-center gap-2' style='width: 100% !important' LINHA>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" 
+                        OnClick="OnClickCancel">
+                            <MudText>Cancelar</MudText>
+                    </MudButton>
+
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" 
+                        OnClick="OnClickSave">
+                        @if (_processingNewItem)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">Processando</MudText>
+                        }
+                        else
+                        {
+                            <MudText><strong>Salvar</strong></MudText>
+                        }
+                    </MudButton>
+                </div>
+            </MudCardActions>
+
+        </MudCard>
+    </MudForm>
+
+    <br>
+
+
+    @if (_tableListFiltered == null)
+    {
+        <LoadingTable/>
+    } else
+    {
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true" T="OrcamentoItem">
+
+            <ToolBarContent>
+                <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="MudBlazor.Size.Medium" Class="mt-0" Clearable="true"
+                ValueChanged="@(s=>OnValueChangedSearch(s))" Placeholder="Pesquisa" />
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoItem, object>(x=>x.Descricao)">
+                            Descricao
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoItem, object>(x=>x.Quantidade)">
+                        Quantidade
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoItem, object>(x=>x.Observacao)">
+                        Observacao
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoItem, object>(x=>x.Preco)">
+                        Preco
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<OrcamentoItem, object>(x=>x.Desconto)">
+                        Desconto
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    Ações
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Descricao">@context?.Descricao</MudTd>
+                <MudTd DataLabel="Quantidade">@context?.Quantidade</MudTd>
+                <MudTd DataLabel="Observacao">@context?.Observacao</MudTd>
+                <MudTd DataLabel="Preco">@context?.Preco</MudTd>
+                <MudTd DataLabel="Desconto">@context?.Desconto</MudTd>
+                <MudTd DataLabel="Ação">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit"
+                        Size="MudBlazor.Size.Small"
+                        OnClick="@(async (e) => { await OnClickEdit(context); })"
+                        />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
+                        OnClick="@(async (e) => { await OnClickDelete(context); })" />
+                </MudTd>
+            </RowTemplate>
+
+            <NoRecordsContent>
+                <br>
+                <h4 style="text-align: center !important;">Você não tem nenhum item nesta página.</h4>
+                <br>
+            </NoRecordsContent>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+    }
 
 
     <br>

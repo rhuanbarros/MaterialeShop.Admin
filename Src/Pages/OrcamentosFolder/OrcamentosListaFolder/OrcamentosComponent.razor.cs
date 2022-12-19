@@ -1,5 +1,6 @@
 using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
+using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -80,6 +81,12 @@ public partial class OrcamentosComponent
     }
 
     private Func<Loja, string> convertFuncPapel = ci => ci?.Nome;
-    // -----------------END--------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
+    // -----------------END--------------------- CAMPO LojaId no MODEL  ----------------------------------------
+
+    // ---------------- CLICK NA LINHA DA TABELA
+    private void RowClickEvent(TableRowClickEventArgs<OrcamentoView> e)
+    {
+        NavigationManager.NavigateTo(Rotas.Orcamentos_itens(ListaId, e.Item.OrcamentoId));
+    }
 
 }
