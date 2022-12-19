@@ -40,7 +40,24 @@
 
                 <MudDatePicker Label="Solicitação data" Variant="Variant.Outlined" @bind-Date="model.SolicitacaoData" Clearable />
                 
-                <MudTimePicker Label="Solicitação hora"Variant="Variant.Outlined" @bind-Time="model.SolicitacaoHora" Clearable />
+                <MudTimePicker Label="Solicitação hora" Variant="Variant.Outlined" @bind-Time="model.SolicitacaoHora" Clearable />
+
+                <MudDatePicker Label="RecebidoData" Variant="Variant.Outlined" @bind-Date="model.RecebidoData" Clearable />
+
+                <MudTextField Label="EntregaPreco" @bind-Value="model.EntregaPreco" For="@(() => model.EntregaPreco)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+
+                <MudTextField Label="EntregaPrazo" @bind-Value="model.EntregaPrazo" For="@(() => model.EntregaPrazo)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+
+                <MudTextField Label="DescontoNoTotal" @bind-Value="model.DescontoNoTotal" For="@(() => model.DescontoNoTotal)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+
+                <MudTextField Label="OrcamentoAnexo" @bind-Value="model.OrcamentoAnexo" For="@(() => model.OrcamentoAnexo)"
+                        Immediate="true" Variant="Variant.Outlined"/>
+
+                <MudTextField Label="CodigoLoja" @bind-Value="model.CodigoLoja" For="@(() => model.CodigoLoja)"
+                        Immediate="true" Variant="Variant.Outlined"/>
 
             </div>
         </MudCardContent>
@@ -93,8 +110,8 @@ else
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.Recebido)">
-                    Recebido
+                <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.RecebidoData)">
+                    RecebidoData
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
@@ -118,7 +135,7 @@ else
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Nome">@context?.Nome</MudTd>
-            <MudTd DataLabel="Recebido">@context?.Recebido</MudTd>
+            <MudTd DataLabel="RecebidoData">@context?.RecebidoData</MudTd>
             <MudTd DataLabel="CodigoLoja">@context?.CodigoLoja</MudTd>
             <MudTd DataLabel="SolicitacaoData">@context?.SolicitacaoData</MudTd>
             <MudTd DataLabel="SolicitacaoHora">@context?.SolicitacaoHora</MudTd>
