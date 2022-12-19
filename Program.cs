@@ -74,6 +74,7 @@ builder.Services.AddScoped<ListasViewService>();
 builder.Services.AddScoped<ListaItensService>();
 builder.Services.AddScoped<OrcamentoService>();
 builder.Services.AddScoped<OrcamentoViewService>();
+builder.Services.AddScoped<OrcamentoItemService>();
 
 
 

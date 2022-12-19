@@ -37,6 +37,12 @@ public class OrcamentoViewService
         return modeledResponse.Models;
     }
     
+    public async Task<OrcamentoView> SelectByOrcamentoId(int id)
+    {
+        logger.LogInformation("------------------- OrcamentoViewService SelectByOrcamentoId -------------------");
+        return await client.From<OrcamentoView>().Filter(nameof(OrcamentoView.OrcamentoId), Postgrest.Constants.Operator.Equals, id).Single();
+    }
+    
     
 
 }

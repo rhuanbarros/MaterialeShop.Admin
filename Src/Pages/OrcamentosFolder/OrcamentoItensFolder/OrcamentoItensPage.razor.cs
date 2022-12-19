@@ -19,6 +19,21 @@ public partial class OrcamentoItensPage
         await GetListaItensByListaId();
     }
 
+    // ---------------- SELECT TABLE
+    [Inject] 
+    protected OrcamentoItemService OrcamentoItemService {get; set;}
+
+    protected IReadOnlyList<OrcamentoItem>? _tableList { get; set; }
+    protected IReadOnlyList<OrcamentoItem>? _tableListFiltered { get; set; }
+    protected MudTable<OrcamentoItem>? table;
+    
+    protected override async Task GetTable()
+    {
+        _tableList = await OrcamentoItemService.SelectByOrcamentoId(OrcamentoId);
+        _tableListFiltered = _tableList;
+        await InvokeAsync(StateHasChanged);
+    }
+
         // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
