@@ -24,6 +24,14 @@ public partial class Comparativo
         await GetListaItem(ListaId);
         await GetOrcamentoView(ListaId);
         await GetOrcamentoItemList(_OrcamentoViewList);
+
+        foreach (var item in _OrcamentoViewList)
+        {
+            // Console.WriteLine("item.Nome");
+            Console.WriteLine(item.Nome);
+        }
+
+
         await InvokeAsync(StateHasChanged);
     }
     
