@@ -70,7 +70,8 @@
                             OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_lista(context.ListaId)))' >
                             Adicionar orçamentos
                         </MudMenuItem>
-                        <MudMenuItem Icon="@Icons.Filled.TableChart">
+                        <MudMenuItem Icon="@Icons.Filled.TableChart"
+                            OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(context.ListaId)))' >
                             Ver comparativo de orçamentos
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Filled.Send">

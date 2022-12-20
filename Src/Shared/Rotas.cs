@@ -29,5 +29,10 @@ public static class Rotas
     {
         return $"/lista/{ListaId}/orcamento/{OrcamentoId}";
     }
+    
+    public static string Orcamentos_comparativo(int ListaId)
+    {
+        return $"/comparativo/{ListaId}";
+    }
 
 }
