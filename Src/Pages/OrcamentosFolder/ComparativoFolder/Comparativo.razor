@@ -21,15 +21,31 @@
         <MudSkeleton />
     } else
     {
-        <MudSimpleTable Hover="true" Bordered="true" Striped="true" Style="overflow-x: auto;">
+        <MudSimpleTable Hover="true" Bordered="true" Striped="true" Style="overflow-x: auto;" Outlined="false" Class="espaco-borda">
             <thead>
+
                 <tr>
-                    <th>#</th>
-                    <th>Produtos</th>
-                    <th>Quantidade</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                     @foreach (OrcamentoView item in _OrcamentoViewList)
                     {
-                        <th>@item.LojaNome</th>
+                        <th Class="borda-remove"></th>
+                        <th colspan="3" Class="borda-todas"><MudText Align="Align.Center"><b>@item.LojaNome</b></MudText></th>
+                    }
+                </tr>
+                
+                <tr>
+                    <th>#</th>
+                    <th>Quantidade solicitada</th>
+                    <th Class="borda-right">Produto</th>
+
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <th Class="borda-remove"></th>
+                        <th Class="borda-left">Quantidade ofertada</th>
+                        <th>Valor unitário</th>
+                        <th Class="borda-right">Valor total</th>
                     }
                 </tr>
             </thead>
@@ -37,6 +53,12 @@
                 <tr>
                     <td>x</td>
                     <td>x</td>
+                    <td>x</td>
+                    <td></td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td></td>
                     <td>x</td>
                     <td>x</td>
                     <td>x</td>
@@ -52,3 +74,23 @@
     <br>
 
 </div>
+
+<style>
+    .borda-todas {
+        border: 1px solid var(--mud-palette-table-lines);
+    }
+    
+    .borda-left {
+        border-left: 1px solid var(--mud-palette-table-lines);
+    }
+    
+    .borda-right {
+        border-right: 1px solid var(--mud-palette-table-lines);
+    }
+    
+    .borda-remove {
+        border-top: 0px !important;
+        border-bottom: 0px !important;
+    }
+
+</style>
