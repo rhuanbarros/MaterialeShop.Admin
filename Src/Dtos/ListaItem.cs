@@ -20,7 +20,7 @@ public class ListaItem : BaseModelApp
     public string Descricao { get; set; }
 
     [Column("Quantidade")]
-    public string? Quantidade { get; set; }
+    public int? Quantidade { get; set; }
 
     [Column("UnidadeMedida")]
     public string? UnidadeMedida { get; set; }

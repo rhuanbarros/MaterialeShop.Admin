@@ -33,7 +33,7 @@ public partial class OrcamentosComponent
         Func<OrcamentoView, bool> predicate = row =>
         {
             if (
-                !string.IsNullOrEmpty(row.Nome) && row.Nome.ToLower().Contains(text.ToLower())
+                !string.IsNullOrEmpty(row.LojaNome) && row.LojaNome.ToLower().Contains(text.ToLower())
             )
                 return true;
             else

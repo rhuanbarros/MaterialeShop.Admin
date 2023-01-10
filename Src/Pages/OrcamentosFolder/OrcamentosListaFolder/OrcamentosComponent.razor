@@ -105,7 +105,7 @@ else
 
         <HeaderContent>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.Nome)">
+                <MudTableSortLabel SortBy="new Func<OrcamentoView, object>(x=>x.LojaNome)">
                     Nome
                 </MudTableSortLabel>
             </MudTh>
@@ -134,7 +134,7 @@ else
             </MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Nome">@context?.Nome</MudTd>
+            <MudTd DataLabel="Nome">@context?.LojaNome</MudTd>
             <MudTd DataLabel="RecebidoData">@context?.RecebidoData</MudTd>
             <MudTd DataLabel="CodigoLoja">@context?.CodigoLoja</MudTd>
             <MudTd DataLabel="SolicitacaoData">@context?.SolicitacaoData</MudTd>

@@ -18,8 +18,8 @@ public class OrcamentoView : BaseModelApp
     [Column("LojaId")]
     public int LojaId { get; set; }
 
-    [Column("Nome")]
-    public string Nome { get; set; }
+    [Column("LojaNome")]
+    public string LojaNome { get; set; }
 
     [Column("ListaId")]
     public int ListaId { get; set; }

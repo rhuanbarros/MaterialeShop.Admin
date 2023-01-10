@@ -58,7 +58,6 @@ public partial class ListaItens
         {
             if (
                 !string.IsNullOrEmpty(row.Descricao) && row.Descricao.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Quantidade) && row.Quantidade.ToLower().Contains(text.ToLower())
                 || !string.IsNullOrEmpty(row.UnidadeMedida) && row.UnidadeMedida.ToLower().Contains(text.ToLower())
             )
                 return true;

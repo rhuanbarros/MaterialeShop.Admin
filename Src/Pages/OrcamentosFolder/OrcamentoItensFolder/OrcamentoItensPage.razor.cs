@@ -86,7 +86,7 @@ public partial class OrcamentoItensPage
     protected async Task GetOrcamentoView()
     {
         _OrcamentoView = await OrcamentoViewService.SelectByOrcamentoId(OrcamentoId);
-        NomeLoja = _OrcamentoView?.Nome;
+        NomeLoja = _OrcamentoView?.LojaNome;
     }
     
 }
