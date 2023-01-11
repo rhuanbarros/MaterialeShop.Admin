@@ -50,40 +50,24 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < quantidade_linhas; i++)
+                @{int aux_i_col=0;}
+                @foreach (var linha in linhas)
                 {
-                    ListaItem item = new();
-                    bool temMais = _ListaItemListEnumerator.MoveNext();
-                    if(temMais)
-                    {
-                        item = _ListaItemListEnumerator.Current;
+                    aux_i_col=0;
+                    <tr>
+                        @foreach (var coluna in linha)
+                        {
+                            aux_i_col++;
 
-                        Console.WriteLine("item.Descricao");
-                        Console.WriteLine(item.Descricao);
-                        Console.WriteLine("item.Quantidade");
-                        Console.WriteLine(item.Quantidade);
-
-                        @* InvokeAsync(StateHasChanged); *@
-                    
-                        <tr>
-                            <td><b>@(i+1)</b></td>
-
-                            @* <td><MudText>@(item?.Quantidade.ToString())</MudText></td> *@
-                            <td><MudText>@(item != null ? item?.Descricao != null ? item.Descricao : "nulo desc" : "nulo")</MudText></td>
-
-                            <td>x</td>
-                            
-                            <td Class="borda-remove"></td>
-                            <td>x</td>
-                            <td>x</td>
-                            <td>x</td>
-                            <td Class="borda-remove"></td>
-                            <td>x</td>
-                            <td>x</td>
-                            <td>x</td>
-                        </tr>                    
-                    }
-                    
+                            if(aux_i_col % 4 != 0)
+                            {
+                                <td>@coluna</td>
+                            } else
+                            {
+                                <td Class="borda-remove"></td>
+                            }
+                        }
+                    </tr>                    
                 }
 
             </tbody>

@@ -21,6 +21,10 @@ public partial class Comparativo
 
     private int quantidade_linhas {get; set;}
     private IEnumerator<ListaItem> _ListaItemListEnumerator;
+    private IEnumerator<OrcamentoView> _OrcamentoViewListEnumerator;
+    private IEnumerator<List<OrcamentoItem>> _OrcamentoItemListEnumerator;
+
+    List<List<string>> linhas = new();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -42,7 +46,49 @@ public partial class Comparativo
         Console.WriteLine(_OrcamentoItemList.Count);
         Console.WriteLine("================================================================");
 
-        _ListaItemListEnumerator = _ListaItemListIterator().GetEnumerator();
+        _ListaItemListEnumerator = _ListaItemList.GetEnumerator();
+        _OrcamentoViewListEnumerator = _OrcamentoViewList.GetEnumerator();
+        _OrcamentoItemListEnumerator = _OrcamentoItemList.GetEnumerator();
+
+        
+        bool temMais;
+        string conteudo;
+        for (int i = 0; i < quantidade_linhas; i++)
+        {
+            //COLUNA 1 - NUMERO DA LINHA DA TABELA COMPARATIVA DE ORÇAMENTOS
+            List<string> linha = new();
+            linha.Add((i+1).ToString());
+
+            //ITEM SOLICITADO PELO CLIENTE
+
+                //COLUNA 2 - CAMPO QUANTIDADE
+                temMais = _ListaItemListEnumerator.MoveNext();
+                conteudo = temMais ? ( _ListaItemListEnumerator.Current.Quantidade != null ? _ListaItemListEnumerator.Current.Quantidade.ToString() : "" ) : "";
+                linha.Add(conteudo);
+                
+                //COLUNA 3 - CAMPO DESCRICAO
+                conteudo = temMais ? ( _ListaItemListEnumerator.Current.Descricao != null ? _ListaItemListEnumerator.Current.Descricao.ToString() : "" ) : "";
+                linha.Add(conteudo);
+            
+            //COLUNA 4 - COLUNA EM BRANCO SEPARADORA
+            linha.Add("");
+
+            //COLUNAS DE ITENS DO ORÇAMENTOS DAS LOJAS
+                //para cada loja, insere as colunas correspondentes
+            temMais = _OrcamentoViewListEnumerator.MoveNext();
+
+
+            linha.Add("x");
+            linha.Add("x");
+            linha.Add("x");
+            linha.Add("x");
+            linha.Add("x");
+            linha.Add("x");
+            linha.Add("x");
+
+            linhas.Add(linha);
+            // linhas.Add(new List<string> { (i+1).ToString(), "Quantidade solicitada", "Produto", "", "Quantidade ofertada", "Valor unitário", "Valor total", "", "Quantidade ofertada", "Valor unitário", "Valor total" });
+        }
 
         // ListaItem item = new();
         // bool temMais = _ListaItemListEnumerator.MoveNext();
@@ -87,19 +133,11 @@ public partial class Comparativo
     protected List<List<OrcamentoItem>>? _OrcamentoItemList { get; set; } = new();
     protected async Task GetOrcamentoItemList(List<OrcamentoView>? OrcamentoViewList)
     {
-        _OrcamentoItemList.Clear();
+        _OrcamentoItemList = new();
         foreach (var item in OrcamentoViewList)
         {
             List<OrcamentoItem>? aux = (List<OrcamentoItem>?) await OrcamentoItemService.SelectByOrcamentoId(item.OrcamentoId);
             _OrcamentoItemList.Add(aux);
-        }
-    }
-
-    public IEnumerable<ListaItem> _ListaItemListIterator()
-    {
-        foreach (var item in _ListaItemList)
-        {
-            yield return item;
         }
     }
     
