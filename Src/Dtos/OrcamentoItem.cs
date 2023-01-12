@@ -19,9 +19,8 @@ public class OrcamentoItem : BaseModelApp
     [Column("OrcamentoId")]
     public int OrcamentoId { get; set; }
 
-    [Required]
     [Column("ListaItemId")]
-    public int ListaItemId { get; set; }
+    public int? ListaItemId { get; set; }
     
     [Column("Descricao")]
     public string? Descricao { get; set; }

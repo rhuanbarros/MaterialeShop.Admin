@@ -35,12 +35,12 @@
 
                     @if (_ListaItensList is not null)
                     {
-                        <MudSelect T="int" Label="Item solicitado" Variant="Variant.Outlined" Placeholder="Selecione o item solicitado"
+                        <MudSelect T="int?" Label="Item solicitado" Variant="Variant.Outlined" Placeholder="Selecione o item solicitado"
                         Text="Selecione o item solicitado " @bind-Value="model!.ListaItemId"
-                        For="@(() => model.ListaItemId)" Required="true">
+                        For="@(() => model.ListaItemId)">
                             @foreach (var item in _ListaItensList)
                             {
-                                <MudSelectItem Value="@item.Id">@item.Descricao</MudSelectItem>
+                                <MudSelectItem T="int?" Value="@item.Id">@item.Descricao</MudSelectItem>
                             }
                         </MudSelect>
                     }

@@ -7,6 +7,8 @@ namespace MaterialeShop.Admin.Src.Pages.OrcamentosFolder.OrcamentoItensFolder;
 
 public partial class OrcamentoItensPage
 {
+    //TODO: na lista de itens do orçamento, fazer aparecer a descrição do nome do item solicitado pelo cliente. acho q tem q criar uma view
+
     [Parameter]
     public int ListaId { get; set; }
     
@@ -35,7 +37,7 @@ public partial class OrcamentoItensPage
         await InvokeAsync(StateHasChanged);
     }
 
-        // ---------------- SEARCH
+    // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
         Func<OrcamentoItem, bool> predicate = row =>
@@ -51,7 +53,7 @@ public partial class OrcamentoItensPage
         _tableListFiltered = _tableList?.Where(predicate).ToList();
     }
 
-       // ---------------- CREATE NEW
+    // ---------------- CREATE NEW
     protected override OrcamentoItem SetModelReferenceId(OrcamentoItem item)
     {
         Console.WriteLine("----------------------------------------- SetModelReferenceId");
@@ -59,6 +61,16 @@ public partial class OrcamentoItensPage
         item.OrcamentoId = OrcamentoId;
         return item;
     }
+
+    // protected override OrcamentoItem CreateNewModel()
+    // {
+    //     model = new()
+    //     {
+    //         ListaItemId = null,
+    //         CreatedAt = DateTime.Now
+    //     };
+    //     return model;
+    // }
 
     // -------------------START------------------- CAMPO ListaItemId no MODEL  ----------------------------------------
 
