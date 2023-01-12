@@ -44,30 +44,40 @@
                     {
                         <th Class="borda-remove"></th>
                         <th Class="borda-left">Quantidade ofertada</th>
-                        <th>Valor unitário</th>
-                        <th Class="borda-right">Valor total</th>
+                        <th>Preço unitário</th>
+                        <th Class="borda-right">Preço total</th>
                     }
                 </tr>
             </thead>
             <tbody>
-                @{int aux_i_col=0;}
-                @foreach (var linha in linhas)
+                @if(tabelaComparativa is null)
                 {
-                    aux_i_col=0;
-                    <tr>
-                        @foreach (var coluna in linha)
-                        {
-                            aux_i_col++;
-
-                            if(aux_i_col % 4 != 0)
+                    <MudSkeleton></MudSkeleton>
+                } else
+                {
+                    int aux_coluna;
+                    int aux_linha=0;
+                    @foreach (var linha in tabelaComparativa)
+                    {
+                        aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens
+                        aux_linha++;
+                        <tr>
+                            <td>@aux_linha</td>
+                            @foreach (var coluna in linha)
                             {
-                                <td>@coluna</td>
-                            } else
-                            {
-                                <td Class="borda-remove"></td>
+                                if(aux_coluna % 4 != 0)
+                                {
+                                    <td>@coluna</td>
+                                } else
+                                {
+                                    <td Class="borda-remove"></td>
+                                    <td>@coluna</td>
+                                    aux_coluna++;
+                                }
+                                aux_coluna++;
                             }
-                        }
-                    </tr>                    
+                        </tr>                    
+                    }
                 }
 
             </tbody>
