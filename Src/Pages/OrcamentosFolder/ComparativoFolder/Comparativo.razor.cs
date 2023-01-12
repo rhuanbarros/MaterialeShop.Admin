@@ -28,7 +28,7 @@ public partial class Comparativo
         await GetOrcamentoItemList(_OrcamentoViewList);
 
         tabelaComparativa = CriarTabelaComparativa(_ListaItemList, _OrcamentoItemList);
-        ImprimirResultado(tabelaComparativa);
+        // ImprimirResultado(tabelaComparativa);
 
         await InvokeAsync(StateHasChanged);
     }
@@ -90,7 +90,7 @@ public partial class Comparativo
             var budgetItens = orcamentoItemListList.SelectMany(x => x.Where(y => !listaItemList.Any(z => z.Id == y.ListaItemId) && y.OrcamentoId == budgetId)).ToList();
             foreach (var budget in budgetItens)
             {
-                var itemOrcamento = new List<string> { " " };
+                var itemOrcamento = new List<string> { "", "" };
                 foreach (var id in distinctBudgetIds)
                 {
                     if (id == budget.OrcamentoId)

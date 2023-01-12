@@ -59,7 +59,7 @@
                     int aux_linha=0;
                     @foreach (var linha in tabelaComparativa)
                     {
-                        aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens
+                        aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens e eh inserida antes dos foreach
                         aux_linha++;
                         <tr>
                             <td>@aux_linha</td>
@@ -76,7 +76,7 @@
                                 }
                                 aux_coluna++;
                             }
-                        </tr>                    
+                        </tr>
                     }
                 }
 
