@@ -67,7 +67,7 @@ public partial class Comparativo
         }
     }
     
-    public enum Coluna
+    public enum TipoColuna
     {
         QuantidadeSolicitada,
         ProdutoSolicitado,
@@ -78,12 +78,12 @@ public partial class Comparativo
 
     public class CelulaTabelaComparativa
     {
-        public Coluna Coluna {get;set;}
+        public TipoColuna TipoColuna {get;set;}
         public string Conteudo  {get;set;} = "";
 
-        public CelulaTabelaComparativa(Coluna coluna, string conteudo)
+        public CelulaTabelaComparativa(TipoColuna tipoColuna, string conteudo)
         {
-            Coluna = coluna;
+            TipoColuna = tipoColuna;
             this.Conteudo = conteudo;
         }
     }
@@ -97,20 +97,20 @@ public partial class Comparativo
         foreach (var item in listaItemList)
         {
             var itemOrcamento = new List<CelulaTabelaComparativa> {
-                new CelulaTabelaComparativa( Coluna.QuantidadeSolicitada, item?.Quantidade?.ToString() ),
-                new CelulaTabelaComparativa( Coluna.ProdutoSolicitado, item?.Descricao ),
+                new CelulaTabelaComparativa( TipoColuna.QuantidadeSolicitada, item?.Quantidade?.ToString() ),
+                new CelulaTabelaComparativa( TipoColuna.ProdutoSolicitado, item?.Descricao ),
             };
             foreach (var budgetId in distinctBudgetIds)
             {
                 var budget = orcamentoItemListList.SelectMany(x => x.Where(y => y.ListaItemId == item.Id && y.OrcamentoId == budgetId)).FirstOrDefault();
                 itemOrcamento.Add(
-                        new CelulaTabelaComparativa( Coluna.Quantidadeofertada, budget != null ? budget?.Quantidade?.ToString() : " " )
+                        new CelulaTabelaComparativa( TipoColuna.Quantidadeofertada, budget != null ? budget?.Quantidade?.ToString() : " " )
                     );
                 itemOrcamento.Add(
-                        new CelulaTabelaComparativa( Coluna.Quantidadeofertada, budget != null ? "R$" + String.Format("{0:0.00}", budget?.Preco) : " " )
+                        new CelulaTabelaComparativa( TipoColuna.Quantidadeofertada, budget != null ? "R$" + String.Format("{0:0.00}", budget?.Preco) : " " )
                     );
                 itemOrcamento.Add(
-                        new CelulaTabelaComparativa( Coluna.Quantidadeofertada, budget != null ? "R$" + String.Format("{0:0.00}", budget?.Quantidade * budget?.Preco) : " " )                        
+                        new CelulaTabelaComparativa( TipoColuna.Quantidadeofertada, budget != null ? "R$" + String.Format("{0:0.00}", budget?.Quantidade * budget?.Preco) : " " )                        
                     );
             }
             result.Add(itemOrcamento);
@@ -123,33 +123,33 @@ public partial class Comparativo
             foreach (var budget in budgetItens)
             {
                 var itemOrcamento = new List<CelulaTabelaComparativa> { 
-                    new CelulaTabelaComparativa( Coluna.QuantidadeSolicitada, " " ),
-                    new CelulaTabelaComparativa( Coluna.ProdutoSolicitado, " " ),
+                    new CelulaTabelaComparativa( TipoColuna.QuantidadeSolicitada, " " ),
+                    new CelulaTabelaComparativa( TipoColuna.ProdutoSolicitado, " " ),
                 };
                 foreach (var id in distinctBudgetIds)
                 {
                     if (id == budget.OrcamentoId)
                     {
                         itemOrcamento.Add(
-                                new CelulaTabelaComparativa( Coluna.Quantidadeofertada, budget?.Quantidade?.ToString() )
+                                new CelulaTabelaComparativa( TipoColuna.Quantidadeofertada, budget?.Quantidade?.ToString() )
                             );
                         itemOrcamento.Add(
-                                new CelulaTabelaComparativa( Coluna.PrecoUnitario, "R$" + String.Format("{0:0.00}", budget?.Preco) )
+                                new CelulaTabelaComparativa( TipoColuna.PrecoUnitario, "R$" + String.Format("{0:0.00}", budget?.Preco) )
                             );
                         itemOrcamento.Add(
-                                new CelulaTabelaComparativa( Coluna.PrecoTotal, "R$" + String.Format("{0:0.00}", budget?.Quantidade * budget?.Preco) )
+                                new CelulaTabelaComparativa( TipoColuna.PrecoTotal, "R$" + String.Format("{0:0.00}", budget?.Quantidade * budget?.Preco) )
                             );
                     }
                     else
                     {
                         itemOrcamento.Add(
-                                new CelulaTabelaComparativa( Coluna.Quantidadeofertada, " " )
+                                new CelulaTabelaComparativa( TipoColuna.Quantidadeofertada, " " )
                             );
                         itemOrcamento.Add(
-                                new CelulaTabelaComparativa( Coluna.PrecoUnitario, " " )
+                                new CelulaTabelaComparativa( TipoColuna.PrecoUnitario, " " )
                             );
                         itemOrcamento.Add(
-                                new CelulaTabelaComparativa( Coluna.PrecoTotal, " " )
+                                new CelulaTabelaComparativa( TipoColuna.PrecoTotal, " " )
                             );
                     }
                 }
