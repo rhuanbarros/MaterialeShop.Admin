@@ -35,12 +35,13 @@
                             <MudText Align="Align.Center" Typo="Typo.subtitle2">
                                 @if(maisBarato == item.OrcamentoId)
                                 {
-                                    <span class="marcador-mais-barato">Mais barato</span>
+                                    <MudChip Icon="@Icons.Material.Filled.PriceCheck" Label="true" Class="marcador-mais-barato">Mais barato</MudChip>
                                     <span>&nbsp;</span>
                                 }
                                 @if(maisQuantidadeItens == item.OrcamentoId)
                                 {
-                                    <span class="marcador-mais-completo">Mais completo</span>
+                                    <MudChip Icon="@Icons.Material.Filled.PlaylistAddCheck" Label="true" Class="marcador-mais-completo">Mais completo</MudChip>
+                                    <span>&nbsp;</span>
                                 }
                             </MudText>
                         </th>
@@ -207,21 +208,11 @@
     }
 
     .marcador-mais-barato {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-left: 8px;
-        padding-right: 8px;
-
         background-color: green;
         color: white;
     }
     
     .marcador-mais-completo {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-left: 8px;
-        padding-right: 8px;
-
         background-color: purple;
         color: white;
     }
