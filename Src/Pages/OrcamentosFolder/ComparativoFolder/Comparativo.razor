@@ -105,17 +105,19 @@
                                         <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                         break;
                                     case TipoColuna.Quantidadeofertada:
-                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                        <td title="@coluna.Tooltip">
+                                            <MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText>
+                                        </td>
                                         break;
                                     case TipoColuna.ProdutoOfertado:
                                         //se nao colocar o continue aqui, ele vai incrementar o aux_coluna e vai bagunçar todo a ordem do visual
                                         continue;
                                         break;
                                     case TipoColuna.PrecoUnitario:
-                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                        <td title="@coluna.Tooltip"><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                         break;
                                     case TipoColuna.PrecoTotal:
-                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                        <td title="@coluna.Tooltip"><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                         break;
                                 }
                                 aux_coluna++;
