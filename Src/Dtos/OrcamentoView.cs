@@ -51,6 +51,13 @@ public class OrcamentoView : BaseModelApp
     [Column("CodigoLoja")]
     public string? CodigoLoja { get; set; }
 
-    [Column("PrecoTotal")]
-    public decimal? PrecoTotal { get; set; }
+    [Column("PrecoTotalSemEntrega")]
+    public decimal? PrecoTotalSemEntrega { get; set; }
+
+    [Column("PrecoTotalComEntrega")]
+    public decimal? PrecoTotalComEntrega { get; set; }
+
+    [Column("QuantidadeItens")]
+    public int? QuantidadeItens { get; set; }
+    
 }

@@ -25,6 +25,29 @@
             <thead>
 
                 <tr>
+                    <th Class="borda-remove"></th>
+                    <th Class="borda-remove"></th>
+                    <th Class="borda-remove"></th>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <th Class="borda-remove"></th>
+                        <th colspan="3" Class="borda-remove">
+                            <MudText Align="Align.Center" Typo="Typo.subtitle2">
+                                @if(maisBarato == item.OrcamentoId)
+                                {
+                                    <span class="marcador-mais-barato">Mais barato</span>
+                                    <span>&nbsp;</span>
+                                }
+                                @if(maisQuantidadeItens == item.OrcamentoId)
+                                {
+                                    <span class="marcador-mais-completo">Mais completo</span>
+                                }
+                            </MudText>
+                        </th>
+                    }
+                </tr>
+
+                <tr>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -62,13 +85,15 @@
                         aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens e eh inserida antes dos foreach
                         aux_linha++;
                         <tr>
-                            <td>@aux_linha</td>
+                            <td class="center-text">@aux_linha</td>
+                            @* //TODO: consertar isso *@
+                            @* <td><MudText Align="Align.Center" Typo="Typo.body2">@aux_linha</MudText></td> deu um bug que imprime sempre o numero 6?? *@
                             @foreach (var coluna in linha)
                             {
                                 // coluna Quantidade solicitada
-                                if(aux_coluna == 2)
+                                @* if(aux_coluna == 2)
                                 {
-                                    <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna</MudText></td>
+                                    <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                 } else
                                 {
                                     // colunas de separação
@@ -77,21 +102,50 @@
                                         // coluna nome produto solicitado
                                         if(aux_coluna == 3)
                                         {
-                                            <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna</MudText></td>
+                                            <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                         } else // colunas de preços
                                         {
-                                            <td><MudText Align="Align.Right" Typo="Typo.body2">@coluna</MudText></td>
+                                            <td><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                         }
                                     } else
                                     {
                                         // coluna de separação
                                         <td Class="borda-remove"></td>
+
                                         // coluna Quantidade ofertada
-                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna</MudText></td>
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
                                         aux_coluna++;
                                     }
                                 }
+                                aux_coluna++; *@
+
+                                switch (aux_coluna)
+                                {
+                                    case 2: // coluna Quantidade solicitada
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                        break;
+                                    case 3: // coluna nome produto solicitado
+                                        <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                        break;
+                                    default:
+                                        if (aux_coluna % 4 != 0) 
+                                        {
+                                            // colunas de preços
+                                            <td><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                        }
+                                        else
+                                        {
+                                            // coluna de separação
+                                            <td Class="borda-remove"></td>
+
+                                            // coluna Quantidade ofertada
+                                            <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                            aux_coluna++;
+                                        }
+                                        break;
+                                }
                                 aux_coluna++;
+
                             }
                         </tr>
                     }
@@ -129,7 +183,7 @@
                     {
                         <td Class="borda-remove"></td>
                         <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2"><b>Total sem preço de entrega</b></MudText></td>
-                        <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", item.PrecoTotal))</b></MudText></td>
+                        <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", item.PrecoTotalSemEntrega))</b></MudText></td>
                     }
                 </tr>
 
@@ -141,7 +195,7 @@
                     {
                         <td Class="borda-remove"></td>
                         <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2"><b>Total com preço de entrega</b></MudText></td>
-                        <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", (item.EntregaPreco + item.PrecoTotal)))</b></MudText></td>
+                        <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", (item.EntregaPreco + item.PrecoTotalComEntrega)))</b></MudText></td>
                     }
                 </tr>
 
@@ -177,6 +231,34 @@
     
     .borda-remove-todas {
         border: 0px !important;
+    }
+
+    .marcador-mais-barato {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+
+        background-color: green;
+        color: white;
+    }
+    
+    .marcador-mais-completo {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+
+        background-color: purple;
+        color: white;
+    }
+
+    td, th {
+        padding: 8px !important;
+    }
+
+    .center-text {
+        text-align: center !important;
     }
 
 </style>
