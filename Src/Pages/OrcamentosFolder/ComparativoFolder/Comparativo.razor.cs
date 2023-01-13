@@ -78,8 +78,8 @@ public partial class Comparativo
             {
                 var budget = orcamentoItemListList.SelectMany(x => x.Where(y => y.ListaItemId == item.Id && y.OrcamentoId == budgetId)).FirstOrDefault();
                 itemOrcamento.Add(budget != null ? budget?.Quantidade?.ToString() : " ");
-                itemOrcamento.Add(budget != null ? budget?.Preco?.ToString() : " ");
-                itemOrcamento.Add(budget != null ? (budget?.Quantidade * budget?.Preco ).ToString() : " ");
+                itemOrcamento.Add(budget != null ? "R$"+String.Format("{0:0.00}", budget?.Preco ) : " ");
+                itemOrcamento.Add(budget != null ? "R$"+String.Format("{0:0.00}", budget?.Quantidade * budget?.Preco) : " ");
             }
             result.Add(itemOrcamento);
         }
@@ -96,8 +96,8 @@ public partial class Comparativo
                     if (id == budget.OrcamentoId)
                     {
                         itemOrcamento.Add(budget?.Quantidade?.ToString());
-                        itemOrcamento.Add(budget?.Preco?.ToString());
-                        itemOrcamento.Add( (budget?.Quantidade * budget?.Preco ).ToString());
+                        itemOrcamento.Add("R$"+String.Format("{0:0.00}", budget?.Preco ));
+                        itemOrcamento.Add( "R$"+ String.Format("{0:0.00}", budget?.Quantidade * budget?.Preco) );
                     }
                     else
                     {

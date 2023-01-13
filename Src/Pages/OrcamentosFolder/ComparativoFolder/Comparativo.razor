@@ -36,16 +36,16 @@
                 </tr>
                 
                 <tr>
-                    <th>#</th>
-                    <th>Quantidade solicitada</th>
-                    <th Class="borda-right">Produto</th>
+                    <th><MudText Align="Align.Center">#</MudText></th>
+                    <th><MudText Align="Align.Center">Quantidade <br>solicitada</MudText></th>
+                    <th Class="borda-right"><MudText Align="Align.Center">Produto</MudText></th>
 
                     @foreach (OrcamentoView item in _OrcamentoViewList)
                     {
                         <th Class="borda-remove"></th>
-                        <th Class="borda-left">Quantidade ofertada</th>
-                        <th>Preço unitário</th>
-                        <th Class="borda-right">Preço total</th>
+                        <th Class="borda-left"><MudText Align="Align.Center">Quantidade <br>ofertada</MudText></th>
+                        <th><MudText Align="Align.Center">Preço <br>unitário</MudText></th>
+                        <th Class="borda-right"><MudText Align="Align.Center">Preço <br>total</MudText></th>
                     }
                 </tr>
             </thead>
@@ -65,14 +65,31 @@
                             <td>@aux_linha</td>
                             @foreach (var coluna in linha)
                             {
-                                if(aux_coluna % 4 != 0)
+                                // coluna Quantidade solicitada
+                                if(aux_coluna == 2)
                                 {
-                                    <td>@coluna</td>
+                                    <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna</MudText></td>
                                 } else
                                 {
-                                    <td Class="borda-remove"></td>
-                                    <td>@coluna</td>
-                                    aux_coluna++;
+                                    // colunas de separação
+                                    if(aux_coluna % 4 != 0)
+                                    {
+                                        // coluna nome produto solicitado
+                                        if(aux_coluna == 3)
+                                        {
+                                            <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna</MudText></td>
+                                        } else // colunas de preços
+                                        {
+                                            <td><MudText Align="Align.Right" Typo="Typo.body2">@coluna</MudText></td>
+                                        }
+                                    } else
+                                    {
+                                        // coluna de separação
+                                        <td Class="borda-remove"></td>
+                                        // coluna Quantidade ofertada
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna</MudText></td>
+                                        aux_coluna++;
+                                    }
                                 }
                                 aux_coluna++;
                             }
@@ -88,7 +105,7 @@
                     {
                         <td Class="borda-remove"></td>
                         <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2">Prazo de entrega</MudText></td>
-                        <td>@item.EntregaPrazo</td>
+                        <td><MudText Align="Align.Center" Typo="Typo.body2">@item.EntregaPrazo</MudText></td>
                     }
                 </tr>
 
@@ -100,7 +117,31 @@
                     {
                         <td Class="borda-remove"></td>
                         <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2">Taxa de entrega</MudText></td>
-                        <td>@item.EntregaPreco</td>
+                        <td><MudText Align="Align.Right" Typo="Typo.body2">@("R$"+String.Format("{0:0.00}", item.EntregaPreco))</MudText></td>
+                    }
+                </tr>
+
+                <tr>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <td Class="borda-remove"></td>
+                        <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2"><b>Total sem preço de entrega</b></MudText></td>
+                        <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", item.PrecoTotal))</b></MudText></td>
+                    }
+                </tr>
+
+                <tr>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <td Class="borda-remove"></td>
+                        <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2"><b>Total com preço de entrega</b></MudText></td>
+                        <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", (item.EntregaPreco + item.PrecoTotal)))</b></MudText></td>
                     }
                 </tr>
 
