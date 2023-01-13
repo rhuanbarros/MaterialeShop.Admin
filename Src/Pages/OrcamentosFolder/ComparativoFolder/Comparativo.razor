@@ -80,6 +80,30 @@
                     }
                 }
 
+                <tr>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <td Class="borda-remove"></td>
+                        <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2">Prazo de entrega</MudText></td>
+                        <td>@item.EntregaPrazo</td>
+                    }
+                </tr>
+
+                <tr>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <td Class="borda-remove"></td>
+                        <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2">Taxa de entrega</MudText></td>
+                        <td>@item.EntregaPreco</td>
+                    }
+                </tr>
+
             </tbody>
         </MudSimpleTable>
     }
@@ -108,6 +132,10 @@
     .borda-remove {
         border-top: 0px !important;
         border-bottom: 0px !important;
+    }
+    
+    .borda-remove-todas {
+        border: 0px !important;
     }
 
 </style>
