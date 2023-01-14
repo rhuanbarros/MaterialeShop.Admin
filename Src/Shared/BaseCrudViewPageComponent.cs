@@ -65,12 +65,18 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
         if (result == true)
         {
             TCrudModel newItem = SetModelIdToDelete(item);
-            await CrudService.Delete<TCrudModel>(newItem);
+            
+            newItem.SoftDelete = true;
+            newItem.SoftDeletedAt  = DateTime.Now;
+            
+            await CrudService.Edit<TCrudModel>(newItem);
         }
         await GetTable();
 
         form?.Reset();
         model = CreateNewModel();
+        
+        await InvokeAsync(StateHasChanged);
     }
 
     // ---------------- EDIT MODEL

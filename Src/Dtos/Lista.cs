@@ -15,7 +15,7 @@ public class Lista : BaseModelApp
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     [Column("PerfilId")]
-    public int PerfilId { get; set; }
+    public int? PerfilId { get; set; }
 
     [Column("Endereco")]
     public string? Endereco { get; set; }

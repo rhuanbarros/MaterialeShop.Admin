@@ -95,12 +95,17 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         
         if(result == true)
         {
-            await CrudService.Delete<TModel>(item);
+            item.SoftDelete = true;
+            item.SoftDeletedAt  = DateTime.Now;
+            
+            await CrudService.Edit<TModel>(item);
         }
         await GetTable();
         
         form?.Reset();
         model = CreateNewModel();
+        
+        await InvokeAsync(StateHasChanged);
     }
 
     // ---------------- EDIT MODEL

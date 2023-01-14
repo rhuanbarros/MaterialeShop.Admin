@@ -32,7 +32,7 @@ public class UsuarioPerfilService
     
     public async Task<IReadOnlyList<Perfil>> GetByUserId(string userId)
     {
-        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client.From<Perfil>().Filter(nameof(Perfil.Id), Postgrest.Constants.Operator.Equals, userId).Get();
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client.From<Perfil>().Filter(nameof(Perfil.Id), Postgrest.Constants.Operator.Equals, userId).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
         return modeledResponse.Models;
     }
     

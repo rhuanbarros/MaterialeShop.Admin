@@ -26,21 +26,21 @@ public class OrcamentoViewService
     public async Task<IReadOnlyList<OrcamentoView>> SelectAll()
     {
         logger.LogInformation("------------------- OrcamentoViewService SelectAll -------------------");
-        Postgrest.Responses.ModeledResponse<OrcamentoView> modeledResponse = await client.From<OrcamentoView>().Get();
+        Postgrest.Responses.ModeledResponse<OrcamentoView> modeledResponse = await client.From<OrcamentoView>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
         return modeledResponse.Models;
     }
     
     public async Task<IReadOnlyList<OrcamentoView>> SelectAllByListaId(int id)
     {
         logger.LogInformation("------------------- OrcamentoViewService SelectAllByListaId -------------------");
-        Postgrest.Responses.ModeledResponse<OrcamentoView> modeledResponse = await client.From<OrcamentoView>().Filter(nameof(OrcamentoView.ListaId), Postgrest.Constants.Operator.Equals, id).Get();
+        Postgrest.Responses.ModeledResponse<OrcamentoView> modeledResponse = await client.From<OrcamentoView>().Filter(nameof(OrcamentoView.ListaId), Postgrest.Constants.Operator.Equals, id).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
         return modeledResponse.Models;
     }
     
     public async Task<OrcamentoView> SelectByOrcamentoId(int id)
     {
         logger.LogInformation("------------------- OrcamentoViewService SelectByOrcamentoId -------------------");
-        return await client.From<OrcamentoView>().Filter(nameof(OrcamentoView.OrcamentoId), Postgrest.Constants.Operator.Equals, id).Single();
+        return await client.From<OrcamentoView>().Filter(nameof(OrcamentoView.OrcamentoId), Postgrest.Constants.Operator.Equals, id).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Single();
     }
     
     

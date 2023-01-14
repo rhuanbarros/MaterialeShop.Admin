@@ -84,7 +84,9 @@ public partial class VerListasPage
     {
         return new Lista()
             {
-                Id = item.ListaId
+                Id = item.ListaId,
+                PerfilId = null,
+                CreatedAt = null
             };
     }
 

@@ -28,7 +28,7 @@ public class CrudService
 
     public async Task<IReadOnlyList<TModel>> SelectAllFrom<TModel>() where TModel : BaseModel, new()
     {
-        Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.From<TModel>().Get();
+        Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.From<TModel>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
         return modeledResponse.Models;
     }
 

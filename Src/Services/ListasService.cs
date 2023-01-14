@@ -31,7 +31,7 @@ public class ListasService
     public async Task<IReadOnlyList<Lista>> From()
     {
         logger.LogInformation("------------------- ListasService From -------------------");
-        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client.From<Lista>().Get();
+        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client.From<Lista>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
         return modeledResponse.Models;
     }
     
