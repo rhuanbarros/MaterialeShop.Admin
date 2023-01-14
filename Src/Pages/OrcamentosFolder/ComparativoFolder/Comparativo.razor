@@ -79,65 +79,62 @@
                     <MudSkeleton></MudSkeleton>
                 } else
                 {
-                    int aux_coluna;
+                    @* int aux_coluna; *@
                     int numero_ordem_itens=0;
                     @foreach (var linha in tabelaComparativa)
                     {
-                        aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens e eh inserida antes dos foreach
+                        int aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens e eh inserida antes dos foreach
                         numero_ordem_itens++;
                         <tr>
                             <td class="center-text">@numero_ordem_itens</td>
                             @foreach (var coluna in linha)
                             {
-                                if (aux_coluna % 4 == 0) 
-                                {
-                                    aux_coluna++;
-                                    // coluna de separação
-                                    <td Class="borda-remove"></td>
-                                }
-
                                 switch (coluna.TipoColuna)
                                 {
-                                    case TipoColuna.QuantidadeSolicitada:
-                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                    case TipoColuna.ListaItem:
+                                        ListaItem listaItem_ = coluna.Conteudo as ListaItem;
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@listaItem_?.Quantidade.ToString()</MudText></td>
+                                        <td><MudText Align="Align.Left" Typo="Typo.body2">@listaItem_?.Descricao</MudText></td>
                                         break;
-                                    case TipoColuna.ProdutoSolicitado:
-                                        <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                    case TipoColuna.ListaItemVazio:
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2"></MudText></td>
+                                        <td><MudText Align="Align.Left" Typo="Typo.body2"></MudText></td>
                                         break;
-                                    case TipoColuna.Quantidadeofertada:
-                                        <td title="@coluna.Tooltip">
-                                            <MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText>
-                                        </td>
-                                        break;
-                                    case TipoColuna.ProdutoOfertado:
-                                        //se nao colocar o continue aqui, ele vai incrementar o aux_coluna e vai bagunçar todo a ordem do visual
-                                        continue;
-                                        break;
-                                    case TipoColuna.PrecoUnitario:
-                                        <td title="@coluna.Tooltip">
-                                            @if(@coluna.Tooltip != null)
-                                            {
-                                                <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>
-                                                
-                                                    <MudTooltip Style="display: inline;">
-                                                        <ChildContent>
-                                                            <MudIconButton Icon="@Icons.Material.Filled.Info" />
-                                                        </ChildContent>
-                                                        <TooltipContent>
-                                                            <MudText Typo="Typo.h6">@coluna.Tooltip</MudText>
-                                                            <MudText Typo="Typo.body2">@coluna.Conteudo</MudText>
-                                                        </TooltipContent>
-                                                    </MudTooltip>
+                                    case TipoColuna.OrcamentoItem:
+                                        OrcamentoItem orcamentoItem_ = coluna.Conteudo as OrcamentoItem;
+                                        // coluna de separação
+                                        <td Class="borda-remove"></td>
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@orcamentoItem_?.Quantidade</MudText></td>
 
-                                                    <span>
-                                                        <MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText>
-                                                    </span>
-                                                </div>
-                                            }
+                                        <td>
+                                            <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>                                            
+                                                <MudTooltip Style="display: inline;">
+                                                    <ChildContent>
+                                                        <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px"/>
+                                                    </ChildContent>
+                                                    <TooltipContent>
+                                                        <MudText Typo="Typo.h6" Align="Align.Left">Item ofertado: @orcamentoItem_?.Descricao</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Quantidade ofertada: @orcamentoItem_?.Quantidade</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Preço unitário: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Preço total: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText>
+                                                    </TooltipContent>
+                                                </MudTooltip>
+
+                                                <span>
+                                                    <MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText>
+                                                </span>
+                                            </div>
                                         </td>
+
+                                        @* <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText></td> *@
+
+                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText></td>
                                         break;
-                                    case TipoColuna.PrecoTotal:
-                                        <td title="@coluna.Tooltip"><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
+                                    case TipoColuna.OrcamentoItemVazio:
+                                        <td Class="borda-remove"></td>
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2"></MudText></td>
+                                        <td><MudText Align="Align.Right" Typo="Typo.body2"></MudText></td>
+                                        <td><MudText Align="Align.Right" Typo="Typo.body2"></MudText></td>
                                         break;
                                 }
                                 aux_coluna++;
