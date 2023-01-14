@@ -32,7 +32,7 @@ public class Perfil : BaseModelApp
     [Column("Telefone")]
     public string? Telefone { get; set; }
 
-    // Note: this is important so the MudSelect can compare pizzas
+    // Note: this is important so the MudSelect can compare 
     public override bool Equals(object o)
     {
         var other = o as Perfil;
@@ -42,7 +42,27 @@ public class Perfil : BaseModelApp
     // Note: this is important too!
     public override int GetHashCode() => NomeCompleto?.GetHashCode() ?? 0;
 
-    // Implement this for the Pizza to display correctly in MudSelect
+    // Implement this to display correctly in MudSelect
     public override string ToString() => NomeCompleto;
+
+    public Perfil GetCopy()
+    {
+        return new Perfil(this);
+    }
+
+    public Perfil(Perfil other)
+    {
+        Id = other.Id;
+        Uuid = other.Uuid;
+        CreatedAt = other.CreatedAt;
+        Email = other.Email;
+        NomeCompleto = other.NomeCompleto;
+        Cpf = other.Cpf;
+        Telefone = other.Telefone;
+    }
+
+    public Perfil()
+    {
+    }
 
 }

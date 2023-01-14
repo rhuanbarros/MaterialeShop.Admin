@@ -15,7 +15,7 @@
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
-    <MudText Typo="Typo.h5">Clientes</MudText>
+    <MudText Typo="Typo.h5">Clientes e/ou Usuários do sistema</MudText>
 
     <br>
 
@@ -114,7 +114,7 @@
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit"
                         Size="MudBlazor.Size.Small"
-                        OnClick="@(async (e) => { await OnClickEdit(context); })"
+                        OnClick="@(async (e) => { await OnClickEdit(context.GetCopy()); })"
                         />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
                         OnClick="@(async (e) => { await OnClickDelete(context); })" />

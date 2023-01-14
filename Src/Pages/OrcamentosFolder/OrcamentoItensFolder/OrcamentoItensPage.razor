@@ -143,7 +143,7 @@
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit"
                         Size="MudBlazor.Size.Small"
-                        OnClick="@(async (e) => { await OnClickEdit(context); })"
+                        OnClick="@(async (e) => { await OnClickEdit(context.GetCopy()); })"
                         />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" Size="MudBlazor.Size.Small"
                         OnClick="@(async (e) => { await OnClickDelete(context); })" />

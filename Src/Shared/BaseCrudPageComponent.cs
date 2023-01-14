@@ -13,6 +13,9 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     
     [Inject]
     protected IDialogService DialogService { get; set; }
+    [Inject]
+
+    protected AppGlobals AppGlobals { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -104,9 +107,6 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     protected bool ModoEdicao = false;
     protected virtual async Task OnClickEdit(TModel item)
     {
-        //essa linha gera um bug q ele edita a instancia e ja aperece na tabela na tela.
-        //isso acontece por causa da passagem por referencia.
-        // teria q criar um novo
         model = item;
         ModoEdicao = true;
     }
