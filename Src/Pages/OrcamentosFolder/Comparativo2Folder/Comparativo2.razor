@@ -1,4 +1,4 @@
-@page "/comparativo/{ListaId:int}"
+@page "/comparativo2/{ListaId:int}"
 
 @inherits BasePageComponent
 
@@ -33,12 +33,12 @@
                         <th Class="borda-remove"></th>
                         <th colspan="3" Class="borda-remove">
                             <MudText Align="Align.Center" Typo="Typo.subtitle2">
-                                @if(maisBarato == item.OrcamentoId)
+                                @if(maisBaratoOrcamentoId == item.OrcamentoId)
                                 {
                                     <MudChip Icon="@Icons.Material.Filled.PriceCheck" Label="true" Class="marcador-mais-barato">Mais barato</MudChip>
                                     <span>&nbsp;</span>
                                 }
-                                @if(maisQuantidadeItens == item.OrcamentoId)
+                                @if(maisQuantidadeItensOrcamentoId == item.OrcamentoId)
                                 {
                                     <MudChip Icon="@Icons.Material.Filled.PlaylistAddCheck" Label="true" Class="marcador-mais-completo">Mais completo</MudChip>
                                     <span>&nbsp;</span>
@@ -74,79 +74,36 @@
                 </tr>
             </thead>
             <tbody>
-                @if(tabelaComparativa is null)
+                
+                @for (int i = 0; i < maior_quantidade_itens; i++)
                 {
-                    <MudSkeleton></MudSkeleton>
-                } else
-                {
-                    int aux_coluna;
-                    int numero_ordem_itens=0;
-                    @foreach (var linha in tabelaComparativa)
-                    {
-                        aux_coluna=2; //começa em 2 pq a primeira coluna eh o numero de ordem dos itens e eh inserida antes dos foreach
-                        numero_ordem_itens++;
-                        <tr>
-                            <td class="center-text">@numero_ordem_itens</td>
-                            @foreach (var coluna in linha)
-                            {
-                                if (aux_coluna % 4 == 0) 
-                                {
-                                    aux_coluna++;
-                                    // coluna de separação
-                                    <td Class="borda-remove"></td>
-                                }
+                    ListaItem? listaItem_ =  listaItemEnumerator.MoveNext() ? listaItemEnumerator.Current : null;
+                    <tr>
+                        @* COLUNA NUMERO DE ORDEM *@
+                        <td class="center-text">@i+1</td>
+                        @* COLUNA QUANTIDADE SOLICITADA *@
+                        <td><MudText Align="Align.Center" Typo="Typo.body2">@listaItem_?.Quantidade</MudText></td>
+                        @* COLUNA PRODUTO SOLICITADO *@
+                        <td><MudText Align="Align.Left" Typo="Typo.body2">@listaItem_.Descricao</MudText></td>
+                        @* COLUNA SEPARADOR *@
+                        <td Class="borda-remove"></td>
+                        
+                        @* PERCORRE TODOS OS ORÇAMENTOS *@
+                        @foreach (var item in _OrcamentoViewList)
+                        {
+                            var _OrcamentoItemListFiltrado = _OrcamentoItemList.Where( f => f.OrcamentoId == item.Id && f.ListaItemId == listaItem_.Id);
 
-                                switch (coluna.TipoColuna)
-                                {
-                                    case TipoColuna.QuantidadeSolicitada:
-                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
-                                        break;
-                                    case TipoColuna.ProdutoSolicitado:
-                                        <td><MudText Align="Align.Left" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
-                                        break;
-                                    case TipoColuna.Quantidadeofertada:
-                                        <td title="@coluna.Tooltip">
-                                            <MudText Align="Align.Center" Typo="Typo.body2">@coluna.Conteudo</MudText>
-                                        </td>
-                                        break;
-                                    case TipoColuna.ProdutoOfertado:
-                                        //se nao colocar o continue aqui, ele vai incrementar o aux_coluna e vai bagunçar todo a ordem do visual
-                                        continue;
-                                        break;
-                                    case TipoColuna.PrecoUnitario:
-                                        <td title="@coluna.Tooltip">
-                                            @if(@coluna.Tooltip != null)
-                                            {
-                                                <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>
-                                                
-                                                    <MudTooltip Style="display: inline;">
-                                                        <ChildContent>
-                                                            <MudIconButton Icon="@Icons.Material.Filled.Info" />
-                                                        </ChildContent>
-                                                        <TooltipContent>
-                                                            <MudText Typo="Typo.h6">@coluna.Tooltip</MudText>
-                                                            <MudText Typo="Typo.body2">@coluna.Conteudo</MudText>
-                                                        </TooltipContent>
-                                                    </MudTooltip>
 
-                                                    <span>
-                                                        <MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText>
-                                                    </span>
-                                                </div>
-                                            }
-                                        </td>
-                                        break;
-                                    case TipoColuna.PrecoTotal:
-                                        <td title="@coluna.Tooltip"><MudText Align="Align.Right" Typo="Typo.body2">@coluna.Conteudo</MudText></td>
-                                        break;
-                                }
-                                aux_coluna++;
+                            
+                        }
 
-                            }
-                        </tr>
-                    }
+                    </tr>
                 }
 
+                
+                
+
+                @* -----------------  RODAPÉ DA TABELA *@
                 <tr>
                     <td Class="borda-remove-todas"></td>
                     <td Class="borda-remove-todas"></td>
