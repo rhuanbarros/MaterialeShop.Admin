@@ -61,7 +61,22 @@
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                        Title="Editar itens da lista de compras" Size="MudBlazor.Size.Small"
+                        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
+                    
+                    <MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline"
+                        Title="Adicionar orçamentos" Size="MudBlazor.Size.Small"
+                        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_lista(context.ListaId)))' />
+
+                    <MudIconButton Icon="@Icons.Material.Filled.TableChart"
+                        Title="Ver comparativo de orçamentos" Size="MudBlazor.Size.Small"
+                        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(context.ListaId)))' />
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Send"
+                        Title="Enviar orçamento para cliente" Size="MudBlazor.Size.Small" />
+
+                    @* <MudMenu Icon="@Icons.Material.Filled.MoreVert">
                         <MudMenuItem Icon="@Icons.Material.Filled.Edit"
                             OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))'>
                             Editar itens da lista de compras
@@ -74,10 +89,11 @@
                             OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(context.ListaId)))' >
                             Ver comparativo de orçamentos
                         </MudMenuItem>
+
                         <MudMenuItem Icon="@Icons.Filled.Send">
                             Enviar orçamento para cliente
                         </MudMenuItem>
-                    </MudMenu>
+                    </MudMenu> *@
                 </MudTd>
             </RowTemplate>
 
