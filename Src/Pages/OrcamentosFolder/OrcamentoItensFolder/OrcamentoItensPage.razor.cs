@@ -9,6 +9,7 @@ public partial class OrcamentoItensPage
 {
     //TODO: na lista de itens do orçamento, fazer aparecer a descrição do nome do item solicitado pelo cliente. acho q tem q criar uma view
     //TODO: tem um bug nessa pagina q acho q eh em todas. na hora q clica em editar um item, daí clica em cancelar, ele limpa os valores do item na lista (mas nao envia pro banco de dados.).
+    //TODO: qdo clica pra editar um item, daí cancela, e daí cria outro item, acho q o novo nao eh adicionado ao banco dedaos
 
     [Parameter]
     public int ListaId { get; set; }

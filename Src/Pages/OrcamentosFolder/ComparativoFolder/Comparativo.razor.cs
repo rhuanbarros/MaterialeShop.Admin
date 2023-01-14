@@ -91,44 +91,121 @@ public partial class Comparativo
     {
         //TODO: verificar se, on caso de uma loja oferecer 2 itens em relação a 1 item solicitado, ele repete o item solicitado na coluna ListaItem
 
-        var result = new List<List<CelulaTabelaComparativa>>();
-        var distinctBudgetIds = orcamentoItemListList.SelectMany(x => x.Select(y => y.OrcamentoId)).Distinct();
+        // var result = new List<List<CelulaTabelaComparativa>>();
 
-        //iterating over each item of the list
+        // //Primeiro, é obtido o conjunto de IDs de orçamentos distintos presentes na lista de orçamentos (distinctBudgetIds).
+        // var distinctBudgetIds = orcamentoItemListList.SelectMany(x => x.Select(y => y.OrcamentoId)).Distinct();
+
+        // foreach (var item in listaItemList)
+        // {
+        //     //adicionando-o à primeira coluna da tabela comparativa (TipoColuna.ListaItem).
+        //     var itemOrcamento = new List<CelulaTabelaComparativa> {
+        //         new CelulaTabelaComparativa(TipoColuna.ListaItem, item)
+        //     };
+
+        //     // Para cada ID de orçamento presente no conjunto de IDs distintos
+        //     foreach (var budgetId in distinctBudgetIds)
+        //     {
+        //         // é verificado se há um orçamento correspondente para o item atual (com o mesmo ID de item e ID de orçamento) na lista de orçamentos.
+        //         var budget = orcamentoItemListList.SelectMany(x => x.Where(y => y.ListaItemId == item.Id && y.OrcamentoId == budgetId)).FirstOrDefault();
+        //         if(budget != null)
+        //             //Se houver, é adicionado o orçamento à tabela comparativa (TipoColuna.OrcamentoItem). 
+        //             itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget) );
+        //         else
+        //             //Se não houver, é adicionada uma célula vazia (TipoColuna.OrcamentoItemVazio).
+        //             itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null) );
+        //     }
+        //     result.Add(itemOrcamento);
+        // }
+
+        //cria uma lista vazia para armazenar os resultados
+        var result = new List<List<CelulaTabelaComparativa>>();
+        //obtém os ids de orçamentos distintos presentes na lista de orçamentos
+        var distinctBudgetIds = orcamentoItemListList.SelectMany(x => x.Select(y => y.OrcamentoId)).Distinct();
+        // obtém todos os itens de orçamento
+        var budgetItems = orcamentoItemListList.SelectMany(x => x).ToList();
+
+        //itera sobre cada item da lista
         foreach (var item in listaItemList)
         {
-            var itemOrcamento = new List<CelulaTabelaComparativa> {
-                new CelulaTabelaComparativa(TipoColuna.ListaItem, item)
-            };
-            foreach (var budgetId in distinctBudgetIds)
+            // obtém os orçamentos correspondentes para o item atual
+            var budgets = budgetItems.Where(x => x.ListaItemId == item.Id).ToList();
+            if (budgets.Count == 0)
             {
-                var budget = orcamentoItemListList.SelectMany(x => x.Where(y => y.ListaItemId == item.Id && y.OrcamentoId == budgetId)).FirstOrDefault();
-                if(budget != null)
-                    itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget) );
-                else
-                    itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null) );
+                var itemOrcamento = new List<CelulaTabelaComparativa>();
+
+                // se não houver orçamento correspondente, adiciona o item na primeira coluna e colunas vazias para os orçamentos
+                itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.ListaItem, item));
+                foreach (var budgetId in distinctBudgetIds)
+                {
+                    itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null));
+                }
+                result.Add(itemOrcamento);
             }
-            result.Add(itemOrcamento);
+            else
+            {
+                // obtém a quantidade máxima de itens de orçamento para um item de orçamento
+                // var maxBudgetCount = budgets.GroupBy(x => x.ListaItemId).Select(x => x.Count()).Max();
+
+                //quantidade máxima de itens de orçamento em relação a todos os orçamentos em relação ao ListaItemId = item.id
+                var maxBudgetCount = budgets.Where(x => x.ListaItemId == item.Id).GroupBy(x => x.OrcamentoId).Select(x => x.Count()).Max();
+
+                //itera pela quantidade máxima de itens de orçamento
+                for (int i = 0; i < maxBudgetCount; i++)
+                {
+                    var itemOrcamento = new List<CelulaTabelaComparativa>();
+                    
+                    // adiciona o item na primeira coluna
+                    itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.ListaItem, item));
+
+                    //itera sobre cada id de orçamento distinto
+                    foreach (var budgetId in distinctBudgetIds)
+                    {
+                        //Obtém o orçamento correspondente para o id de orçamento atual.
+                        var budget = budgets.FirstOrDefault(x => x.OrcamentoId == budgetId);
+                        
+                        //  Verifica se existe e se ainda há itens de orçamento para serem adicionados.
+                        // Se existir orçamento correspondente e ainda há itens de orçamento para serem adicionados, adiciona o orçamento na coluna correspondente e remove-o da lista de orçamentos
+                        // if (budget != null && i < budgets.Count(x => x.OrcamentoId == budgetId))
+                        if (budget != null)
+                        {
+                            itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget));
+                            budgets.Remove(budget);
+                        }
+                        else
+                        {
+                            // Se não houver orçamento correspondente ou já não há mais itens de orçamento para serem adicionados, adiciona uma célula vazia na coluna correspondente
+                            itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null));
+                        }
+                    }
+                    result.Add(itemOrcamento);
+                }
+            }
+            
         }
 
-        //iterating over each budget
+
+        // é iterado sobre cada ID de orçamento presente no conjunto de IDs distintos novamente, adicionando os itens de orçamento que não estão presentes na lista de itens.
         foreach (var budgetId in distinctBudgetIds)
         {
             var budgetItens = orcamentoItemListList.SelectMany(x => x.Where(y => !listaItemList.Any(z => z.Id == y.ListaItemId) && y.OrcamentoId == budgetId)).ToList();
             foreach (var budget in budgetItens)
             {
+                // Para cada item de orçamento, é adicionado uma célula vazia na primeira coluna (TipoColuna.ListaItemVazio)
                 var itemOrcamento = new List<CelulaTabelaComparativa> {
                     new CelulaTabelaComparativa(TipoColuna.ListaItemVazio, null)
                 };
                 foreach (var id in distinctBudgetIds)
                 {
+                    // se há um item de orçamento no orçamento em questão, ele adiciona o item a coluna correspondente
                     if (id == budget.OrcamentoId)
                     {
-                        itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget) );
+                        itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget));
                     }
                     else
                     {
-                        itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null) );
+                        // se não houver, ele adiciona uma coluna vazia
+                        itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null));
                     }
                 }
                 result.Add(itemOrcamento);
