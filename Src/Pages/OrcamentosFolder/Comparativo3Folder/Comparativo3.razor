@@ -105,7 +105,29 @@
                                         // coluna de separação
                                         <td Class="borda-remove"></td>
                                         <td><MudText Align="Align.Center" Typo="Typo.body2">@orcamentoItem_?.Quantidade</MudText></td>
-                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText></td>
+
+                                        <td>
+                                            <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>                                            
+                                                <MudTooltip Style="display: inline;">
+                                                    <ChildContent>
+                                                        <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px"/>
+                                                    </ChildContent>
+                                                    <TooltipContent>
+                                                        <MudText Typo="Typo.h6" Align="Align.Left">Item ofertado: @orcamentoItem_?.Descricao</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Quantidade ofertada: @orcamentoItem_?.Quantidade</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Preço unitário: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Preço total: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText>
+                                                    </TooltipContent>
+                                                </MudTooltip>
+
+                                                <span>
+                                                    <MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText>
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        @* <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText></td> *@
+
                                         <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText></td>
                                         break;
                                     case TipoColuna.OrcamentoItemVazio:
