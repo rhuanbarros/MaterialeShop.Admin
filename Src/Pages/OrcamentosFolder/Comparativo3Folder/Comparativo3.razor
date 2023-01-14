@@ -105,8 +105,8 @@
                                         // coluna de separação
                                         <td Class="borda-remove"></td>
                                         <td><MudText Align="Align.Center" Typo="Typo.body2">@orcamentoItem_?.Quantidade</MudText></td>
-                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@orcamentoItem_?.Preco</MudText></td>
-                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( orcamentoItem_?.Quantidade * orcamentoItem_?.Preco)</MudText></td>
+                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText></td>
+                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText></td>
                                         break;
                                     case TipoColuna.OrcamentoItemVazio:
                                         <td Class="borda-remove"></td>

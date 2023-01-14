@@ -103,7 +103,10 @@ public partial class Comparativo3
             foreach (var budgetId in distinctBudgetIds)
             {
                 var budget = orcamentoItemListList.SelectMany(x => x.Where(y => y.ListaItemId == item.Id && y.OrcamentoId == budgetId)).FirstOrDefault();
-                itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget) );
+                if(budget != null)
+                    itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget) );
+                else
+                    itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null) );
             }
             result.Add(itemOrcamento);
         }
@@ -125,7 +128,7 @@ public partial class Comparativo3
                     }
                     else
                     {
-                        itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, null) );
+                        itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null) );
                     }
                 }
                 result.Add(itemOrcamento);
