@@ -68,6 +68,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
                 await CrudService.Insert<TModel>(model);
             } else 
             {
+                //TODO: qdo vir a nova versao da API, arrumar para ele atualizar apenas os campos que foram alterados
                 await CrudService.Edit<TModel>(model);            
                 ModoEdicao = false;
             }
@@ -83,6 +84,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     {
         form?.Reset();
         model = CreateNewModel();
+        ModoEdicao = false;
     }
 
     // ---------------- DELETE
@@ -95,9 +97,11 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         
         if(result == true)
         {
+            //TODO: qdo vir a nova versao da API, arrumar para ele atualizar apenas os campos de SoftDelete
+
             item.SoftDelete = true;
             item.SoftDeletedAt  = DateTime.Now;
-            
+
             await CrudService.Edit<TModel>(item);
         }
         await GetTable();

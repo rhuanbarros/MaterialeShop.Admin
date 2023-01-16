@@ -85,17 +85,21 @@ public partial class VerListasPage
         return new Lista()
             {
                 Id = item.ListaId,
-                PerfilId = null,
-                CreatedAt = null
+                CreatedAt = item.CreatedAt,
+                PerfilId = item.PerfilId,
+                Endereco = item.Endereco,
+                Status = item.Status
             };
     }
 
     // ---------------- EDIT MODEL
     protected override Lista SetModelIdToEdit(ListasView item)
     {
+        Console.WriteLine("---------------------SetModelIdToEdit");
         return new Lista()
         {
             Id = item.ListaId,
+            CreatedAt = item.CreatedAt,
             PerfilId = item.PerfilId,
             Endereco = item.Endereco,
             Status = item.Status

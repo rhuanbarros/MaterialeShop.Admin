@@ -38,6 +38,8 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
             }
             else
             {
+                //TODO: qdo vir a nova versao da API, arrumar para ele atualizar apenas os campos que foram alterados
+                
                 await CrudService.Edit<TCrudModel>(model);
                 ModoEdicao = false;
             }
@@ -64,6 +66,8 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
 
         if (result == true)
         {
+            //TODO: qdo vir a nova versao da API, arrumar para ele atualizar apenas os campos de SoftDelete
+
             TCrudModel newItem = SetModelIdToDelete(item);
             
             newItem.SoftDelete = true;
@@ -87,6 +91,7 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
     }
     protected virtual async Task OnClickEdit(TViewModel item)
     {
+        // TODO: verificar se eu arrumei em todos os codigos.
         //essa linha gera um bug q ele edita a instancia e ja aperece na tabela na tela.
         //isso acontece por causa da passagem por referencia.
         // teria q criar um novo

@@ -63,10 +63,17 @@ public partial class OrcamentosComponent
         return new Orcamento()
         {
             Id = item.OrcamentoId,
+            CreatedAt = item.CreatedAt,
             LojaId = item.LojaId,
             ListaId = ListaId,
             SolicitacaoData = item.SolicitacaoData,
-            SolicitacaoHora = item.SolicitacaoHora
+            SolicitacaoHora = item.SolicitacaoHora,
+            Recebido = item.Recebido,
+            RecebidoData = item.RecebidoData,
+            EntregaPreco = item.EntregaPreco,
+            EntregaPrazo = item.EntregaPrazo,
+            DescontoNoTotal = item.DescontoNoTotal,
+            CodigoLoja = item.CodigoLoja
         };
     }
 
