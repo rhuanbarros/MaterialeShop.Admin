@@ -5,6 +5,17 @@
 	- https://code-maze.com/lazy-loading-in-blazor-webassembly/#:~:text=Lazy%20Loading%20enables%20us%20to,we%20do%20not%20require%20yet.
 	- https://digitteck.com/frontend/blazor/blazor-page-in-another-assembly/
 	- https://learn.microsoft.com/en-us/aspnet/core/blazor/components/class-libraries?view=aspnetcore-7.0&tabs=visual-studio
+	- TODO SoftDelete em todas as telas
+	- TODO SoftDelete em todos os services pra nao ficar vindo registro ja apagado em outras partes
+	- TODO refatorar os codigos bases das paginas para passar funções como argumentos nos métodos para evitar o overrride
+	- TODO arrumar bug de login qdo o token ja prescreveu
+	- TODO implementar o login em todo site
+		- TODO verificar lentidao em função da mensagem abaixo:
+					info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
+					Authorization failed. These requirements were not met:
+					DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+	- TODO fazer a aplicação do cliente
+		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
 
 # Custom Snippets
     

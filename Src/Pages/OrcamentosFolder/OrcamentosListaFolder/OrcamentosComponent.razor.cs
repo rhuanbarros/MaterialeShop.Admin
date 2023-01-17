@@ -8,6 +8,8 @@ namespace MaterialeShop.Admin.Src.Pages.OrcamentosFolder.OrcamentosListaFolder;
 
 public partial class OrcamentosComponent
 {
+    //TODO: fazer aparecer apenas as lojas nao apagadas
+    
     [Parameter]
     public int ListaId { get; set; }
 
