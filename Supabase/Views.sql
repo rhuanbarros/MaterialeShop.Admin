@@ -12,4 +12,6 @@ JOIN "OrcamentoTotal" ON "Orcamento"."Id" = "OrcamentoTotal"."OrcamentoId"
 ORDER BY "PrecoTotalComEntrega" ASC
 
 CREATE VIEW "OrcamentoTotal" AS
-SELECT "OrcamentoItem"."OrcamentoId", sum("OrcamentoItem"."Preco" * "OrcamentoItem"."Quantidade") as "PrecoTotal", count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" FROM "OrcamentoItem" GROUP BY "OrcamentoItem"."OrcamentoId"
+SELECT "OrcamentoItem"."OrcamentoId", sum("OrcamentoItem"."Preco" * "OrcamentoItem"."Quantidade") as "PrecoTotal", count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" 
+FROM "OrcamentoItem" 
+GROUP BY "OrcamentoItem"."OrcamentoId"
