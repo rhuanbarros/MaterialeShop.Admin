@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MaterialeShop.Admin.Src.Shared.Components;
 
-public partial class ListaViewCard
+public partial class ListaViewCard : ComponentBase
 {
     [Inject]
     protected ListasViewService ListasViewService { get; set; }

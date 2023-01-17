@@ -1,10 +1,12 @@
 <MudCard Elevation=3>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h6">Cliente: @NomeCliente</MudText>
+            <MudText Typo="Typo.h6">Lista de compras</MudText>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
+        <p><b>Cliente: @NomeCliente</b></p>
         <p>Endereço: @Endereco</p>
+        <p>Data de criação: @_ListaView?.CreatedAt</p>
     </MudCardContent>
 </MudCard>

@@ -15,7 +15,7 @@
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
-    <MudText Typo="Typo.h5">Aguardando orçamentos</MudText>
+    <MudText Typo="Typo.h5">Listas aguardando orçamentos</MudText>
 
     <br>
     <br>
@@ -48,6 +48,11 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.CreatedAt)">
+                        Data de criação
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
                     <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
                         Status
                     </MudTableSortLabel>
@@ -59,6 +64,7 @@
             <RowTemplate>
                 <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
+                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit"
