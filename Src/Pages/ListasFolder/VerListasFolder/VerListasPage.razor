@@ -114,6 +114,11 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.CreatedAt)">
+                        Data de criação
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
                     <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
                         Status
                     </MudTableSortLabel>
@@ -125,6 +130,7 @@
             <RowTemplate>
                 <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
+                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens"
