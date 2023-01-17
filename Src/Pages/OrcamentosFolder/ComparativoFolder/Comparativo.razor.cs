@@ -89,35 +89,6 @@ public partial class Comparativo
 
     List<List<CelulaTabelaComparativa>> CriarTabelaComparativa(List<ListaItem> listaItemList, List<List<OrcamentoItem>> orcamentoItemListList)
     {
-        //TODO: verificar se, on caso de uma loja oferecer 2 itens em relação a 1 item solicitado, ele repete o item solicitado na coluna ListaItem
-
-        // var result = new List<List<CelulaTabelaComparativa>>();
-
-        // //Primeiro, é obtido o conjunto de IDs de orçamentos distintos presentes na lista de orçamentos (distinctBudgetIds).
-        // var distinctBudgetIds = orcamentoItemListList.SelectMany(x => x.Select(y => y.OrcamentoId)).Distinct();
-
-        // foreach (var item in listaItemList)
-        // {
-        //     //adicionando-o à primeira coluna da tabela comparativa (TipoColuna.ListaItem).
-        //     var itemOrcamento = new List<CelulaTabelaComparativa> {
-        //         new CelulaTabelaComparativa(TipoColuna.ListaItem, item)
-        //     };
-
-        //     // Para cada ID de orçamento presente no conjunto de IDs distintos
-        //     foreach (var budgetId in distinctBudgetIds)
-        //     {
-        //         // é verificado se há um orçamento correspondente para o item atual (com o mesmo ID de item e ID de orçamento) na lista de orçamentos.
-        //         var budget = orcamentoItemListList.SelectMany(x => x.Where(y => y.ListaItemId == item.Id && y.OrcamentoId == budgetId)).FirstOrDefault();
-        //         if(budget != null)
-        //             //Se houver, é adicionado o orçamento à tabela comparativa (TipoColuna.OrcamentoItem). 
-        //             itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItem, budget) );
-        //         else
-        //             //Se não houver, é adicionada uma célula vazia (TipoColuna.OrcamentoItemVazio).
-        //             itemOrcamento.Add( new CelulaTabelaComparativa(TipoColuna.OrcamentoItemVazio, null) );
-        //     }
-        //     result.Add(itemOrcamento);
-        // }
-
         //cria uma lista vazia para armazenar os resultados
         var result = new List<List<CelulaTabelaComparativa>>();
         //obtém os ids de orçamentos distintos presentes na lista de orçamentos
