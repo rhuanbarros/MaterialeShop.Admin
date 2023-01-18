@@ -16,6 +16,8 @@
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
     <MudText Typo="Typo.h5">Listas aguardando orçamentos</MudText>
+    <br>
+    <MudText Typo="Typo.body2">Listas já envidas as lojas que estão aguardando orçamentos</MudText>
 
     <br>
     <br>
@@ -67,7 +69,7 @@
                 <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                    <MudIconButton Icon="@Icons.Material.Filled.List"
                         Title="Editar itens da lista de compras" Size="MudBlazor.Size.Small"
                         OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
                     

@@ -32,6 +32,8 @@
         </MudButton>
     <br>    
     <br>
+    <MudText Typo="Typo.h6">Adicione itens a lista de compras</MudText>
+    <br>
 
 
     <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" ValidationDelay="0">
@@ -77,6 +79,8 @@
     </MudForm>
 
     <br>
+    @* <MudText Typo="Typo.h6">Lista de itens na lista de compras</MudText>
+    <br> *@
 
 
     @if (_tableListFiltered == null)
