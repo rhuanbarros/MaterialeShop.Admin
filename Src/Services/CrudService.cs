@@ -62,8 +62,8 @@ public class CrudService
 
     public async Task<List<TModel>> SoftDelete<TModel>(TModel item) where TModel : BaseModelApp, new()
     {
-        Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client.Postgrest
-            .Table<TModel>()
+        Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client
+            .From<TModel>()
             .Set(x => x.SoftDeleted, true)
             .Set(x => x.SoftDeletedAt, DateTime.Now)
             .Where(x => x.Id == item.Id)

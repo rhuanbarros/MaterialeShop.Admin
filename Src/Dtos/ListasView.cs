@@ -11,9 +11,6 @@ public class ListasView : BaseModelApp
     [Column("ListaId")]
     public int ListaId { get; set; }
 
-    [Column("CreatedAt")]
-    public DateTime? CreatedAt { get; set; } = DateTime.Now;
-
     [Column("PerfilId")]
     public int PerfilId { get; set; }
 
