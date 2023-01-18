@@ -11,8 +11,8 @@ public class BaseModelApp : BaseModel
     [Column("CreatedAt")]
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
-    [Column("SoftDelete")]
-    public bool? SoftDelete { get; set; } = false;
+    [Column("SoftDeleted")]
+    public bool? SoftDeleted { get; set; } = false;
     
     [Column("SoftDeletedAt")]
     public DateTime? SoftDeletedAt { get; set; }

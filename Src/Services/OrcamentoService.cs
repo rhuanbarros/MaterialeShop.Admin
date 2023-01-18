@@ -32,7 +32,10 @@ public class OrcamentoService
     {
         logger.LogInformation("------------------- OrcamentoService SelectAll -------------------");
 
-        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client.From<Orcamento>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client
+            .From<Orcamento>()
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     
@@ -40,7 +43,9 @@ public class OrcamentoService
     {
         logger.LogInformation("------------------- OrcamentoService Delete -------------------");
 
-        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client.From<Orcamento>().Delete(item);
+        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client
+            .From<Orcamento>()
+            .Delete(item);
         return modeledResponse.Models;
     }
     
@@ -48,7 +53,9 @@ public class OrcamentoService
     {
         logger.LogInformation("------------------- OrcamentoService Insert -------------------");
 
-        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client.From<Orcamento>().Insert(item);
+        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client
+            .From<Orcamento>()
+            .Insert(item);
         return modeledResponse.Models;
     }
 
@@ -56,7 +63,12 @@ public class OrcamentoService
     {
         logger.LogInformation("------------------- OrcamentoService SelectAllByListaId -------------------");
 
-        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client.From<Orcamento>().Filter(nameof(Orcamento.ListaId), Postgrest.Constants.Operator.Equals, id).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client
+            .From<Orcamento>()
+            // .Filter(nameof(Orcamento.ListaId), Postgrest.Constants.Operator.Equals, id)
+            .Where(x => x.ListaId == id)
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
 

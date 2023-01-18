@@ -70,10 +70,7 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
 
             TCrudModel newItem = SetModelIdToDelete(item);
             
-            newItem.SoftDelete = true;
-            newItem.SoftDeletedAt  = DateTime.Now;
-            
-            await CrudService.Edit<TCrudModel>(newItem);
+            await CrudService.SoftDelete<TViewModel>(item);
         }
         await GetTable();
 

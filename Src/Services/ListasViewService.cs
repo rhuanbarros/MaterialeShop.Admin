@@ -31,20 +31,33 @@ public class ListasViewService
     public async Task<IReadOnlyList<ListasView>> SelectAll()
     {
         logger.LogInformation("------------------- ListasViewService SelectAll -------------------");
-        Postgrest.Responses.ModeledResponse<ListasView> modeledResponse = await client.From<ListasView>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<ListasView> modeledResponse = await client
+            .From<ListasView>()
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     
     public async Task<ListasView> SelectAllByListaId(int id)
     {
         logger.LogInformation("------------------- ListasViewService SelectAllByListaId -------------------");
-        return await client.From<ListasView>().Filter(nameof(ListasView.ListaId), Postgrest.Constants.Operator.Equals, id).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Single();
+        return await client
+            .From<ListasView>()
+            // .Filter(nameof(ListasView.ListaId), Postgrest.Constants.Operator.Equals, id)
+            .Where(x => x.ListaId == id)
+            .Where(x => x.SoftDeleted == false)
+            .Single();
     }
     
     public async Task<IReadOnlyList<ListasView>> SelectAllByStatus(string status)
     {
         logger.LogInformation("------------------- ListasViewService SelectAllByStatus -------------------");
-        Postgrest.Responses.ModeledResponse<ListasView> modeledResponse = await client.From<ListasView>().Filter(nameof(ListasView.Status), Postgrest.Constants.Operator.Equals, status).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<ListasView> modeledResponse = await client
+            .From<ListasView>()
+            // .Filter(nameof(ListasView.Status), Postgrest.Constants.Operator.Equals, status)
+            .Where(x => x.Status == status)
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     

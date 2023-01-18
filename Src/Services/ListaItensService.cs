@@ -32,7 +32,10 @@ public class ListaItensService
     {
         logger.LogInformation("------------------- ListaItensService SelectAll -------------------");
 
-        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client.From<ListaItem>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client
+            .From<ListaItem>()
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     
@@ -40,7 +43,9 @@ public class ListaItensService
     {
         logger.LogInformation("------------------- ListaItensService Delete -------------------");
 
-        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client.From<ListaItem>().Delete(item);
+        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client
+            .From<ListaItem>()
+            .Delete(item);
         return modeledResponse.Models;
     }
     
@@ -48,7 +53,9 @@ public class ListaItensService
     {
         logger.LogInformation("------------------- ListaItensService Insert -------------------");
 
-        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client.From<ListaItem>().Insert(item);
+        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client
+            .From<ListaItem>()
+            .Insert(item);
         return modeledResponse.Models;
     }
 
@@ -56,7 +63,14 @@ public class ListaItensService
     {
         logger.LogInformation("------------------- ListaItensService SelectAllByListaId -------------------");
 
-        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client.From<ListaItem>().Filter(nameof(ListaItem.ListaId), Postgrest.Constants.Operator.Equals, id).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Order(nameof(ListaItem.CreatedAt), Postgrest.Constants.Ordering.Ascending).Get();
+        Postgrest.Responses.ModeledResponse<ListaItem> modeledResponse = await client
+            .From<ListaItem>()
+            // .Filter(nameof(ListaItem.ListaId), Postgrest.Constants.Operator.Equals, id)
+            .Where(x => x.ListaId == id)
+            // .Order(nameof(ListaItem.CreatedAt), Postgrest.Constants.Ordering.Ascending)
+            .Where(x => x.SoftDeleted == false)
+            .Order(x => x.CreatedAt, Postgrest.Constants.Ordering.Ascending)
+            .Get();
         return modeledResponse.Models;
     }
 

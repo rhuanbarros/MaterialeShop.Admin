@@ -26,13 +26,21 @@ public class UsuarioPerfilService
 
     public async Task<IReadOnlyList<Perfil>> From()
     {
-        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client.From<Perfil>().Get();
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client
+            .From<Perfil>()
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     
-    public async Task<IReadOnlyList<Perfil>> GetByUserId(string userId)
+    public async Task<IReadOnlyList<Perfil>> GetByUserId(int userId)
     {
-        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client.From<Perfil>().Filter(nameof(Perfil.Id), Postgrest.Constants.Operator.Equals, userId).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client
+            .From<Perfil>()
+            // .Filter(nameof(Perfil.Id), Postgrest.Constants.Operator.Equals, userId)
+            .Where(x => x.Id == userId)
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     

@@ -31,24 +31,26 @@ public class ListasService
     public async Task<IReadOnlyList<Lista>> From()
     {
         logger.LogInformation("------------------- ListasService From -------------------");
-        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client.From<Lista>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client
+        .From<Lista>()
+        .Where(x => x.SoftDeleted == false)
+        .Get();
         return modeledResponse.Models;
     }
     
     public async Task<List<Lista>> Delete(Lista item)
     {
-        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client.From<Lista>().Delete(item);
+        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client
+            .From<Lista>()
+            .Delete(item);
         return modeledResponse.Models;
     }
     
     public async Task<List<Lista>> Insert(Lista item)
     {
-        // string userId = authService?.CurrentUser?.Id;
-        // Console.WriteLine("---------------userId");
-        // Console.WriteLine(userId);
-        // Console.WriteLine("---------------userId");
-        // item.User_id = userId;
-        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client.From<Lista>().Insert(item);
+        Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client
+            .From<Lista>()
+            .Insert(item);
         return modeledResponse.Models;
     }
 

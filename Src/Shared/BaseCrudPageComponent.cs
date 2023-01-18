@@ -97,12 +97,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         
         if(result == true)
         {
-            //TODO: qdo vir a nova versao da API, arrumar para ele atualizar apenas os campos de SoftDelete
-
-            item.SoftDelete = true;
-            item.SoftDeletedAt  = DateTime.Now;
-
-            await CrudService.Edit<TModel>(item);
+            await CrudService.SoftDelete<TModel>(item);
         }
         await GetTable();
         

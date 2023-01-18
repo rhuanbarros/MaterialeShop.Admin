@@ -26,14 +26,22 @@ public class OrcamentoItemService
     public async Task<IReadOnlyList<OrcamentoItem>> SelectAll()
     {
         logger.LogInformation("------------------- OrcamentoItemService SelectAll -------------------");
-        Postgrest.Responses.ModeledResponse<OrcamentoItem> modeledResponse = await client.From<OrcamentoItem>().Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<OrcamentoItem> modeledResponse = await client
+            .From<OrcamentoItem>()
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
     
     public async Task<IReadOnlyList<OrcamentoItem>> SelectByOrcamentoId(int id)
     {
         logger.LogInformation("------------------- OrcamentoItemService SelectByOrcamentoId -------------------");
-        Postgrest.Responses.ModeledResponse<OrcamentoItem> modeledResponse =  await client.From<OrcamentoItem>().Filter(nameof(OrcamentoItem.OrcamentoId), Postgrest.Constants.Operator.Equals, id).Filter("SoftDelete", Postgrest.Constants.Operator.Equals, "false").Get();
+        Postgrest.Responses.ModeledResponse<OrcamentoItem> modeledResponse =  await client
+            .From<OrcamentoItem>()
+            // .Filter(nameof(OrcamentoItem.OrcamentoId), Postgrest.Constants.Operator.Equals, id)
+            .Where(x => x.OrcamentoId == id)
+            .Where(x => x.SoftDeleted == false)
+            .Get();
         return modeledResponse.Models;
     }
 
