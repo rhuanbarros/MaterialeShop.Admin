@@ -52,7 +52,7 @@ public class AuthService
         await customAuthStateProvider.GetAuthenticationStateAsync();
 
         //guarda o perfi do usuario
-        IReadOnlyList<Perfil> perfil = await usuarioPerfilService.GetByUserId( Int32.Parse( client?.Auth?.CurrentUser?.Id ) );
+        IReadOnlyList<Perfil> perfil = await usuarioPerfilService.GetByUserUuid( client?.Auth?.CurrentUser?.Id );
         UsuarioPerfil = perfil.Single();
     }
     

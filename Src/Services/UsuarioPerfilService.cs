@@ -44,5 +44,16 @@ public class UsuarioPerfilService
         return modeledResponse.Models;
     }
     
+    public async Task<IReadOnlyList<Perfil>> GetByUserUuid(string userUuid)
+    {
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client
+            .From<Perfil>()
+            // .Filter(nameof(Perfil.Id), Postgrest.Constants.Operator.Equals, userId)
+            .Where(x => x.Uuid == userUuid)
+            .Where(x => x.SoftDeleted == false)
+            .Get();
+        return modeledResponse.Models;
+    }
+    
 
 }
