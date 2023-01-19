@@ -8,13 +8,17 @@
 	- [X] SoftDelete em todas as telas
 	- [X] SoftDelete em todos os services pra nao ficar vindo registro ja apagado em outras partes
 	- [cancelado] refatorar os codigos bases das paginas para passar funções como argumentos nos métodos para evitar o overrride se for realmente necessário
-	- TODO arrumar bug de login qdo o token ja prescreveu
+	
 	- TODO implementar o login em todo site
 		- TODO confirmar que um usuario soh consiga criar um item se o id do usuario for dele mesmo
 		- TODO verificar lentidao em função da mensagem abaixo:
 					info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
 					Authorization failed. These requirements were not met:
 					DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+	
+	- TODO implementar controle de exceções nos crud bases e database services
+		
+	- TODO arrumar bug de login qdo o token ja prescreveu
 	- TODO fazer a aplicação do cliente
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
 
