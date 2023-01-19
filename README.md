@@ -16,11 +16,13 @@
 					Authorization failed. These requirements were not met:
 					DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
 	
+	- TODO tabela Perfil, mudar o tipo do Campo UUid para tipo uuid e mudar o nome para UserUuid
 	- TODO implementar controle de exceções nos crud bases e database services
 		
 	- TODO arrumar bug de login qdo o token ja prescreveu
 	- TODO fazer a aplicação do cliente
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
+	- TODO configurar emails de recuperação de senha do Supabase
 
 # Custom Snippets
     

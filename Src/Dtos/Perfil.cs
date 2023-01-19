@@ -10,7 +10,7 @@ namespace MaterialeShop.Admin.Src.Dtos;
 public class Perfil : BaseModelApp
 {
     [Column("Uuid")]
-    public string? Uuid { get; set; }
+    public string? UserUuid { get; set; }
 
     [Column("Email")]
     [EmailAddress]
@@ -47,7 +47,7 @@ public class Perfil : BaseModelApp
     public Perfil(Perfil other)
     {
         Id = other.Id;
-        Uuid = other.Uuid;
+        UserUuid = other.UserUuid;
         CreatedAt = other.CreatedAt;
         Email = other.Email;
         NomeCompleto = other.NomeCompleto;
