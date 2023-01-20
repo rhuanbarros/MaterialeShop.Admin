@@ -1,3 +1,11 @@
+ALTER ROLE postgres NOSUPERUSER
+-----------
+--drop view "ListasView"
+--drop view "OrcamentoView";
+--drop view "OrcamentoTotal";
+
+-----------------
+
 CREATE POLICY "policy_name"
 ON public.Lista FOR
 DELETE USING ( auth.uid() = user_id );
@@ -88,44 +96,57 @@ Perfil
     - apenas inserir seu proprio registro
     - ou admin
 
-    CREATE POLICY "Users can SELECT if they are admin"
-        ON "public"."Perfil"
-        FOR ALL USING (
-            "UserUuid" IN (
-            SELECT get_AdminUsers_row_for_authenticated_user()
-            )
-        );
+    - ADMIN POLICIES
 
-    CREATE POLICY "Users can SELECT if own row"
-        ON "public"."Perfil"
-        AS PERMISSIVE
-        FOR SELECT
-        TO authenticated
-        USING ( auth.uid() = UserUuid );
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."Perfil"
+            FOR ALL 
+            USING (
+                "UserUuid" IN (
+                SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
 
-    CREATE POLICY "Users can SELECT if are admin"
-        ON "public"."Perfil"
-        AS PERMISSIVE
-        FOR SELECT
-        TO authenticated
-        USING ( auth.uid()  );
+    - USERS POLICIES
 
-    CREATE POLICY "Users can UPDATE if own row"
-        ON "public"."TodoPrivate" AS PERMISSIVE FOR UPDATE
-        TO authenticated
-        USING ( auth.uid() = user_id );
+        CREATE POLICY "Users can SELECT if they own row"
+            ON "public"."Perfil"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( auth.uid() = "UserUuid" );
 
-    CREATE POLICY "Users can DELETE if own row"
-        ON "public"."TodoPrivate" AS PERMISSIVE FOR DELETE
-        TO authenticated
-        USING ( auth.uid() = user_id );
+        CREATE POLICY "Users can UPDATE if they own row"
+            ON "public"."Perfil"
+            AS PERMISSIVE
+            FOR UPDATE
+            TO authenticated
+            USING ( auth.uid() = "UserUuid" );
 
-    CREATE POLICY "Users can INSERT only if own uuid"
-        ON "public"."TodoPrivate" 
-        AS PERMISSIVE
-        FOR INSERT
-        TO authenticated
-        WITH CHECK (auth.uid() = user_id);
+        CREATE POLICY "Users can DELETE if they own row"
+            ON "public"."Perfil"
+            AS PERMISSIVE
+            FOR DELETE
+            TO authenticated
+            USING ( auth.uid() = "UserUuid" );
+
+        -- tem q ser liberado pra todo mundo pq na hora de que o usuario vai crir seu proprio login ele nao esta logado
+        -- deixei liberado para usuario autenticado poder INSERT pq é necessário para o admin possa criar clientes no dashboard
+        CREATE POLICY "All users can INSERT"
+            ON "public"."Perfil" 
+            AS PERMISSIVE
+            FOR INSERT
+            TO anon, authenticated
+            WITH CHECK (true);
+            
+        -- nao da pra ser usada pq o usuario ainda nao esta logado qdo cria seu nome de usuario
+        -- //TODO no futuro verificar se tem como ajustar isso
+        -- CREATE POLICY "Users can INSERT only if they own uuid"
+        --     ON "public"."Perfil" 
+        --     AS PERMISSIVE
+        --     FOR INSERT
+        --     TO authenticated
+        --     WITH CHECK (auth.uid() = "UserUuid");
 
 admin
     - totalmente bloqueado

@@ -5,6 +5,7 @@ using Supabase.Gotrue;
 using Supabase.Interfaces;
 using Supabase.Realtime;
 using Supabase.Storage;
+using static Postgrest.QueryOptions;
 
 namespace MaterialeShop.Admin.Src.Services;
 
@@ -55,13 +56,16 @@ public class UsuarioPerfilService
         return modeledResponse.Models;
     }
     
-    public async Task<Perfil> Insert(Perfil item)
+    public async Task Insert(Perfil item)
     {
         Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client
             .From<Perfil>().
-            Insert(item);
-
-        return modeledResponse.Models.First();
+            Insert(
+                item, 
+                // precisa especificar o ReturnType.Minimal pq se não o Supabase tenta devolver o registro criado,
+                // mas daí daria erro, pois usuários anonimos não podem fazer SELECT nessa tabela, apenas INSERT.
+                new Postgrest.QueryOptions {Returning = ReturnType.Minimal}
+            );
     }
 
 }

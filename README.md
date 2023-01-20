@@ -10,6 +10,7 @@
 	- [cancelado] refatorar os codigos bases das paginas para passar funções como argumentos nos métodos para evitar o overrride se for realmente necessário
 	
 	- TODO implementar o login em todo site
+		- TODO implementar policies
 		- TODO confirmar que um usuario soh consiga criar um item se o id do usuario for dele mesmo
 		- TODO verificar lentidao em função da mensagem abaixo:
 					info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
@@ -23,6 +24,7 @@
 	- TODO fazer a aplicação do cliente
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
 	- TODO configurar emails de recuperação de senha do Supabase
+	- TODO configurar backend em c# básico na nuvem
 
 # Custom Snippets
     

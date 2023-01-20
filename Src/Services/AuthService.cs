@@ -54,7 +54,7 @@ public class AuthService
             UserUuid = session.User.Id
         };
 
-        UsuarioPerfil = await usuarioPerfilService.Insert(perfil);
+        await usuarioPerfilService.Insert(perfil);
 
         await customAuthStateProvider.GetAuthenticationStateAsync();
     }
