@@ -9,7 +9,7 @@ namespace MaterialeShop.Admin.Src.Dtos;
 [Table("Perfil")]
 public class Perfil : BaseModelApp
 {
-    [Column("Uuid")]
+    [Column("UserUuid")]
     public string? UserUuid { get; set; }
 
     [Column("Email")]

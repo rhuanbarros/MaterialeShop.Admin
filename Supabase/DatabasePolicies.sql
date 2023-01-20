@@ -85,6 +85,7 @@ OrcamentoItem
 
 Perfil
     - apenas ver suas proprios linhas
+    - apenas inserir seu proprio registro
     - ou admin
 
     CREATE POLICY "Users can SELECT if they are admin"

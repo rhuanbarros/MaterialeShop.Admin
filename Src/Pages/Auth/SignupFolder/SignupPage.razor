@@ -1,3 +1,7 @@
+@page "/cadastrar"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@layout LoginLayout
+
 @using MaterialeShop.Admin.Src.Shared.Components
 @inject AuthService AuthService
 @inject NavigationManager NavigationManager
@@ -18,13 +22,18 @@
             </div>
             <br>
 
-            <MudText Typo="Typo.h5">Bem-vindo</MudText>
+            <MudText Typo="Typo.h5">Cadastro</MudText>
             <br>
+            <MudTextField Label="Nome completo" @bind-Value="NomeCompleto" Variant="Variant.Outlined"></MudTextField>
             <MudTextField Label="Email" @bind-Value="email" Variant="Variant.Outlined"></MudTextField>
             <MudTextField Label="Password" @bind-Value="password" Variant="Variant.Outlined"
                 InputType="InputType.Password"></MudTextField>
             <br>
-            <MudButton Variant="Variant.Filled" FullWidth Color="Color.Primary" OnClick="OnClickLogin">Login</MudButton>
+            <MudButton Variant="Variant.Filled" FullWidth Color="Color.Primary" OnClick="OnClickSave">Cadastrar</MudButton>
+
+            <br>
+            <MudLink Href="/login" Typo="Typo.body1" Color="Color.Secondary">Se você já está cadastrado, clique aqui para entrar no sistema.</MudLink>
+            <br>
         </MudContainer>
     </MudPaper>
 </MudContainer>

@@ -15,6 +15,8 @@ public class AuthService
     private readonly UsuarioPerfilService usuarioPerfilService;
     private readonly ILocalStorageService localStorage;
     private readonly ILogger<AuthService> logger;
+    
+    // guarda o model UsuarioPerfil do usuario logado 
     public Perfil UsuarioPerfil {get;set;}
 
     public Perfil? UsuarioLogado { get; private set; }
@@ -39,11 +41,28 @@ public class AuthService
         client.Auth.RetrieveSessionAsync();
     }
 
-    public async Task Login(string email, string password)
+    public async Task SignupByEmail(string Email, string Password, string NomeCompleto)
+    {
+        Session? session = await client.Auth.SignUp(Email, Password);
+        
+        //TODO fazer validação se o uuid veio correto
+
+        Perfil perfil = new()
+        {
+            Email = Email,
+            NomeCompleto = NomeCompleto,
+            UserUuid = session.User.Id
+        };
+
+        UsuarioPerfil = await usuarioPerfilService.Insert(perfil);
+
+        await customAuthStateProvider.GetAuthenticationStateAsync();
+    }
+    public async Task Login(string Email, string Password)
     {
         logger.LogInformation("METHOD: Login");
         
-        Session? session = await client.Auth.SignIn(email, password);
+        Session? session = await client.Auth.SignIn(Email, Password);
 
         logger.LogInformation("------------------- User logged in -------------------");
         logger.LogInformation($"instance.Auth.CurrentUser.Id {client?.Auth?.CurrentUser?.Id}");

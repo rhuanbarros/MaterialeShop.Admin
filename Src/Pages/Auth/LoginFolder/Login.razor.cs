@@ -1,9 +1,9 @@
-namespace MaterialeShop.Admin.Src.Pages.Auth;
+namespace MaterialeShop.Admin.Src.Pages.Auth.LoginFolder;
 
 public partial class Login
 {
-    protected string email {get; set;} = "cliente1@gmail.com";
-    protected string password {get; set;} = "senhasdadasdaasd";
+    protected string? email {get; set;} = "rhuanbarros@gmail.com";
+    protected string? password {get; set;} = "123456789";
 
     public async Task OnClickLogin()
     {

@@ -55,5 +55,13 @@ public class UsuarioPerfilService
         return modeledResponse.Models;
     }
     
+    public async Task<Perfil> Insert(Perfil item)
+    {
+        Postgrest.Responses.ModeledResponse<Perfil> modeledResponse = await client
+            .From<Perfil>().
+            Insert(item);
+
+        return modeledResponse.Models.First();
+    }
 
 }
