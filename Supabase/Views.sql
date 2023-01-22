@@ -1,11 +1,17 @@
-CREATE VIEW "ListasView" AS
+CREATE OR REPLACE VIEW "ListasView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
 SELECT "Lista"."Id" as "ListaId", "Perfil"."Id" as "PerfilId", "Perfil"."NomeCompleto", "Lista"."Endereco", "Lista"."Status", "Lista"."CreatedAt", "Lista"."SoftDeleted", "Lista"."SoftDeletedAt"
 FROM "Lista"
 LEFT JOIN "Perfil" ON "Lista"."PerfilId" = "Perfil"."Id"
 WHERE "Perfil"."SoftDeleted" = false
-ORDER BY "Lista"."CreatedAt" DESC
+ORDER BY "Lista"."CreatedAt" DESC;
 
-CREATE VIEW "OrcamentoView" AS
+CREATE OR REPLACE VIEW "OrcamentoView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
 SELECT "Orcamento"."Id" as "OrcamentoId", "Orcamento"."CreatedAt", "Loja"."Id" as "LojaId", "Loja"."Nome" as "LojaNome", "Orcamento"."ListaId", 
 "Orcamento"."SolicitacaoData", "Orcamento"."SolicitacaoHora", "Orcamento"."Recebido", "Orcamento"."RecebidoData", "Orcamento"."EntregaPreco", 
 "Orcamento"."EntregaPrazo" , "Orcamento"."DescontoNoTotal" , "Orcamento"."OrcamentoAnexo" , "Orcamento"."CodigoLoja", 
@@ -13,11 +19,14 @@ SELECT "Orcamento"."Id" as "OrcamentoId", "Orcamento"."CreatedAt", "Loja"."Id" a
 "OrcamentoTotal"."QuantidadeItens", "Orcamento"."SoftDeleted", "Orcamento"."SoftDeletedAt"
 FROM "Orcamento"
 LEFT JOIN "Loja" ON "Orcamento"."LojaId" = "Loja"."Id"
-JOIN "OrcamentoTotal" ON "Orcamento"."Id" = "OrcamentoTotal"."OrcamentoId"
+LEFT JOIN "OrcamentoTotal" ON "Orcamento"."Id" = "OrcamentoTotal"."OrcamentoId"
 WHERE "Loja"."SoftDeleted" = false
-ORDER BY "PrecoTotalComEntrega" ASC
+ORDER BY "PrecoTotalComEntrega" ASC;
 
-CREATE VIEW "OrcamentoTotal" AS
+CREATE OR REPLACE VIEW "OrcamentoTotal"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
 SELECT "OrcamentoItem"."OrcamentoId", sum("OrcamentoItem"."Preco" * "OrcamentoItem"."Quantidade") as "PrecoTotal", count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" 
 FROM "OrcamentoItem" 
-GROUP BY "OrcamentoItem"."OrcamentoId"
+GROUP BY "OrcamentoItem"."OrcamentoId";
