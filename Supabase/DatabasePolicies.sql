@@ -1,113 +1,126 @@
-ALTER ROLE postgres NOSUPERUSER
------------
---drop view "ListasView"
---drop view "OrcamentoView";
---drop view "OrcamentoTotal";
+-----------------  SECURITY POLICIES FUNCTIONS
+
+-- função para retornar a linha de AdminUsers que contenha o propio uuid
+    create or replace function get_AdminUsers_row_for_authenticated_user()
+        returns setof uuid
+        language sql
+        security definer
+        set search_path = public
+        stable
+        as $$
+            select "UserUuid"
+            from "AdminUsers"
+            where "UserUuid" = auth.uid()
+        $$;
+
+-- função para retornar Perfil.Id do usuario logado
+        CREATE OR REPLACE FUNCTION get_Perfil_Id_for_authenticated_user()
+        returns setof int8
+        language sql
+        security definer
+        set search_path = public
+        stable
+        as $$
+            select "Perfil"."Id" from "Perfil"
+                where "UserUuid" = auth.uid()
+        $$;
+
 
 -----------------
 
-CREATE POLICY "policy_name"
-ON public.Lista FOR
-DELETE USING ( auth.uid() = user_id );
+----------------- | LISTA
+    -- apenas ver suas proprios linhas
+    -- ou admin
 
-CREATE POLICY "policy_name"
-ON public.Lista FOR
-SELECT  USING ( auth.uid() = user_id );
+    ----------------- ADMIN POLICIES
 
-#################### TABELA LISTA
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."Lista"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
 
-CREATE POLICY "Enable read access for all users" ON "public"."Lista"
-AS PERMISSIVE FOR SELECT
-TO authenticated
-USING (true)
+    ----------------- USERS POLICIES
 
+        CREATE POLICY "Users can SELECT if they own row"
+            ON "public"."Lista"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( "Lista"."PerfilId" = ( 
+                SELECT get_Perfil_Id_for_authenticated_user()
+                )
+            );
 
-CREATE POLICY "Usuarios podem SELECT se houver criado o registro"
-    ON "public"."Lista" AS PERMISSIVE FOR SELECT
-    TO authenticated
-    USING ( auth.uid() = user_id );
+        CREATE POLICY "Users can UPDATE if they own row"
+            ON "public"."Lista"
+            AS PERMISSIVE
+            FOR UPDATE
+            TO authenticated
+            USING ( "Lista"."PerfilId" = ( 
+                SELECT get_Perfil_Id_for_authenticated_user()
+                )
+            );
 
-CREATE POLICY "Usuarios podem UPDATE se houver criado o registro"
-    ON "public"."Lista" AS PERMISSIVE FOR UPDATE
-    TO authenticated
-    USING ( auth.uid() = user_id );
+        CREATE POLICY "Users can DELETE if they own row"
+            ON "public"."Lista"
+            AS PERMISSIVE
+            FOR DELETE
+            TO authenticated
+            USING ( "Lista"."PerfilId" = ( 
+                SELECT get_Perfil_Id_for_authenticated_user()
+                )
+            );
+        
+        CREATE POLICY "Users can INSERT if they own row"
+            ON "public"."Lista"
+            AS PERMISSIVE
+            FOR INSERT
+            TO authenticated
+            WITH CHECK ( "Lista"."PerfilId" = ( 
+                SELECT get_Perfil_Id_for_authenticated_user()
+                )
+            );
 
-CREATE POLICY "Usuarios podem DELETE se houver criado o registro"
-    ON "public"."Lista" AS PERMISSIVE FOR DELETE
-    TO authenticated
-    USING ( auth.uid() = user_id );
-
-CREATE POLICY "Usuarios podem INSERT se estiver autenticado"
-    ON "public"."Lista" 
-    AS PERMISSIVE
-    FOR INSERT
-    TO authenticated
-    WITH CHECK (true);
-
-
-----------------------------------------
-
-Lista
-    - apenas ver suas proprios linhas
-    - ou admin
-
-    CREATE POLICY "Users can SELECT if own row"
-    ON "public"."Lista"
-    AS PERMISSIVE
-    FOR SELECT
-    TO authenticated
-    USING ( auth.uid() = user_id );
-
-    CREATE POLICY "Users can UPDATE if own row"
-        ON "public"."TodoPrivate" AS PERMISSIVE FOR UPDATE
-        TO authenticated
-        USING ( auth.uid() = user_id );
-
-    CREATE POLICY "Users can DELETE if own row"
-        ON "public"."TodoPrivate" AS PERMISSIVE FOR DELETE
-        TO authenticated
-        USING ( auth.uid() = user_id );
-
-    CREATE POLICY "Users can INSERT only if own uuid"
-        ON "public"."TodoPrivate" 
-        AS PERMISSIVE
-        FOR INSERT
-        TO authenticated
-        WITH CHECK (auth.uid() = user_id);
-
-ListaItem
+----------------- | ListaItem
     - apenas ver linhas em que o ListaId seja de listas q ele pode ver
     - ou admin
 
-Loja
+----------------- | Loja
     - apenas para usuarios logados
     - ou admin
 
-Orcamento
+----------------- | Orcamento
     - apenas ver linhas em que o ListaId seja de listas q ele pode ver
     - ou admin
 
-OrcamentoItem
+----------------- | OrcamentoItem
     - apenas ver linhas em que o ListaId seja de listas q ele pode ver
     - ou admin
 
-Perfil
+----------------- | Perfil
     - apenas ver suas proprios linhas
     - apenas inserir seu proprio registro
     - ou admin
 
-    - ADMIN POLICIES
+    ----------------- ADMIN POLICIES
 
         CREATE POLICY "Users can ALL QUERIES if they are admin"
             ON "public"."Perfil"
             FOR ALL 
             USING (
-                "UserUuid" IN (
+                auth.uid() IN (
                 SELECT get_AdminUsers_row_for_authenticated_user()
                 )
             );
 
-    - USERS POLICIES
+    ----------------- USERS POLICIES
+
+        -- //TODO no futuro, quem sabe tenha que alterar para ele poder fazer SELECT tbm 
+        -- em linhas de usuarios se houver alguma lista compartilhada com ele, ou de alguma lista especifica
 
         CREATE POLICY "Users can SELECT if they own row"
             ON "public"."Perfil"
@@ -148,19 +161,7 @@ Perfil
         --     TO authenticated
         --     WITH CHECK (auth.uid() = "UserUuid");
 
-admin
+----------------- | ADMIN
     - totalmente bloqueado
     - fazer edições direto no supabase
 
-    -- função para retornar a linha de AdminUsers que contenha o propio uuid
-    create or replace function get_AdminUsers_row_for_authenticated_user()
-        returns setof uuid
-        language sql
-        security definer
-        set search_path = public
-        stable
-        as $$
-            select "UserUuid"
-            from "AdminUsers"
-            where "UserUuid" = auth.uid()
-        $$;

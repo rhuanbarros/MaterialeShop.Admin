@@ -67,3 +67,6 @@
         at async onInstall (service-worker.js:22:5)
 
     -----> This is because of old files in cache in the browser. Clear cache by clicking in the clear button (just ctrl + f5 doesn't work) and after press ctrl + f5. This will solve.
+
+
+ALTER ROLE postgres NOSUPERUSER
