@@ -29,7 +29,7 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
+                <div class='d-flex flex-wrap justify-center align-start gap-1' style='width: 100% !important' WRAP>
                     @if (_UsuarioPerfilList is not null)
                     {
                         <MudSelect T="int?" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente"
@@ -66,7 +66,7 @@
                         <MudText>Cancelar</MudText>
                     </MudButton>
 
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)"
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" 
                         OnClick="OnClickSave">
                         @if (_processingNewItem)
                         {

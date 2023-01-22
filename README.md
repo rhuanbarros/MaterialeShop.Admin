@@ -16,8 +16,11 @@
 					info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
 					Authorization failed. These requirements were not met:
 					DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-	
-	- TODO tabela Perfil, mudar o tipo do Campo UUid para tipo uuid e mudar o nome para UserUuid
+	- TODO campos de data e hora - permitir inserção com texto. usar componentes de mascara.
+	- TODO - fazer login com Google
+	- [X] tabela Perfil, mudar o tipo do Campo UUid para tipo uuid e mudar o nome para UserUuid
+	- TODO na tela de lista de comprar, para um cliente, tem q aparecer apenas um botao para criar uma lista, pois se nao ele vai pode selecionar outra pessoa
+	- TODO criar link de compartilhamento da lista
 	- TODO implementar controle de exceções nos crud bases e database services
 		
 	- TODO arrumar bug de login qdo o token ja prescreveu

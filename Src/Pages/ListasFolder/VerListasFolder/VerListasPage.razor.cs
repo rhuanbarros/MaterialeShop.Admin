@@ -76,6 +76,7 @@ public partial class VerListasPage
     {
         //precisei sobrescrever o OnClickCancel pq essa classe nao tava chamando o CreateNewModel dessa classe e sim das classes base
         form?.Reset();
+        success = false;
         model = CreateNewModel();
     }
 

@@ -27,7 +27,7 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <div class='d-flex flex-wrap justify-center align-center gap-1' style='width: 100% !important' WRAP>
+                <div class='d-flex flex-wrap justify-center align-start gap-1' style='width: 100% !important' WRAP>
                     <MudTextField Label="Nome completo" @bind-Value="model.NomeCompleto" For="@(() => model.NomeCompleto)" Required="true"
                         Immediate="true" Variant="Variant.Outlined"/>
                     <MudTextField Label="Email" @bind-Value="model.Email" For="@(() => model.Email)"
@@ -47,7 +47,7 @@
                             <MudText>Cancelar</MudText>
                     </MudButton>
 
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" 
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary"  
                         OnClick="OnClickSave">
                         @if (_processingNewItem)
                         {
