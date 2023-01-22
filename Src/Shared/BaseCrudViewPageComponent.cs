@@ -48,6 +48,8 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
             await GetTable();
             success = false;
             _processingNewItem = false;
+            
+            Snackbar.Add("Registro salvo com sucesso.");
         }
     }
 
@@ -71,6 +73,8 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
             TCrudModel newItem = SetModelIdToDelete(item);
             
             await CrudService.SoftDelete<TCrudModel>(newItem);
+            
+            Snackbar.Add("Registro apagado com sucesso.");
         }
         await GetTable();
 

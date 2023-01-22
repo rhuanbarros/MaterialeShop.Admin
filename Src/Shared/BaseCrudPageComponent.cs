@@ -13,9 +13,12 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
     
     [Inject]
     protected IDialogService DialogService { get; set; }
+    
     [Inject]
-
     protected AppGlobals AppGlobals { get; set; }
+
+    [Inject]
+    protected ISnackbar Snackbar {get;set;}
 
     protected override async Task OnParametersSetAsync()
     {
@@ -77,6 +80,8 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
             await GetTable();
             success = false;
             _processingNewItem = false;
+
+            Snackbar.Add("Registro salvo com sucesso.");
         }
     }
 
@@ -85,6 +90,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         form?.Reset();
         model = CreateNewModel();
         ModoEdicao = false;
+        success = false;
     }
 
     // ---------------- DELETE
@@ -98,6 +104,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         if(result == true)
         {
             await CrudService.SoftDelete<TModel>(item);
+            Snackbar.Add("Registro apagado com sucesso.");
         }
         await GetTable();
         
