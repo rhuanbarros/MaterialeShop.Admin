@@ -161,6 +161,28 @@
     -- apenas para usuarios logados
     -- ou admin
 
+    ----------------- ADMIN POLICIES
+
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."Loja"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
+
+    ----------------- USERS POLICIES
+
+        CREATE POLICY "Users can SELECT if authenticated"
+            ON "public"."Loja"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( 
+                true
+                );
+
 ----------------- | Orcamento
     - apenas ver linhas em que o ListaId seja de listas q ele pode ver
     - ou admin
