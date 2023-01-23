@@ -28,6 +28,9 @@
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
 	- TODO configurar emails de recuperação de senha do Supabase
 	- TODO configurar backend em c# básico na nuvem
+	- TODO quando a pessoa tenta acessar um link de orçamentos ou lista que ela nao tem acesso,
+			devido ao RSL, simplesmente nao vai aparecer nada como se nem existisse.
+			Entretanto, a interface tem q verificar se a pessoa tem acesso a lista, e mostrar uma tela diferente
 
 # Custom Snippets
     

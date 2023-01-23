@@ -184,12 +184,63 @@
                 );
 
 ----------------- | Orcamento
-    - apenas ver linhas em que o ListaId seja de listas q ele pode ver
-    - ou admin
+    -- apenas ver linhas em que o ListaId seja de listas q ele pode ver
+    -- ou admin
+
+    ----------------- ADMIN POLICIES
+
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."Orcamento"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                    SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
+
+    ----------------- USERS POLICIES
+
+        CREATE POLICY "Users can SELECT if they own Lista"
+            ON "public"."Orcamento"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( "Orcamento"."ListaId" IN ( 
+                    SELECT get_Lista_Id_authenticated_user_own_Lista()
+                )
+            );
+
 
 ----------------- | OrcamentoItem
-    - apenas ver linhas em que o ListaId seja de listas q ele pode ver
-    - ou admin
+    -- apenas ver linhas em que o ListaId seja de listas q ele pode ver
+    -- ou admin
+
+        ----------------- ADMIN POLICIES
+
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."OrcamentoItem"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                    SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
+
+    ----------------- USERS POLICIES
+
+        CREATE POLICY "Users can SELECT if they own Lista"
+            ON "public"."OrcamentoItem"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( "OrcamentoItem"."ListaItemId" IN ( 
+                    (
+                        SELECT "ListaItem"."Id" FROM "ListaItem" WHERE "ListaItem"."ListaId" IN (
+                            SELECT get_Lista_Id_authenticated_user_own_Lista()
+                        )
+                    )
+                )
+            );
 
 ----------------- | Perfil
     - apenas ver suas proprios linhas
