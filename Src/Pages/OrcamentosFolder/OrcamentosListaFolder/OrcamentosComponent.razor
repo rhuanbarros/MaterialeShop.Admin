@@ -39,11 +39,15 @@
                     </MudSelect>
                 }
 
-                <MudDatePicker Label="Solicitação data" Variant="Variant.Outlined" @bind-Date="model.SolicitacaoData" Clearable />
+                <MudDatePicker Label="Solicitação data" Variant="Variant.Outlined" @bind-Date="model.SolicitacaoData" 
+                    Clearable Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy" />
                 
-                <MudTimePicker Label="Solicitação hora" Variant="Variant.Outlined" @bind-Time="model.SolicitacaoHora" Clearable />
+                <MudTimePicker Label="Solicitação hora" Variant="Variant.Outlined" @bind-Time="model.SolicitacaoHora" 
+                    Clearable Editable="true" /> 
+                     @* nao funcionou Mask="@(new DateMask("HH:mm:ss"))" TimeFormat="HH:mm:ss" *@
 
-                <MudDatePicker Label="RecebidoData" Variant="Variant.Outlined" @bind-Date="model.RecebidoData" Clearable />
+                <MudDatePicker Label="RecebidoData" Variant="Variant.Outlined" @bind-Date="model.RecebidoData" 
+                    Clearable Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy" />
 
                 <MudTextField Label="EntregaPreco" @bind-Value="model.EntregaPreco" For="@(() => model.EntregaPreco)"
                         Immediate="true" Variant="Variant.Outlined"/>

@@ -9,10 +9,10 @@
 	- [X] SoftDelete em todos os services pra nao ficar vindo registro ja apagado em outras partes
 	- [cancelado] refatorar os codigos bases das paginas para passar funções como argumentos nos métodos para evitar o overrride se for realmente necessário
 	
-	- TODO implementar o login em todo site
-		- TODO implementar policies
-		- TODO confirmar que um usuario soh consiga criar um item se o id do usuario for dele mesmo
-		- TODO verificar lentidao em função da mensagem abaixo:
+	- [X] implementar o login em todo site
+		- [X] implementar policies
+		- [X] confirmar que um usuario soh consiga criar um item se o id do usuario for dele mesmo
+		- [cancelado] verificar lentidao em função da mensagem abaixo:
 					info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
 					Authorization failed. These requirements were not met:
 					DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
@@ -33,6 +33,7 @@
 			Entretanto, a interface tem q verificar se a pessoa tem acesso a lista, e mostrar uma tela diferente
 	- TODO configurar o token recebido do Supabase, venha com uma role. Daí integrar isso no autorização, pra pessoa nao conseguir abrir a UI.
 			- tem codigo de exemplo parece: https://github.com/supabase-community/gotrue-csharp/blob/master/GotrueTests/ClientTests.cs
+	- TODO criar mascara para os componentes MudTimePicker
 
 # Custom Snippets
     
