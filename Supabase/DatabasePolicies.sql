@@ -302,7 +302,9 @@
         --     TO authenticated
         --     WITH CHECK (auth.uid() = "UserUuid");
 
+
+
 ----------------- | ADMIN
-    - totalmente bloqueado
-    - fazer edições direto no supabase
+    -- totalmente bloqueado
+    -- fazer edições direto no supabase
 

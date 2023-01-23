@@ -31,6 +31,8 @@
 	- TODO quando a pessoa tenta acessar um link de orçamentos ou lista que ela nao tem acesso,
 			devido ao RSL, simplesmente nao vai aparecer nada como se nem existisse.
 			Entretanto, a interface tem q verificar se a pessoa tem acesso a lista, e mostrar uma tela diferente
+	- TODO configurar o token recebido do Supabase, venha com uma role. Daí integrar isso no autorização, pra pessoa nao conseguir abrir a UI.
+			- tem codigo de exemplo parece: https://github.com/supabase-community/gotrue-csharp/blob/master/GotrueTests/ClientTests.cs
 
 # Custom Snippets
     
