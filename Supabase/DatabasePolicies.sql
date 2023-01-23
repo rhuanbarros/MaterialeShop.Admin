@@ -21,8 +21,23 @@
         set search_path = public
         stable
         as $$
-            select "Perfil"."Id" from "Perfil"
-                where "UserUuid" = auth.uid()
+            SELECT "Perfil"."Id" FROM "Perfil"
+                WHERE "UserUuid" = auth.uid()
+        $$;
+
+-- função para retornar Lista.Id de listas que o usuario é o proprietario
+        CREATE OR REPLACE FUNCTION get_Lista_Id_authenticated_user_own_Lista()
+        returns setof int8
+        language sql
+        security definer
+        set search_path = public
+        stable
+        as $$
+            SELECT "Lista"."Id" 
+                FROM "Lista"
+                WHERE "Lista"."PerfilId" IN ( 
+                        SELECT get_Perfil_Id_for_authenticated_user() 
+                    )
         $$;
 
 
@@ -86,12 +101,65 @@
             );
 
 ----------------- | ListaItem
-    - apenas ver linhas em que o ListaId seja de listas q ele pode ver
-    - ou admin
+    -- apenas ver linhas em que o ListaId seja de listas q ele pode ver
+    -- ou admin
+
+    ----------------- ADMIN POLICIES
+
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."ListaItem"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                    SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
+
+    ----------------- USERS POLICIES
+
+        CREATE POLICY "Users can SELECT if they own Lista"
+            ON "public"."ListaItem"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( "ListaItem"."ListaId" IN ( 
+                    SELECT get_Lista_Id_authenticated_user_own_Lista()
+                )
+            );
+
+        CREATE POLICY "Users can UPDATE if they own Lista"
+            ON "public"."ListaItem"
+            AS PERMISSIVE
+            FOR UPDATE
+            TO authenticated
+            USING ( "ListaItem"."ListaId" IN ( 
+                    SELECT get_Lista_Id_authenticated_user_own_Lista()
+                )
+            );
+
+        CREATE POLICY "Users can DELETE if they own Lista"
+            ON "public"."ListaItem"
+            AS PERMISSIVE
+            FOR DELETE
+            TO authenticated
+            USING ( "ListaItem"."ListaId" IN ( 
+                    SELECT get_Lista_Id_authenticated_user_own_Lista()
+                )
+            );
+        
+        CREATE POLICY "Users can INSERT if they own Lista"
+            ON "public"."ListaItem"
+            AS PERMISSIVE
+            FOR INSERT
+            TO authenticated
+            WITH CHECK ( "ListaItem"."ListaId" IN ( 
+                    SELECT get_Lista_Id_authenticated_user_own_Lista()
+                )
+            );
 
 ----------------- | Loja
-    - apenas para usuarios logados
-    - ou admin
+    -- apenas para usuarios logados
+    -- ou admin
 
 ----------------- | Orcamento
     - apenas ver linhas em que o ListaId seja de listas q ele pode ver
