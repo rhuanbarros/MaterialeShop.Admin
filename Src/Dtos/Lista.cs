@@ -21,6 +21,9 @@ public class Lista : BaseModelApp
     {
         Id = other.Id;
         CreatedAt = other.CreatedAt;
+        SoftDeleted = other.SoftDeleted;
+        SoftDeletedAt = other.SoftDeletedAt;
+
         PerfilId = other.PerfilId;
         Endereco = other.Endereco;
         Status = other.Status;

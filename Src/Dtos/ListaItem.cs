@@ -26,6 +26,9 @@ public class ListaItem : BaseModelApp
     {
         Id = other.Id;
         CreatedAt = other.CreatedAt;
+        SoftDeleted = other.SoftDeleted;
+        SoftDeletedAt = other.SoftDeletedAt;
+
         Descricao = other.Descricao;
         Quantidade = other.Quantidade;
         UnidadeMedida = other.UnidadeMedida;

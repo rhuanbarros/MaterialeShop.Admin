@@ -35,6 +35,9 @@ public class Loja : BaseModelApp
     {
         Id = other.Id;
         CreatedAt = other.CreatedAt;
+        SoftDeleted = other.SoftDeleted;
+        SoftDeletedAt = other.SoftDeletedAt;
+
         Nome = other.Nome;
         Cnpj = other.Cnpj;
         Email = other.Email;

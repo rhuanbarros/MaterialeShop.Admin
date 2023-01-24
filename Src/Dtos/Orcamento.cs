@@ -48,6 +48,9 @@ public class Orcamento : BaseModelApp
     {
         Id = other.Id;
         CreatedAt = other.CreatedAt;
+        SoftDeleted = other.SoftDeleted;
+        SoftDeletedAt = other.SoftDeletedAt;
+
         ListaId = other.ListaId;
         LojaId = other.LojaId;
         SolicitacaoData = other.SolicitacaoData;
