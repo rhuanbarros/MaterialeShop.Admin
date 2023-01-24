@@ -15,7 +15,14 @@ public class Carrinho : BaseModelApp
     public int? OrcamentoId { get; set; }
 
     [Column("Status")]
-    public string? Status { get; set; }
+    public string? Status { get; set; } = StatusConstCarrinho.EmCriacao;
+
+    public static class StatusConstCarrinho
+    {
+        public static string EmCriacao = "Em criação";
+        public static string Concluido = "Concluído";
+        public static string Cancelado = "Cancelado";
+    }
 
     public Carrinho(Carrinho other)
     {
