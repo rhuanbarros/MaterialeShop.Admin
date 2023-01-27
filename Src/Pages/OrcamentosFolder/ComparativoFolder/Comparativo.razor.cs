@@ -245,68 +245,53 @@ public partial class Comparativo
 
     protected virtual async Task OnClickAdicionarAoCarrinhoTodoOrcamento(OrcamentoView item)
     {
+        // TODO verificar se as variveis sao nulas antes de tentar fazer o seguinte.
+            // quem sabe usar um try e capturar, em vez de usar 3 ifs
+
+        // TODO arrumar o indicador de loading dos botoes
         _processingNewItem = true;
 
-        Carrinho carrinho;
-
-        //cria carrinho
-        // carrinho = new()
-        // {
-        //     PerfilId = _Lista?.PerfilId,
-        //     ListaId = ListaId,
-        //     OrcamentoId = item.OrcamentoId,
-        //     Status = Carrinho.StatusConstCarrinho.EmCriacao
-        // };
-
-        // // insere, ou se ja existir, atualiza CreatedAt
-        // IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.Upsert(carrinho);
-        // carrinho = carrinhos.First();
-
-
-
+        Carrinho? carrinho;
 
         //verificar se carrinho para este orcamento ja existe
-        IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(_Lista?.PerfilId, ListaId, item.OrcamentoId);
-        // IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.SelectAllByListaId(ListaId);
-        // carrinho = carrinhos.First();
+        IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(ListaId, _Lista.PerfilId, item.OrcamentoId);
+        carrinho = carrinhos?.FirstOrDefault();
 
-        // bool carrinhoNaoExiste = carrinho is null ? true : false;
-        // if(carrinhoNaoExiste)
-        // {
-        //     //criar carrinho
-        //     carrinho = new()
-        //     {
-        //         PerfilId = _Lista?.PerfilId,
-        //         ListaId = ListaId,
-        //         OrcamentoId = item.OrcamentoId,
-        //         Status = Carrinho.StatusConstCarrinho.EmCriacao
-        //     };
-        //     List<Carrinho> carrinhos1 = await CarrinhoService.Insert(carrinho);
-        //     carrinho = carrinhos1.First();
+        Console.WriteLine("carrinho");
+        Console.WriteLine(carrinho);
+
+        bool carrinhoNaoExiste = carrinho is null ? true : false;
+        if(carrinhoNaoExiste)
+        {
+            //criar carrinho
+            carrinho = new()
+            {
+                PerfilId = _Lista.PerfilId,
+                ListaId = ListaId,
+                OrcamentoId = item.OrcamentoId,
+                Status = Carrinho.StatusConstCarrinho.EmCriacao
+            };
+            List<Carrinho> carrinhos1 = await CarrinhoService.Insert(carrinho);
+            carrinho = carrinhos1.First();
             
-        //     //insere todos os itens no carrinho
+            //pega todos os itens do orcamento especifico
 
-        //     //pega todos os itens do orcamento especifico
+            //transforma List<List<OrcamentoItem>> em List<OrcamentoItem>
+            var orcamentoItemList = _OrcamentoItemListList?.SelectMany(x => x).ToList();
+            // filtra todos os itens de orçamento pelo item.OrcamentoId
+            List<OrcamentoItem>? orcamentoItemsListOrcamentoId = orcamentoItemList?.FindAll(x => x.OrcamentoId == item.OrcamentoId);
 
-        //     // TODO verificar se as variveis sao nulas antes de tentar fazer o seguinte.
-        //     // quem sabe usar um try e capturar, em vez de usar 3 ifs
+            //cria CarrinhoItem para cada item do orcamento
+            List<CarrinhoItem>? CarrinhoItemList = orcamentoItemsListOrcamentoId?.Select( x => new CarrinhoItem( carrinho.Id, x.Id, x.Quantidade, null ) ).ToList();
 
-        //     //transforma List<List<OrcamentoItem>> em List<OrcamentoItem>
-        //     var orcamentoItemList = _OrcamentoItemListList?.SelectMany(x => x).ToList();
-        //     // filtra todos os itens de orçamento pelo item.OrcamentoId
-        //     List<OrcamentoItem>? orcamentoItemsListOrcamentoId = orcamentoItemList?.FindAll(x => x.OrcamentoId == item.OrcamentoId);
+            //insere todos os itens ao mesmo tempo no banco de dados
+            await CarrinhoItemService.Upsert(CarrinhoItemList);
+        } else
+        {
+            // carrinho ja existe
 
-        //     //cria CarrinhoItem para cada item do orcamento
-        //     List<CarrinhoItem>? CarrinhoItemList = (List<CarrinhoItem>?)(orcamentoItemsListOrcamentoId?.Select( x => new CarrinhoItem( carrinho.Id, x.Id, x.Quantidade, null ) ));
-
-        //     //insere todos os itens ao mesmo tempo no banco de dados
-        //     await CarrinhoItemService.Upsert(CarrinhoItemList);
-        // } else
-        // {
-        //     // carrinho ja existe
-
-        //     // abre pagina do carrinho
-        // }
+            // abre pagina do carrinho
+        }
 
         _processingNewItem = false;
     }
