@@ -16,7 +16,7 @@
 
     @if( (_ListaItemList == null || !_ListaItemList.Any()) && 
             (_OrcamentoViewList == null || !_OrcamentoViewList.Any()) &&
-            (_OrcamentoItemList == null || !_OrcamentoItemList.Any()) )
+            (_OrcamentoItemListList == null || !_OrcamentoItemListList.Any()) )
     {
         <MudSkeleton />
     } else
@@ -189,6 +189,45 @@
                         <td Class="borda-remove"></td>
                         <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2"><b>Total com preço de entrega</b></MudText></td>
                         <td><MudText Align="Align.Right" Typo="Typo.body2"><b>@("R$"+String.Format("{0:0.00}", (item.EntregaPreco + item.PrecoTotalComEntrega)))</b></MudText></td>
+                    }
+                </tr>
+                
+                <tr>
+                    <td Class="borda-remove-todas">&ensp;</td>
+                    <td Class="borda-remove-todas">&ensp;</td>
+                    <td Class="borda-remove-todas">&ensp;</td>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <td Class="borda-remove-todas">&ensp;</td>
+                        <td Class="borda-remove-todas">&ensp;</td>
+                        <td Class="borda-remove-todas">&ensp;</td>                        
+                    }
+                </tr>
+                
+                <tr>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    <td Class="borda-remove-todas"></td>
+                    @foreach (OrcamentoView item in _OrcamentoViewList)
+                    {
+                        <td Class="borda-remove-todas"></td>
+                        <td Class="borda-remove-todas" colspan="3">
+                            <MudText Align="Align.Center">
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                    OnClick="@(async (e) => await OnClickAdicionarAoCarrinhoTodoOrcamento(item) )"
+                                    Disabled="_processingNewItem">
+                                    @if (_processingNewItem)
+                                    {
+                                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                                        <MudText Class="ms-2">Processando</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText><strong>Adicionar todos os itens ao carrinho</strong></MudText>
+                                    }
+                                </MudButton>
+                            </MudText>
+                        </td>
                     }
                 </tr>
 

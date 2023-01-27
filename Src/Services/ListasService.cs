@@ -37,7 +37,16 @@ public class ListasService
         .Get();
         return modeledResponse.Models;
     }
-    
+
+    public async Task<Lista?> SelectByListaId(int ListaId)
+    {
+        logger.LogInformation("------------------- ListasService SelectByListaId -------------------");
+        return await client
+                    .From<Lista>()
+                    .Where(x => x.Id == ListaId)
+                    .Single();
+    }
+
     public async Task<List<Lista>> Delete(Lista item)
     {
         Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client
@@ -45,7 +54,7 @@ public class ListasService
             .Delete(item);
         return modeledResponse.Models;
     }
-    
+
     public async Task<List<Lista>> Insert(Lista item)
     {
         Postgrest.Responses.ModeledResponse<Lista> modeledResponse = await client

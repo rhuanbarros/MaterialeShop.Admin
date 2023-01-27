@@ -18,6 +18,15 @@ public partial class Comparativo
 
     [Inject]
     OrcamentoItemService OrcamentoItemService { get; set; }
+    
+    [Inject]
+    ListasService ListasService { get; set; }
+
+    [Inject]
+    CarrinhoService CarrinhoService { get; set; }
+
+    [Inject]
+    CarrinhoItemService CarrinhoItemService { get; set; }
 
     public List<List<CelulaTabelaComparativa>> tabelaComparativa;
     public int? maisBarato;
@@ -29,13 +38,15 @@ public partial class Comparativo
         await GetOrcamentoView(ListaId);
         await GetOrcamentoItemList(_OrcamentoViewList);
 
-        tabelaComparativa = CriarTabelaComparativa(_ListaItemList, _OrcamentoItemList);
+        tabelaComparativa = CriarTabelaComparativa(_ListaItemList, _OrcamentoItemListList);
         // ImprimirResultado(tabelaComparativa);
 
         maisBarato = getMaisBarato(_OrcamentoViewList);
         maisQuantidadeItens = getMaisQuantidadeItens(_OrcamentoViewList);
 
         await InvokeAsync(StateHasChanged);
+        
+        await GetLista(ListaId);
     }
 
     // ---------------- SELECT TABLE ListaItem
@@ -43,7 +54,6 @@ public partial class Comparativo
     protected async Task GetListaItem(int ListaId)
     {
         _ListaItemList = (List<ListaItem>?)await ListaItensService.SelectAllByListaId(ListaId);
-        // await InvokeAsync(StateHasChanged);
     }
 
 
@@ -56,15 +66,22 @@ public partial class Comparativo
     }
 
     // ---------------- SELECT TABLE OrcamentoItem
-    protected List<List<OrcamentoItem>>? _OrcamentoItemList { get; set; } = new();
+    protected List<List<OrcamentoItem>>? _OrcamentoItemListList { get; set; } = new();
     protected async Task GetOrcamentoItemList(List<OrcamentoView>? OrcamentoViewList)
     {
-        _OrcamentoItemList = new();
+        _OrcamentoItemListList = new();
         foreach (var item in OrcamentoViewList)
         {
             List<OrcamentoItem>? aux = (List<OrcamentoItem>?)await OrcamentoItemService.SelectByOrcamentoId(item.OrcamentoId);
-            _OrcamentoItemList.Add(aux);
+            _OrcamentoItemListList.Add(aux);
         }
+    }
+
+    // ---------------- SELECT TABLE Lista
+    protected Lista? _Lista { get; set; } = new();
+    protected async Task GetLista(int ListaId)
+    {
+        _Lista = (Lista?)await ListasService.SelectByListaId(ListaId);
     }
 
     public enum TipoColuna
@@ -87,6 +104,7 @@ public partial class Comparativo
         public BaseModelApp Conteudo { get; set; }
     }
 
+    // TODO: qdo o orcamento nao tiver nenhum item, ele nao aparece no comparativo
     List<List<CelulaTabelaComparativa>> CriarTabelaComparativa(List<ListaItem> listaItemList, List<List<OrcamentoItem>> orcamentoItemListList)
     {
         //cria uma lista vazia para armazenar os resultados
@@ -221,6 +239,76 @@ public partial class Comparativo
         }
 
         return orcamentoItemListList.OrderBy(o => o.QuantidadeItens).Last().OrcamentoId;
+    }
+
+    protected bool _processingNewItem = false;
+
+    protected virtual async Task OnClickAdicionarAoCarrinhoTodoOrcamento(OrcamentoView item)
+    {
+        _processingNewItem = true;
+
+        Carrinho carrinho;
+
+        //cria carrinho
+        // carrinho = new()
+        // {
+        //     PerfilId = _Lista?.PerfilId,
+        //     ListaId = ListaId,
+        //     OrcamentoId = item.OrcamentoId,
+        //     Status = Carrinho.StatusConstCarrinho.EmCriacao
+        // };
+
+        // // insere, ou se ja existir, atualiza CreatedAt
+        // IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.Upsert(carrinho);
+        // carrinho = carrinhos.First();
+
+
+
+
+        //verificar se carrinho para este orcamento ja existe
+        IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(_Lista?.PerfilId, ListaId, item.OrcamentoId);
+        // IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.SelectAllByListaId(ListaId);
+        // carrinho = carrinhos.First();
+
+        // bool carrinhoNaoExiste = carrinho is null ? true : false;
+        // if(carrinhoNaoExiste)
+        // {
+        //     //criar carrinho
+        //     carrinho = new()
+        //     {
+        //         PerfilId = _Lista?.PerfilId,
+        //         ListaId = ListaId,
+        //         OrcamentoId = item.OrcamentoId,
+        //         Status = Carrinho.StatusConstCarrinho.EmCriacao
+        //     };
+        //     List<Carrinho> carrinhos1 = await CarrinhoService.Insert(carrinho);
+        //     carrinho = carrinhos1.First();
+            
+        //     //insere todos os itens no carrinho
+
+        //     //pega todos os itens do orcamento especifico
+
+        //     // TODO verificar se as variveis sao nulas antes de tentar fazer o seguinte.
+        //     // quem sabe usar um try e capturar, em vez de usar 3 ifs
+
+        //     //transforma List<List<OrcamentoItem>> em List<OrcamentoItem>
+        //     var orcamentoItemList = _OrcamentoItemListList?.SelectMany(x => x).ToList();
+        //     // filtra todos os itens de orçamento pelo item.OrcamentoId
+        //     List<OrcamentoItem>? orcamentoItemsListOrcamentoId = orcamentoItemList?.FindAll(x => x.OrcamentoId == item.OrcamentoId);
+
+        //     //cria CarrinhoItem para cada item do orcamento
+        //     List<CarrinhoItem>? CarrinhoItemList = (List<CarrinhoItem>?)(orcamentoItemsListOrcamentoId?.Select( x => new CarrinhoItem( carrinho.Id, x.Id, x.Quantidade, null ) ));
+
+        //     //insere todos os itens ao mesmo tempo no banco de dados
+        //     await CarrinhoItemService.Upsert(CarrinhoItemList);
+        // } else
+        // {
+        //     // carrinho ja existe
+
+        //     // abre pagina do carrinho
+        // }
+
+        _processingNewItem = false;
     }
 
 
