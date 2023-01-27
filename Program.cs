@@ -76,6 +76,7 @@ builder.Services.AddScoped<OrcamentoService>();
 builder.Services.AddScoped<OrcamentoViewService>();
 builder.Services.AddScoped<OrcamentoItemService>();
 builder.Services.AddScoped<CarrinhoService>();
+builder.Services.AddScoped<CarrinhoItemService>();
 
 
 

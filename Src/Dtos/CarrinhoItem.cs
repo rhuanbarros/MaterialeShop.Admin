@@ -17,6 +17,14 @@ public class CarrinhoItem : BaseModelApp
     [Column("Observacao")]
     public string? Observacao { get; set; }
 
+    public CarrinhoItem(int? carrinhoId, int? orcamentoItemId, int? quantidade, string? observacao)
+    {
+        CarrinhoId = carrinhoId;
+        OrcamentoItemId = orcamentoItemId;
+        Quantidade = quantidade;
+        Observacao = observacao;
+    }
+
     public CarrinhoItem(CarrinhoItem other)
     {
         Id = other.Id;
