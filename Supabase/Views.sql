@@ -40,7 +40,10 @@ SELECT
     "Perfil"."NomeCompleto", 
     "Lista"."Endereco", "Lista"."CreatedAt" as "ListaCreatedAt",
     "OrcamentoView"."LojaNome",
-    "Carrinho"."Status"
+    "Carrinho"."Status",
+    "Carrinho"."SoftDeleted",
+    "Carrinho"."SoftDeletedAt",
+    "Carrinho"."CreatedAt"
 FROM "Carrinho"
 JOIN "Perfil" ON "Carrinho"."PerfilId" = "Perfil"."Id"
 JOIN "Lista" on "Carrinho"."ListaId" = "Lista"."Id"
