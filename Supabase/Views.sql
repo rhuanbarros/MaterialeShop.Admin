@@ -30,3 +30,18 @@ AS
 SELECT "OrcamentoItem"."OrcamentoId", sum("OrcamentoItem"."Preco" * "OrcamentoItem"."Quantidade") as "PrecoTotal", count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" 
 FROM "OrcamentoItem" 
 GROUP BY "OrcamentoItem"."OrcamentoId";
+
+
+CREATE OR REPLACE VIEW "CarrinhoView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT 
+    "Perfil"."NomeCompleto", 
+    "Lista"."Endereco", "Lista"."CreatedAt" as "ListaCreatedAt",
+    "OrcamentoView"."LojaNome",
+    "Carrinho"."Status"
+FROM "Carrinho"
+JOIN "Perfil" ON "Carrinho"."PerfilId" = "Perfil"."Id"
+JOIN "Lista" on "Carrinho"."ListaId" = "Lista"."Id"
+JOIN "OrcamentoView" ON "Carrinho"."OrcamentoId" = "OrcamentoView"."OrcamentoId"

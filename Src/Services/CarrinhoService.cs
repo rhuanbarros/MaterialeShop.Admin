@@ -71,13 +71,6 @@ public class CarrinhoService
     {
         logger.LogInformation("------------------- CarrinhoService FindCarrinho -------------------");
 
-        Console.WriteLine("ListaId");
-        Console.WriteLine(ListaId);
-        Console.WriteLine("PerfilId");
-        Console.WriteLine(PerfilId);
-        Console.WriteLine("OrcamentoId");
-        Console.WriteLine(OrcamentoId);
-
         Postgrest.Responses.ModeledResponse<Carrinho> modeledResponse = await client
             .From<Carrinho>()
             // .Filter(nameof(Carrinho.PerfilId), Postgrest.Constants.Operator.Equals, PerfilId)
