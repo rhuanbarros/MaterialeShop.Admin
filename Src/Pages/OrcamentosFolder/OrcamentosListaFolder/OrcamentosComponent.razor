@@ -73,7 +73,7 @@
                 </MudButton>
 
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" 
-                    OnClick="OnClickSave">
+                    OnClick="OnClickSave" Disabled="@(form.IsValid ? false : true)">
                     @if (_processingNewItem)
                     {
                         <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
