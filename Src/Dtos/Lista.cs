@@ -8,8 +8,9 @@ namespace MaterialeShop.Admin.Src.Dtos;
 [Table("Lista")]
 public class Lista : BaseModelApp
 {
+    // TODO depois q limpar todos os registros do banco de dados, trocar esse campo para nao nulavel e tbm no banco de dados.
     [Column("PerfilId")]
-    public int? PerfilId { get; set; }
+    public int PerfilId { get; set; }
 
     [Column("Endereco")]
     public string? Endereco { get; set; }

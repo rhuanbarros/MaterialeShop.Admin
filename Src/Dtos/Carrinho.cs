@@ -6,13 +6,13 @@ namespace MaterialeShop.Admin.Src.Dtos;
 public class Carrinho : BaseModelApp
 {
     [Column("PerfilId")]
-    public int? PerfilId { get; set; }
+    public int PerfilId { get; set; }
     
     [Column("ListaId")]
-    public int? ListaId { get; set; }
+    public int ListaId { get; set; }
     
     [Column("OrcamentoId")]
-    public int? OrcamentoId { get; set; }
+    public int OrcamentoId { get; set; }
 
     [Column("Status")]
     public string? Status { get; set; } = StatusConstCarrinho.EmCriacao;
