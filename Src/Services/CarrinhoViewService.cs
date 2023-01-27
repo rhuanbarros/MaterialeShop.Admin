@@ -76,4 +76,17 @@ public class CarrinhoViewService
         return modeledResponse.Models;
     }
 
+    public async Task<IReadOnlyList<CarrinhoView>> SelectAllByStatus(string status)
+    {
+        logger.LogInformation("------------------- CarrinhoViewService SelectAllByStatus -------------------");
+
+        Postgrest.Responses.ModeledResponse<CarrinhoView> modeledResponse = await client
+            .From<CarrinhoView>()
+            // .Filter(nameof(ListasView.Status), Postgrest.Constants.Operator.Equals, status)
+            .Where(x => x.Status == status)
+            .Where(x => x.SoftDeleted == false)
+            .Get();
+        return modeledResponse.Models;
+    }
+
 }

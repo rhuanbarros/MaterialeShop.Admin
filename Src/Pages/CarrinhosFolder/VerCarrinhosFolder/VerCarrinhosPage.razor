@@ -1,0 +1,102 @@
+@attribute [Route(Rotas.carrinhos)]
+
+@inherits BaseCrudViewPageComponent<Carrinho, CarrinhoView>
+
+@using Dtos
+@using MaterialeShop.Admin.Src.Shared.Components
+
+@inject UsuarioPerfilService UsuarioPerfilService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<PageTitle>MaterialeShop - Carrinhos de compras</PageTitle>
+
+<AppBarCustom />
+
+<div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
+
+    <Breadcrumbs Items="_items"></Breadcrumbs>
+
+    <MudText Typo="Typo.h5">Carrinhos de compras</MudText>
+
+    <br>
+
+
+    @if (_tableListFiltered == null)
+    {
+        <LoadingTable />
+    }
+    else
+    {
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
+        T="CarrinhoView" OnRowClick="RowClickEvent">
+
+            <ToolBarContent>
+                <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="MudBlazor.Size.Medium" Class="mt-0" Clearable="true" Immediate="true"
+                ValueChanged="@(s=>OnValueChangedSearch(s))" Placeholder="Pesquisa" />
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.NomeCompleto)">
+                        NomeCompleto
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.Endereco)">
+                        Endereco
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.CreatedAt)">
+                        Data de criação
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.Status)">
+                        Status
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    Ações
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
+                <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
+                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
+                <MudTd DataLabel="Status">@context?.Status</MudTd>
+                <MudTd DataLabel="Ação">
+                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens"
+                    Title="Adicionar itens" Size="MudBlazor.Size.Small"
+                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
+                    <MudIconButton Icon="@Icons.Filled.Store" aria-label="Selecionar lojas" Title="Selecionar lojas"
+                    Size="MudBlazor.Size.Small"
+                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Selecionar_loja(context.ListaId)))' />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="Editar" Title="Editar"
+                    Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickEdit(context) )" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="Apagar" Title="Apagar"
+                    Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickDelete(context) )" />
+                </MudTd>
+            </RowTemplate>
+
+            <NoRecordsContent>
+                <br>
+                <h4 style="text-align: center !important;">Você não tem nenhum item nesta página.</h4>
+                <br>
+            </NoRecordsContent>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+    }
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
