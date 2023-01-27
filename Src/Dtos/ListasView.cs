@@ -23,7 +23,7 @@ public class ListasView : BaseModelApp
     [Column("Status")]
     public string? Status { get; set; }
 
-    public static class StatusConst
+    public static class StatusConstLista
     {
         public static string EmCriacao = "Em criação";
         public static string AguardandoOrcamentos = "Aguardando orçamentos";

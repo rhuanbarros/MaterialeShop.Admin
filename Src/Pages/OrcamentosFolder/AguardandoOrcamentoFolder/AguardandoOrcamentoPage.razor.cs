@@ -14,7 +14,7 @@ public partial class AguardandoOrcamentoPage
     // ---------------- SELECT TABLE
     protected override async Task GetTable()
     {
-        _tableList = await ListasViewService.SelectAllByStatus(ListasView.StatusConst.AguardandoOrcamentos);
+        _tableList = await ListasViewService.SelectAllByStatus(ListasView.StatusConstLista.AguardandoOrcamentos);
         _tableListFiltered = _tableList;
         await InvokeAsync(StateHasChanged);
     }
