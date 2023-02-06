@@ -4,9 +4,9 @@ using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace MaterialeShop.Admin.Src.Pages.CarrinhosFolder.VerCarrinhosFolder;
+namespace MaterialeShop.Admin.Src.Pages.CarrinhosFolder.VerTodosCarrinhosFolder;
 
-public partial class VerCarrinhosPage
+public partial class VerTodosCarrinhosPage
 {
     [Inject] 
     protected CarrinhoViewService CarrinhoViewService {get; set;}

@@ -68,16 +68,13 @@
                 <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Filled.AddCircleOutline" aria-label="Adicionar itens"
-                    Title="Adicionar itens" Size="MudBlazor.Size.Small"
+                    <MudIconButton Icon="@Icons.Material.Filled.ShoppingCartCheckout" aria-label="Ver carrinhos de compras desta lista"
+                    Title="Ver carrinhos de compras desta lista" Size="MudBlazor.Size.Small"
                     OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
-                    <MudIconButton Icon="@Icons.Filled.Store" aria-label="Selecionar lojas" Title="Selecionar lojas"
-                    Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Selecionar_loja(context.ListaId)))' />
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="Editar" Title="Editar"
-                    Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickEdit(context) )" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="Apagar" Title="Apagar"
-                    Size="MudBlazor.Size.Small" OnClick="@(async (e) => await OnClickDelete(context) )" />
+                    
+                    <MudIconButton Icon="@Icons.Material.Filled.TableChart"
+                        Title="Ver comparativo de orçamentos" Size="MudBlazor.Size.Small"
+                        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(context.ListaId)))' />
                 </MudTd>
             </RowTemplate>
 
