@@ -23,13 +23,12 @@ public class CarrinhoItemViewService
         this.client = databaseProvider.client;
     }
 
-    public async Task<IReadOnlyList<CarrinhoView>> SelectAll()
+    public async Task<IReadOnlyList<CarrinhoItemView>> SelectAll()
     {
         logger.LogInformation("------------------- CarrinhoItemViewService SelectAll -------------------");
 
-        Postgrest.Responses.ModeledResponse<CarrinhoView> modeledResponse = await client
-            .From<CarrinhoView>()
-            .Where(x => x.SoftDeleted == false)
+        Postgrest.Responses.ModeledResponse<CarrinhoItemView> modeledResponse = await client
+            .From<CarrinhoItemView>()
             .Get();
         return modeledResponse.Models;
     }

@@ -51,7 +51,7 @@ public partial class VerTodosCarrinhosPage
     // ---------------- CLICK NA LINHA DA TABELA
     private void RowClickEvent(TableRowClickEventArgs<CarrinhoView> e)
     {
-        // NavigationManager.NavigateTo(Rotas.Lista(e.Item.ListaId));
+        NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(e.Item.ListaId));
     }
 
 }

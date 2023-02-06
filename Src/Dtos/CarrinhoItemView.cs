@@ -4,7 +4,7 @@ using Postgrest.Models;
 namespace MaterialeShop.Admin.Src.Dtos;
 
 [Table("CarrinhoItemView")]
-public class CarrinhoItemView : BaseModel
+public class CarrinhoItemView : BaseModelApp
 {
     [Column("Descricao")]
     public string? Descricao { get; set; }

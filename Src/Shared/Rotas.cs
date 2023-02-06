@@ -34,5 +34,10 @@ public static class Rotas
     {
         return $"/comparativo/{ListaId}";
     }
+    
+    public static string CarrinhosItensLista(int ListaId)
+    {
+        return $"/{carrinhos}/{ListaId}";
+    }
 
 }

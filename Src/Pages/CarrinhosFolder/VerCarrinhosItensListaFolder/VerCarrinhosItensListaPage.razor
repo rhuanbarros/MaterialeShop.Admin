@@ -1,7 +1,94 @@
 @page "/carrinhos/{ListaId:int}"
 
-@inherits BasePageComponent
+@inherits BaseCrudViewPageComponent<CarrinhoItem, CarrinhoItemView>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
 
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<PageTitle>MaterialeShop - Carrinhos de compras</PageTitle>
+
+<AppBarCustom />
+
+<div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
+
+    <br>
+
+
+    @if (_tableListFiltered == null)
+    {
+        <LoadingTable />
+    }
+    else
+    {
+        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
+            T="CarrinhoItemView" OnRowClick="RowClickEvent" >
+
+            <ToolBarContent>
+                <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="MudBlazor.Size.Medium" Class="mt-0" Clearable="true" Immediate="true"
+                ValueChanged="@(s=>OnValueChangedSearch(s))" Placeholder="Pesquisa" />
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.Descricao)">
+                        Descricao
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.UnidadeMedida)">
+                        UnidadeMedida
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.Preco)">
+                        Preco
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.Quantidade)">
+                        Quantidade
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.CarrinhoItem_Observacao)">
+                        CarrinhoItem_Observacao
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    Ações
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Descricao">@context?.Descricao</MudTd>
+                <MudTd DataLabel="UnidadeMedida">@context?.UnidadeMedida</MudTd>
+                <MudTd DataLabel="Preco">@context?.Preco</MudTd>
+                <MudTd DataLabel="Quantidade">@context?.Quantidade</MudTd>
+                <MudTd DataLabel="CarrinhoItem_Observacao">@context?.CarrinhoItem_Observacao</MudTd>
+                <MudTd DataLabel="Ação">
+                    
+                </MudTd>
+            </RowTemplate>
+
+            <NoRecordsContent>
+                <br>
+                <h4 style="text-align: center !important;">Você não tem nenhum item nesta página.</h4>
+                <br>
+            </NoRecordsContent>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+    }
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
