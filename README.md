@@ -36,7 +36,9 @@
 		- TODO fazer bottomNavBar
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
 
-## FUNCIONALIDADE	
+## FUNCIONALIDADE
+	- TODO verificar se ta aplicando desconto nos produtos. 
+		- quem sabe esperar pra ver como isso aparece nos orçamentos.
 	- TODO criar link de compartilhamento da lista
 		- TODO quando a pessoa tenta acessar um link de orçamentos ou lista que ela nao tem acesso,
 				devido ao RSL, simplesmente nao vai aparecer nada como se nem existisse.
