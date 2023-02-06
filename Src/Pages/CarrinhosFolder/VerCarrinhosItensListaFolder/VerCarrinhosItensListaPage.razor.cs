@@ -14,29 +14,25 @@ public partial class VerCarrinhosItensListaPage
     [Inject] 
     protected CarrinhoItemViewService CarrinhoItemViewService {get; set;}
 
-    // ---------------- SELECT TABLE
-    protected override async Task GetTable()
+    [Inject] 
+    protected ListasViewService ListasViewService {get; set;}
+
+    protected override async Task OnParametersSetAsync()
     {
-        _tableList = await CarrinhoItemViewService.SelectAll();
-        _tableListFiltered = _tableList;
+        await GetTable();
+        await GetListaView();
         await InvokeAsync(StateHasChanged);
     }
-    
 
-    // ---------------- SEARCH
-    private void OnValueChangedSearch(string text)
+     // ---------------- GET ListaView
+    private ListasView _ListaView {get; set;}
+    private string NomeCliente = "Carregando";
+    private string Endereco = "Carregando";
+    protected async Task GetListaView()
     {
-        Func<CarrinhoItemView, bool> predicate = row =>
-        {
-            if (
-                !string.IsNullOrEmpty(row.Descricao) && row.Descricao.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.UnidadeMedida) && row.UnidadeMedida.ToLower().Contains(text.ToLower())
-            )
-                return true;
-            else
-                return false;
-        };
-        _tableListFiltered = _tableList?.Where(predicate).ToList();
+        _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
+        NomeCliente = _ListaView?.NomeCompleto;
+        Endereco = _ListaView?.Endereco;
     }
 
     // ---------------- CLICK NA LINHA DA TABELA
@@ -44,6 +40,12 @@ public partial class VerCarrinhosItensListaPage
     {
         // NavigationManager.NavigateTo(Rotas.Orcamentos_lista(e.Item.ListaId));
     }
-    
+
+    // ---------------- SELECT TABLE
+    protected override async Task GetTable()
+    {
+        _tableList = await CarrinhoItemViewService.SelectAll();
+        
+    }   
     
 }

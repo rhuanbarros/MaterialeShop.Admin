@@ -38,7 +38,7 @@ public class ListasViewService
         return modeledResponse.Models;
     }
     
-    public async Task<ListasView> SelectAllByListaId(int id)
+    public async Task<ListasView?> SelectAllByListaId(int id)
     {
         logger.LogInformation("------------------- ListasViewService SelectAllByListaId -------------------");
         return await client

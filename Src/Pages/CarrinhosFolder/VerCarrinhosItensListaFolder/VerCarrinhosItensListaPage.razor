@@ -14,75 +14,99 @@
 
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
+    <MudText Typo="Typo.h5">Carrinhos de compras</MudText>
+
+    <br>
+
+    <div class='d-flex flex-wrap justify-start align-center gap-4' style='width: 100% !important' WRAP>
+        @if(_ListaView is null)
+        {
+            <MudSkeleton></MudSkeleton>
+        } else
+        {
+            <MudCard Elevation=3>
+                <MudCardContent>
+                    <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+                        <MudIcon Icon="@Icons.Material.Filled.List" /><h3> Lista de compras </h3>
+                    </div>
+                    <p>Endereço: @Endereco</p>
+                    <p>Data de criação da lista de compras: @_ListaView?.CreatedAt</p>
+                </MudCardContent>
+            </MudCard>
+        }
+        <MudCard Elevation=3>
+            <MudCardContent>
+                <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+                    <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Economia </h3>
+                </div>
+                @* //TODO quem sabe colocar um gráfico de deshboard aqui *@
+                <p>X% de economia em relação ao orçamento mais caro recebido. Total de R$.</p>
+                <p>X% de economia em relação a média dos orçamentos recebidos. Total de R$.</p>                
+            </MudCardContent>
+        </MudCard>
+    </div>
+
     <br>
 
 
-    @if (_tableListFiltered == null)
+    @if (_tableList == null)
     {
         <LoadingTable />
     }
     else
     {
-        <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-            T="CarrinhoItemView" OnRowClick="RowClickEvent" >
+        <MudCard>
+            <MudCardHeader Class="pb-0">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Nome da loja</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Title="Limpar carrinho desta loja" />
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent Class="pt-0">
+                
+                <MudList>
+                    @foreach (var item in _tableList)
+                    {
+                        <MudListItem>
+                            <div class='d-flex flex-row justify-space-between align-center gap-4' style='width: 100% !important' LINHA>
+                                @item.Descricao
+                                <div class='d-flex flex-wrap justify-center align-center gap-4' WRAP>
+                                    
+                                    <MudText Typo="Typo.body2" Align="Align.Left">@( "R$" + String.Format("{0:0.00}", item?.Quantidade * item?.Preco) )</MudText>
 
-            <ToolBarContent>
-                <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
-                IconSize="MudBlazor.Size.Medium" Class="mt-0" Clearable="true" Immediate="true"
-                ValueChanged="@(s=>OnValueChangedSearch(s))" Placeholder="Pesquisa" />
-            </ToolBarContent>
-
-            <HeaderContent>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.Descricao)">
-                        Descricao
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.UnidadeMedida)">
-                        UnidadeMedida
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.Preco)">
-                        Preco
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.Quantidade)">
-                        Quantidade
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoItemView, object>(x=>x.CarrinhoItem_Observacao)">
-                        CarrinhoItem_Observacao
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    Ações
-                </MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Descricao">@context?.Descricao</MudTd>
-                <MudTd DataLabel="UnidadeMedida">@context?.UnidadeMedida</MudTd>
-                <MudTd DataLabel="Preco">@context?.Preco</MudTd>
-                <MudTd DataLabel="Quantidade">@context?.Quantidade</MudTd>
-                <MudTd DataLabel="CarrinhoItem_Observacao">@context?.CarrinhoItem_Observacao</MudTd>
-                <MudTd DataLabel="Ação">
+                                    <MudNumericField Value="@item.Quantidade" Variant="Variant.Outlined" Min="0" Margin="Margin.None" IconSize="Size.Large" Immediate FullWidth="false" Class="mt-0" />
+                                    
+                                </div>
+                            </div>
+                        </MudListItem>
+                        <MudDivider/>                        
+                    }
                     
-                </MudTd>
-            </RowTemplate>
+                    
+                </MudList>
 
-            <NoRecordsContent>
-                <br>
-                <h4 style="text-align: center !important;">Você não tem nenhum item nesta página.</h4>
-                <br>
-            </NoRecordsContent>
+            </MudCardContent>
 
-            <PagerContent>
-                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
-            </PagerContent>
-        </MudTable>
+            <MudCardActions>
+                
+                <div class='d-flex flex-row justify-start align-start gap-4 px-6 py-4 mx-12 mb-4 border-solid border' style='width: 100% !important; border-color: #ccc' LINHA>
+
+                    <div class='d-flex flex-column justify-start align-start gap-4' style='width: 100% !important' COLUNA>
+                        <MudText Align="Align.Start" Typo="Typo.body2">Prazo de entrega: XX</MudText>
+                        <MudText Align="Align.Start" Typo="Typo.body2">Taxa de entrega: R$ XX</MudText>
+                    </div>
+                    <div class='d-flex flex-column justify-start align-start gap-4' style='width: 100% !important' COLUNA>
+                        <MudText Align="Align.Start" Typo="Typo.body2"><b>Preço total: R$ XX</b></MudText>
+                        <div class='d-flex flex-column justify-start align-start gap-1' style='width: 100% !important' COLUNA>
+                            <MudText Align="Align.Start" Typo="Typo.body1"><b>Preço total à vista *: R$ XX</b></MudText>
+                            <MudText Align="Align.Start" Typo="Typo.subtitle2">* Economia de R$ XX no dinheiro ou Pix.</MudText>
+                        </div>
+                    </div>
+                </div>                
+            </MudCardActions>
+        </MudCard>
     }
 
     <br>
@@ -92,3 +116,11 @@
     <br>
 
 </div>
+
+<style>
+    input {
+        padding: 10px !important;
+        border: 10px !important;
+        width: 50px !important;
+    }
+</style>

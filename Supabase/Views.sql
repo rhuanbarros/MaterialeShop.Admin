@@ -37,8 +37,11 @@ CREATE OR REPLACE VIEW "CarrinhoView"
 WITH (security_invoker=on)
 AS
 SELECT 
+    "Perfil"."Id" AS "PerfilId", 
     "Perfil"."NomeCompleto", 
-    "Lista"."Endereco", "Lista"."CreatedAt" as "ListaCreatedAt",
+    "Lista"."Id" AS "ListaId", 
+    "Lista"."Endereco", 
+    "Lista"."CreatedAt" as "ListaCreatedAt",
     "OrcamentoView"."LojaNome",
     "Carrinho"."Status",
     "Carrinho"."SoftDeleted",
