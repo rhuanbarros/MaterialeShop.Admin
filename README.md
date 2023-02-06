@@ -16,35 +16,41 @@
 					info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
 					Authorization failed. These requirements were not met:
 					DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-		- TODO - fazer login com Google
-			- TODO configurar emails de recuperação de senha do Supabase	
-			- [X] arrumar bug de login qdo o token ja prescreveu
-			- TODO configurar o token recebido do Supabase, venha com uma role. Daí integrar isso no autorização, pra pessoa nao conseguir abrir a UI.
-					- tem codigo de exemplo parece: https://github.com/supabase-community/gotrue-csharp/blob/master/GotrueTests/ClientTests.cs
+	- TODO configurar emails de recuperação de senha do Supabase	
+	- TODO - fazer login com Google
+		- [X] arrumar bug de login qdo o token ja prescreveu
+	- TODO configurar o token recebido do Supabase, venha com uma role. Daí integrar isso no autorização, pra pessoa nao conseguir abrir a UI.
+			- tem codigo de exemplo parece: https://github.com/supabase-community/gotrue-csharp/blob/master/GotrueTests/ClientTests.cs
 	
 ## INTERFACE
 	- [X] campos de data e hora - permitir inserção com texto. usar componentes de mascara.
 	- [X] tabela Perfil, mudar o tipo do Campo UUid para tipo uuid e mudar o nome para UserUuid
-	- TODO na tela de lista de comprar, para um cliente, tem q aparecer apenas um botao para criar uma lista, pois se nao df==fica o campo select com o nome dele apenas.
+	- TODO tela de carrinho de compras
+	- TODO tela de pedidos
+	- TODO tela de configurações
+	- TODO criar mascara para os componentes MudTimePicker
+
+	- TODO na tela de lista de comprar, para um cliente, tem q aparecer apenas um botao para criar uma lista, pois se nao fica o campo select com o nome dele apenas.
+	
 	- TODO fazer a aplicação do cliente
 		- TODO fazer bottomNavBar
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
+
 ## FUNCIONALIDADE	
 	- TODO criar link de compartilhamento da lista
 		- TODO quando a pessoa tenta acessar um link de orçamentos ou lista que ela nao tem acesso,
 				devido ao RSL, simplesmente nao vai aparecer nada como se nem existisse.
 				Entretanto, a interface tem q verificar se a pessoa tem acesso a lista, e mostrar uma tela diferente
-	- TODO tela de carrinho de compras
-	- TODO tela de pedidos
-	- TODO tela de configurações
-
 	- TODO implementar controle de exceções nos crud bases e database services
 		
-	- TODO criar mascara para os componentes MudTimePicker
 ## BACKEND
 	- TODO configurar backend em c# básico na nuvem
 	- TODO implementar analitycs
 	- TODO implementar interface pra eu saber o q os clientes fizeram no app
+
+## NEGÓCIO
+	- TODO Implementar dashboard com dados básicos do livro sobre a jornada do cliente e uso do app
+	- 
 
 # Custom Snippets
     

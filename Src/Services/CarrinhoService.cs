@@ -73,12 +73,6 @@ public class CarrinhoService
 
         Postgrest.Responses.ModeledResponse<Carrinho> modeledResponse = await client
             .From<Carrinho>()
-            // .Filter(nameof(Carrinho.PerfilId), Postgrest.Constants.Operator.Equals, PerfilId)
-            // .Filter(nameof(Carrinho.OrcamentoId), Postgrest.Constants.Operator.Equals, OrcamentoId)
-            // .Filter(nameof(Carrinho.ListaId), Postgrest.Constants.Operator.Equals, ListaId)
-            // .Filter(x => x.PerfilId == PerfilId)
-            // .Filter(x => x.OrcamentoId == OrcamentoId)
-            // .Filter(x => x.ListaId == ListaId)
             .Where(x => x.PerfilId == PerfilId)
             .Where(x => x.OrcamentoId == OrcamentoId)
             .Where(x => x.ListaId == ListaId)
