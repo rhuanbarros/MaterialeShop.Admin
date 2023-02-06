@@ -1,0 +1,16 @@
+using MaterialeShop.Admin.Src.Dtos;
+using MaterialeShop.Admin.Src.Services;
+using MaterialeShop.Admin.Src.Shared;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+
+namespace MaterialeShop.Admin.Src.Pages.CarrinhosFolder.VerCarrinhosItensListaFolder;
+
+public partial class VerCarrinhosItensListaPage
+{
+    [Parameter]
+    public int ListaId { get; set; }
+    
+    
+    
+}

@@ -48,3 +48,23 @@ FROM "Carrinho"
 JOIN "Perfil" ON "Carrinho"."PerfilId" = "Perfil"."Id"
 JOIN "Lista" on "Carrinho"."ListaId" = "Lista"."Id"
 JOIN "OrcamentoView" ON "Carrinho"."OrcamentoId" = "OrcamentoView"."OrcamentoId"
+
+
+
+
+CREATE OR REPLACE VIEW "CarrinhoItemView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT
+    "OrcamentoItem"."Descricao",
+    "OrcamentoItem"."UnidadeMedida",
+    "OrcamentoItem"."Observacao" AS "OrcamentoItem_Observacao",
+    "OrcamentoItem"."Preco",
+    "OrcamentoItem"."Desconto",
+    "CarrinhoItem"."Quantidade",
+    "CarrinhoItem"."Observacao" AS "CarrinhoItem_Observacao"
+FROM "CarrinhoItem"
+JOIN "OrcamentoItem" ON "CarrinhoItem"."OrcamentoItemId" = "OrcamentoItem"."Id"
+WHERE "CarrinhoItem"."SoftDeleted" = false
+ORDER BY "CarrinhoItem"."CreatedAt" ASC;
