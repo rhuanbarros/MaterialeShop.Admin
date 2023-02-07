@@ -5,6 +5,7 @@ namespace MaterialeShop.Admin.Src.Dtos;
 [Table("CarrinhoItem")]
 public class CarrinhoItem : BaseModelApp
 {
+    // TODO acho q eu preciso mudar esses campos para serem nao nulaveis, mas tem q ver isso se noa vai quebrar o codigo.
     [Column("CarrinhoId")]
     public int? CarrinhoId { get; set; }
     
@@ -12,7 +13,7 @@ public class CarrinhoItem : BaseModelApp
     public int? OrcamentoItemId { get; set; }
 
     [Column("Quantidade")]
-    public int? Quantidade { get; set; }
+    public int Quantidade { get; set; }
 
     [Column("Observacao")]
     public string? Observacao { get; set; }
@@ -21,7 +22,7 @@ public class CarrinhoItem : BaseModelApp
     {
         CarrinhoId = carrinhoId;
         OrcamentoItemId = orcamentoItemId;
-        Quantidade = quantidade;
+        Quantidade = quantidade != null ? (int) quantidade : 0;
         Observacao = observacao;
     }
 

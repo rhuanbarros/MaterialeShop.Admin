@@ -78,4 +78,14 @@ public class CarrinhoItemService
         return modeledResponse.Models;
     }
 
+    public async Task<List<CarrinhoItem>> SetQuantidade(int newValue, CarrinhoItemView item)
+    {
+        Postgrest.Responses.ModeledResponse<CarrinhoItem> modeledResponse = await client
+            .From<CarrinhoItem>()
+            .Set( x => x.Quantidade, newValue)
+            .Where( x => x.Id == item.CarrinhoItemId)
+            .Update();
+        return modeledResponse.Models;
+    }
+
 }

@@ -89,7 +89,8 @@
                                     
                                     <MudText Typo="Typo.body2" Align="Align.Left">@( "R$" + String.Format("{0:0.00}", item?.Quantidade * item?.Preco) )</MudText>
 
-                                    <MudNumericField Value="@item.Quantidade" Variant="Variant.Outlined" Min="0" Margin="Margin.None" IconSize="Size.Large" Immediate FullWidth="false" Class="mt-0" />
+                                    <MudNumericField Value="@item.Quantidade" Variant="Variant.Outlined" Min="0" Margin="Margin.None" 
+                                        IconSize="Size.Large" Immediate FullWidth="false" Class="mt-0" ValueChanged="@( async (e) => ValueChangedHandler(e, item))" T="int" />
                                     
                                 </div>
                             </div>

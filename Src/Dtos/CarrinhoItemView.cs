@@ -5,7 +5,10 @@ namespace MaterialeShop.Admin.Src.Dtos;
 
 [Table("CarrinhoItemView")]
 public class CarrinhoItemView : BaseModelApp
-{
+{    
+    [Column("OrcamentoItemId")]
+    public int OrcamentoItemId { get; set; }
+
     [Column("Descricao")]
     public string? Descricao { get; set; }
 
@@ -20,9 +23,12 @@ public class CarrinhoItemView : BaseModelApp
 
     [Column("Desconto")]
     public string? Desconto { get; set; }
+    
+    [Column("CarrinhoItemId")]
+    public int CarrinhoItemId { get; set; }
 
     [Column("Quantidade")]
-    public int? Quantidade { get; set; }
+    public int Quantidade { get; set; }
 
     [Column("CarrinhoItem_Observacao")]
     public string? CarrinhoItem_Observacao { get; set; }

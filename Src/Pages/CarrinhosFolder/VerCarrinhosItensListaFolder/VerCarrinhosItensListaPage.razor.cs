@@ -13,6 +13,9 @@ public partial class VerCarrinhosItensListaPage
     
     [Inject] 
     protected CarrinhoItemViewService CarrinhoItemViewService {get; set;}
+    
+    [Inject] 
+    protected CarrinhoItemService CarrinhoItemService {get; set;}
 
     [Inject] 
     protected ListasViewService ListasViewService {get; set;}
@@ -35,17 +38,19 @@ public partial class VerCarrinhosItensListaPage
         Endereco = _ListaView?.Endereco;
     }
 
-    // ---------------- CLICK NA LINHA DA TABELA
-    private void RowClickEvent(TableRowClickEventArgs<CarrinhoItemView> e)
-    {
-        // NavigationManager.NavigateTo(Rotas.Orcamentos_lista(e.Item.ListaId));
-    }
-
     // ---------------- SELECT TABLE
     protected override async Task GetTable()
     {
         _tableList = await CarrinhoItemViewService.SelectAll();
         
+    }
+
+    private async void ValueChangedHandler(int newValue, CarrinhoItemView item)
+    {
+        await CarrinhoItemService.SetQuantidade(newValue, item);
+        
+        await GetTable();
+        await InvokeAsync(StateHasChanged);
     }   
     
 }

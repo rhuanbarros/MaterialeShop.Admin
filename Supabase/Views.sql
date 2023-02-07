@@ -60,11 +60,13 @@ CREATE OR REPLACE VIEW "CarrinhoItemView"
 WITH (security_invoker=on)
 AS
 SELECT
+    "OrcamentoItem"."Id" AS "OrcamentoItemId",
     "OrcamentoItem"."Descricao",
     "OrcamentoItem"."UnidadeMedida",
     "OrcamentoItem"."Observacao" AS "OrcamentoItem_Observacao",
     "OrcamentoItem"."Preco",
     "OrcamentoItem"."Desconto",
+    "CarrinhoItem"."Id" AS "CarrinhoItemId",
     "CarrinhoItem"."Quantidade",
     "CarrinhoItem"."Observacao" AS "CarrinhoItem_Observacao"
 FROM "CarrinhoItem"
