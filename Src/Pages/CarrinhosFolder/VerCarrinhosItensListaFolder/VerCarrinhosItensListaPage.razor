@@ -25,23 +25,36 @@
         } else
         {
             <MudCard Elevation=3>
+                <MudCardHeader Class="pb-0">
+                    <CardHeaderContent>
+                        <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+                            <MudIcon Icon="@Icons.Material.Filled.List" /><h3> Lista de compras </h3>
+                        </div>
+                    </CardHeaderContent>
+                </MudCardHeader>
                 <MudCardContent>
-                    <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
-                        <MudIcon Icon="@Icons.Material.Filled.List" /><h3> Lista de compras </h3>
-                    </div>
                     <p>Endereço: @Endereco</p>
                     <p>Data de criação da lista de compras: @_ListaView?.CreatedAt</p>
                 </MudCardContent>
             </MudCard>
         }
         <MudCard Elevation=3>
+            <MudCardHeader Class="pb-0">
+                <CardHeaderContent>
+                    <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Economia </h3>
+                    </div>
+                </CardHeaderContent>
+            </MudCardHeader>
             <MudCardContent>
-                <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
-                    <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Economia </h3>
-                </div>
-                @* //TODO quem sabe colocar um gráfico de deshboard aqui *@
-                <p>X% de economia em relação ao orçamento mais caro recebido. Total de R$.</p>
-                <p>X% de economia em relação a média dos orçamentos recebidos. Total de R$.</p>                
+                <MudText Text Typo="Typo.h6" Align="Align.Center">R$115,00</MudText>
+                <MudText Typo="Typo.body2" Align="Align.Center">
+                    X%
+                    <MudTooltip Text="Em relação ao orçamento mais caro recebido ou em relação à média.">
+                        <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
+                    </MudTooltip>
+                </MudText>
+                
             </MudCardContent>
         </MudCard>
     </div>
