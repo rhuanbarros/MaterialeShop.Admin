@@ -35,6 +35,14 @@ public class CrudService
 			.Get();
         return modeledResponse.Models;
     }
+    
+    public async Task<IReadOnlyList<TModel>> SelectAllFromNotSoftDeleted<TModel>() where TModel : BaseModelApp, new()
+    {
+        Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client
+            .From<TModel>()
+			.Get();
+        return modeledResponse.Models;
+    }
 
     public async Task<List<TModel>> Delete<TModel>(TModel item) where TModel : BaseModelApp, new()
     {

@@ -1,6 +1,6 @@
 @attribute [Route(Rotas.carrinhos)]
 
-@inherits BaseCrudViewPageComponent<Carrinho, CarrinhoView>
+@inherits BaseCrudPageComponent<CarrinhoGroupByListaView>
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
@@ -29,7 +29,7 @@
     else
     {
         <MudTable Items="@_tableListFiltered" @ref="table" Elevation="1" Bordered="false" Striped="true" Hover="true"
-        T="CarrinhoView" OnRowClick="RowClickEvent">
+        T="CarrinhoGroupByListaView" OnRowClick="RowClickEvent">
 
             <ToolBarContent>
                 <MudTextField T="string" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -39,23 +39,43 @@
 
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.NomeCompleto)">
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.NomeCompleto)">
                         NomeCompleto
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.Endereco)">
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.Endereco)">
                         Endereco
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.CreatedAt)">
-                        Data de criação
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.Lojas)">
+                        Lojas
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoView, object>(x=>x.Status)">
-                        Status
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.PrecoTotal)">
+                        PrecoTotal
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.QuantidadeItens)">
+                        QuantidadeItens
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.EntregaPrecoMinimo)">
+                        EntregaPrecoMinimo
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.EntregaPrazoMinimo)">
+                        EntregaPrazoMinimo
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.CreatedAt)">
+                        Data de criação da lista
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
@@ -65,8 +85,16 @@
             <RowTemplate>
                 <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
-                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
-                <MudTd DataLabel="Status">@context?.Status</MudTd>
+                <MudTd DataLabel="Lojas">@context?.Lojas</MudTd>
+                <MudTd DataLabel="PrecoTotal">
+                    @( "R$" + String.Format("{0:0.00}", @context?.PrecoTotal ) )
+                </MudTd>
+                <MudTd DataLabel="QuantidadeItens">@context?.QuantidadeItens</MudTd>
+                <MudTd DataLabel="EntregaPrecoMinimo">
+                    @( "R$" + String.Format("{0:0.00}", @context?.EntregaPrecoMinimo ) )
+                </MudTd>
+                <MudTd DataLabel="EntregaPrazoMinimo">@context?.EntregaPrazoMinimo</MudTd>
+                <MudTd DataLabel="Data de criação da lista">@context?.CreatedAt</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCartCheckout" aria-label="Ver carrinhos de compras desta lista"
                     Title="Ver carrinhos de compras desta lista" Size="MudBlazor.Size.Small"

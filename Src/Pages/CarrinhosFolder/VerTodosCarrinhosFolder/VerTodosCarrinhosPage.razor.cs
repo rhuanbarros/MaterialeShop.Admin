@@ -25,21 +25,20 @@ public partial class VerTodosCarrinhosPage
     // ---------------- SELECT TABLE
     protected override async Task GetTable()
     {
-        _tableList = await CarrinhoViewService.SelectAllByStatus(Carrinho.StatusConstCarrinho.EmCriacao);
+        _tableList = await CrudService.SelectAllFromNotSoftDeleted<CarrinhoGroupByListaView>();
         _tableListFiltered = _tableList;
         await InvokeAsync(StateHasChanged);
     }
-    
 
     // ---------------- SEARCH
     private void OnValueChangedSearch(string text)
     {
-        Func<CarrinhoView, bool> predicate = row =>
+        Func<CarrinhoGroupByListaView, bool> predicate = row =>
         {
             if (
                 !string.IsNullOrEmpty(row.NomeCompleto) && row.NomeCompleto.ToLower().Contains(text.ToLower())
                 || !string.IsNullOrEmpty(row.Endereco) && row.Endereco.ToLower().Contains(text.ToLower())
-                || !string.IsNullOrEmpty(row.Status.ToString()) && row.Status.ToString().ToLower().Contains(text.ToLower())
+                || !string.IsNullOrEmpty(row.Lojas.ToString()) && row.Lojas.ToString().ToLower().Contains(text.ToLower())
             )
                 return true;
             else
@@ -49,7 +48,7 @@ public partial class VerTodosCarrinhosPage
     }
 
     // ---------------- CLICK NA LINHA DA TABELA
-    private void RowClickEvent(TableRowClickEventArgs<CarrinhoView> e)
+    private void RowClickEvent(TableRowClickEventArgs<CarrinhoGroupByListaView> e)
     {
         NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(e.Item.ListaId));
     }

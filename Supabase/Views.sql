@@ -94,3 +94,22 @@ WHERE "CarrinhoItem"."SoftDeleted" = false
 ORDER BY "CarrinhoItem"."CreatedAt" ASC;
 
 
+CREATE OR REPLACE VIEW "CarrinhoGroupByListaView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT
+    "CarrinhoView"."ListaId",
+    MIN("CarrinhoView"."PerfilId") AS "PerfilId",
+    MIN("CarrinhoView"."NomeCompleto") AS "NomeCompleto", 
+    MIN("CarrinhoView"."Endereco") AS "Endereco", 
+    MIN("CarrinhoView"."ListaCreatedAt") AS "ListaCreatedAt",
+    STRING_AGG(DISTINCT("CarrinhoView"."LojaNome"), ', ') AS "Lojas",
+    --MIN("CarrinhoView"."LojaNome") AS "Lojas",
+    MIN("CarrinhoView"."EntregaPrazo") AS "EntregaPrazoMinimo",
+    MIN("CarrinhoView"."EntregaPreco") AS "EntregaPrecoMinimo",
+    SUM("CarrinhoView"."PrecoTotal") AS "PrecoTotal",
+    SUM("CarrinhoView"."QuantidadeItens") AS "QuantidadeItens"
+FROM "CarrinhoView"
+WHERE "CarrinhoView"."Status" LIKE 'Em criação'
+GROUP BY "CarrinhoView"."ListaId"
