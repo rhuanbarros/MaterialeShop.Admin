@@ -35,6 +35,9 @@
 	- TODO fazer a aplicação do cliente
 		- TODO fazer bottomNavBar
 		- TODO fazer a reutilização de código corretamente entre a aplicação admin e cliente
+	- TODO Ícone do carrinho em cima a direita na tela qdo a pessoa estive na tela de comparativo
+		- se nao houver carrinhos, aparcer a contagem 0
+		- se houver itens nos carrinhos, aparecer o total de itens
 
 ## FUNCIONALIDADE
 	- TODO verificar se ta aplicando desconto nos produtos. 
