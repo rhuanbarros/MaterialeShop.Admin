@@ -33,4 +33,7 @@ public class CarrinhoItemView : BaseModelApp
     [Column("CarrinhoItem_Observacao")]
     public string? CarrinhoItem_Observacao { get; set; }
 
+    [Column("CarrinhoId")]
+    public int? CarrinhoId { get; set; }
+
 }

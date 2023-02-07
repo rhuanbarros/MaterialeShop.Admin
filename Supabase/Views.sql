@@ -46,11 +46,27 @@ SELECT
     "Carrinho"."Status",
     "Carrinho"."SoftDeleted",
     "Carrinho"."SoftDeletedAt",
-    "Carrinho"."CreatedAt"
+    "Carrinho"."CreatedAt",
+    "CarrinhoTotal"."CarrinhoId",
+    "CarrinhoTotal"."PrecoTotal",
+    "CarrinhoTotal"."QuantidadeItens"
 FROM "Carrinho"
 JOIN "Perfil" ON "Carrinho"."PerfilId" = "Perfil"."Id"
 JOIN "Lista" on "Carrinho"."ListaId" = "Lista"."Id"
 JOIN "OrcamentoView" ON "Carrinho"."OrcamentoId" = "OrcamentoView"."OrcamentoId"
+JOIN "CarrinhoTotal" ON "CarrinhoTotal"."CarrinhoId" = "Carrinho"."Id"
+
+
+CREATE OR REPLACE VIEW "CarrinhoTotal"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT
+    "CarrinhoItemView"."CarrinhoId",
+    sum("CarrinhoItemView"."Preco" * "CarrinhoItemView"."Quantidade") as "PrecoTotal", 
+    count("CarrinhoItemView"."CarrinhoItemId") as "QuantidadeItens"
+FROM "CarrinhoItemView"
+GROUP BY "CarrinhoItemView"."CarrinhoId";
 
 
 
@@ -68,8 +84,11 @@ SELECT
     "OrcamentoItem"."Desconto",
     "CarrinhoItem"."Id" AS "CarrinhoItemId",
     "CarrinhoItem"."Quantidade",
-    "CarrinhoItem"."Observacao" AS "CarrinhoItem_Observacao"
+    "CarrinhoItem"."Observacao" AS "CarrinhoItem_Observacao",
+    "CarrinhoItem"."CarrinhoId"
 FROM "CarrinhoItem"
 JOIN "OrcamentoItem" ON "CarrinhoItem"."OrcamentoItemId" = "OrcamentoItem"."Id"
 WHERE "CarrinhoItem"."SoftDeleted" = false
 ORDER BY "CarrinhoItem"."CreatedAt" ASC;
+
+
