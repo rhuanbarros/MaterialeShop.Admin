@@ -26,7 +26,21 @@ public class CarrinhoView : BaseModelApp
     [Column("LojaNome")]
     public string LojaNome { get; set; }
 
+    [Column("EntregaPreco")]
+    public decimal? EntregaPreco { get; set; }
+    
+    [Column("EntregaPrazo")]
+    public string? EntregaPrazo { get; set; }
+
     [Column("Status")]
     public string? Status { get; set; } = Carrinho.StatusConstCarrinho.EmCriacao;
 
+    [Column("CarrinhoId")]
+    public int CarrinhoId { get; set; }
+
+    [Column("PrecoTotalComEntrega")]
+    public decimal? PrecoTotalComEntrega { get; set; }
+
+    [Column("QuantidadeItens")]
+    public int? QuantidadeItens { get; set; }
 }

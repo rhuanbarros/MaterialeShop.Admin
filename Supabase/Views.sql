@@ -43,6 +43,8 @@ SELECT
     "Lista"."Endereco", 
     "Lista"."CreatedAt" as "ListaCreatedAt",
     "OrcamentoView"."LojaNome",
+    "OrcamentoView"."EntregaPrazo",
+    "OrcamentoView"."EntregaPreco",
     "Carrinho"."Status",
     "Carrinho"."SoftDeleted",
     "Carrinho"."SoftDeletedAt",
