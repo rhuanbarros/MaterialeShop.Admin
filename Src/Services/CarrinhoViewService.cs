@@ -63,7 +63,7 @@ public class CarrinhoViewService
         return modeledResponse.Models;
     }
 
-    public async Task<IReadOnlyList<CarrinhoView>> SelectAllByListaId(int id)
+    public async Task<IReadOnlyList<CarrinhoView>> SelectAllByListaId(int id, string status)
     {
         logger.LogInformation("------------------- CarrinhoViewService SelectAllByListaId -------------------");
 
@@ -72,6 +72,7 @@ public class CarrinhoViewService
             // .Filter(nameof(CarrinhoView.ListaId), Postgrest.Constants.Operator.Equals, id)
             .Where(x => x.ListaId == id)
             .Where(x => x.SoftDeleted == false)
+            .Where(x => x.Status == status)
             .Get();
         return modeledResponse.Models;
     }

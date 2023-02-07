@@ -76,7 +76,8 @@
                         <MudText Typo="Typo.h6">@carrinhoView.LojaNome</MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Title="Limpar carrinho desta loja" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Title="Limpar carrinho desta loja" 
+                            OnClick="@( async (e) => await DeleteCarrinhoClickHandlerAsync(carrinhoView.CarrinhoId))"/>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent Class="pt-0">

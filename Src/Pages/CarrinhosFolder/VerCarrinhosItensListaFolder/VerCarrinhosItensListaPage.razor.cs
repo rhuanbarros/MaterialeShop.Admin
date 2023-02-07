@@ -22,6 +22,9 @@ public partial class VerCarrinhosItensListaPage
     
     [Inject] 
     protected CarrinhoViewService CarrinhoViewService {get; set;}
+    
+    [Inject] 
+    protected CarrinhoService CarrinhoService {get; set;}
 
     protected override async Task OnParametersSetAsync()
     {
@@ -52,7 +55,7 @@ public partial class VerCarrinhosItensListaPage
     List<CarrinhoView> _carrinhoViews;
     private async Task GetCarrinhoViewService()
     {
-        _carrinhoViews = (List<CarrinhoView>) await CarrinhoViewService.SelectAllByListaId(ListaId);
+        _carrinhoViews = (List<CarrinhoView>) await CarrinhoViewService.SelectAllByListaId(ListaId, Carrinho.StatusConstCarrinho.EmCriacao);
     }
 
     private async void ValueChangedHandler(int newValue, CarrinhoItemView item)
@@ -68,4 +71,12 @@ public partial class VerCarrinhosItensListaPage
         return ((List<CarrinhoItemView>?)_tableList)?.FindAll( x => x.CarrinhoId == id);
     }
     
+    private async Task DeleteCarrinhoClickHandlerAsync(int ListaId)
+    {
+        await CarrinhoService.SetStatus(Carrinho.StatusConstCarrinho.Cancelado, ListaId);
+        Snackbar.Add("Carrinho removido com sucesso.");
+        
+        await GetCarrinhoViewService();
+        await InvokeAsync(StateHasChanged);
+    }
 }
