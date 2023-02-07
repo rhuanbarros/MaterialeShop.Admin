@@ -38,8 +38,8 @@ public class CarrinhoView : BaseModelApp
     [Column("CarrinhoId")]
     public int CarrinhoId { get; set; }
 
-    [Column("PrecoTotalComEntrega")]
-    public decimal? PrecoTotalComEntrega { get; set; }
+    [Column("PrecoTotal")]
+    public decimal? PrecoTotal { get; set; }
 
     [Column("QuantidadeItens")]
     public int? QuantidadeItens { get; set; }

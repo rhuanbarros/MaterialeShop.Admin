@@ -12,16 +12,20 @@ public partial class VerCarrinhosItensListaPage
     public int ListaId { get; set; }
     
     [Inject] 
+    protected ListasViewService ListasViewService {get; set;}
+    
+    [Inject] 
     protected CarrinhoItemViewService CarrinhoItemViewService {get; set;}
     
     [Inject] 
     protected CarrinhoItemService CarrinhoItemService {get; set;}
-
+    
     [Inject] 
-    protected ListasViewService ListasViewService {get; set;}
+    protected CarrinhoViewService CarrinhoViewService {get; set;}
 
     protected override async Task OnParametersSetAsync()
     {
+        await GetCarrinhoViewService();
         await GetTable();
         await GetListaView();
         await InvokeAsync(StateHasChanged);
@@ -45,12 +49,23 @@ public partial class VerCarrinhosItensListaPage
         
     }
 
+    List<CarrinhoView> _carrinhoViews;
+    private async Task GetCarrinhoViewService()
+    {
+        _carrinhoViews = (List<CarrinhoView>) await CarrinhoViewService.SelectAllByListaId(ListaId);
+    }
+
     private async void ValueChangedHandler(int newValue, CarrinhoItemView item)
     {
         await CarrinhoItemService.SetQuantidade(newValue, item);
         
         await GetTable();
         await InvokeAsync(StateHasChanged);
-    }   
+    }
+
+    private List<CarrinhoItemView> getCarrinhoItemViewFromCarrinho(int id)
+    {
+        return ((List<CarrinhoItemView>?)_tableList)?.FindAll( x => x.CarrinhoId == id);
+    }
     
 }
