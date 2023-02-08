@@ -82,10 +82,10 @@ public partial class OrcamentosComponent
     // -------------------START------------------- CAMPO LojaId no MODEL  ----------------------------------------
 
     // ---------------- SELECT TABLE Loja
-    protected IReadOnlyList<Loja>? _LojaList { get; set; }
+    protected List<Loja>? _LojaList { get; set; }
     protected async Task GetTableLoja()
     {
-        _LojaList = await CrudService.SelectAllFrom<Loja>();
+        _LojaList = (List<Loja>?) await CrudService.SelectAllFrom<Loja>();
         await InvokeAsync(StateHasChanged);
     }
 
@@ -96,6 +96,25 @@ public partial class OrcamentosComponent
     private void RowClickEvent(TableRowClickEventArgs<OrcamentoView> e)
     {
         NavigationManager.NavigateTo(Rotas.Orcamentos_itens(ListaId, e.Item.OrcamentoId));
+    }
+
+    private bool mudSelectValidation(int value)
+    {
+        // Console.WriteLine("value");
+        // Console.WriteLine(value);
+
+        // Console.WriteLine("LISTA");
+        // foreach (var item in _UsuarioPerfilList)
+        // {
+        //     Console.WriteLine("item.Id");
+        //     Console.WriteLine(item.Id);
+        // }
+
+        int quantidade = _LojaList!.FindAll( x => x.Id == value).Count();
+        if(quantidade == 0)
+            return false;
+        else
+            return true;
     }
 
 }

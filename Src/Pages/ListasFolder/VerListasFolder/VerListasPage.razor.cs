@@ -110,14 +110,46 @@ public partial class VerListasPage
     // -------------------START------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
 
     // ---------------- SELECT TABLE UsuarioPerfil
-    protected IReadOnlyList<Perfil>? _UsuarioPerfilList { get; set; }
+    protected List<Perfil>? _UsuarioPerfilList { get; set; } = new();
     protected async Task GetTableUsuarioPerfil()
     {
-        _UsuarioPerfilList = await CrudService.SelectAllFrom<Perfil>();
+        _UsuarioPerfilList = (List<Perfil>?) await CrudService.SelectAllFrom<Perfil>();
         await InvokeAsync(StateHasChanged);
     }
 
     private Func<Perfil, string> convertFuncPapel = ci => ci?.NomeCompleto;
     // -----------------END--------------------- CAMPO UsuarioPerfil no MODEL  ----------------------------------------
 
+    private bool mudSelectValidation(int value)
+    {
+        // Console.WriteLine("value");
+        // Console.WriteLine(value);
+
+        // Console.WriteLine("LISTA");
+        // foreach (var item in _UsuarioPerfilList)
+        // {
+        //     Console.WriteLine("item.Id");
+        //     Console.WriteLine(item.Id);
+        // }
+
+        int quantidade = _UsuarioPerfilList!.FindAll( x => x.Id == value).Count();
+        if(quantidade == 0)
+            return false;
+        else
+            return true;
+    }
+
+    MudSelect<int> mudSelectPerfil;
+
+    // protected async Task OnClickTest()
+    // {
+    //     Console.WriteLine("OnClickTest");
+
+    //     Console.WriteLine("mudSelectPerfil.Value");
+    //     Console.WriteLine(mudSelectPerfil.Value);
+
+    //     await mudSelectPerfil.Validate();
+    //     await form?.Validate();
+
+    // }
 }

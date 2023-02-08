@@ -34,7 +34,7 @@
                     {
                         <MudSelect T="int" Label="Cliente" Variant="Variant.Outlined" Placeholder="Selecione o cliente"
                         Text="Selecione o cliente" @bind-Value="model.PerfilId" For="@(() => model.PerfilId)"
-                        Required="true" >
+                        Required="true" Validation="mudSelectValidation">
                             @foreach (var item in _UsuarioPerfilList)
                             {
                                 <MudSelectItem T="int" Value="@item.Id">@item.NomeCompleto</MudSelectItem>

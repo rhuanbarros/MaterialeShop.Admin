@@ -23,6 +23,8 @@
 			- tem codigo de exemplo parece: https://github.com/supabase-community/gotrue-csharp/blob/master/GotrueTests/ClientTests.cs
 	
 ## INTERFACE
+	- TODO reduzir o tamanho das letras em 25% quando aberto em celular
+	- TODO arrumar bug se clica num campo e clica na tela, o botao de salvar fica ativado e tenta enviar e da erro.
 	- [X] campos de data e hora - permitir inserção com texto. usar componentes de mascara.
 	- [X] tabela Perfil, mudar o tipo do Campo UUid para tipo uuid e mudar o nome para UserUuid
 	- TODO tela de carrinho de compras

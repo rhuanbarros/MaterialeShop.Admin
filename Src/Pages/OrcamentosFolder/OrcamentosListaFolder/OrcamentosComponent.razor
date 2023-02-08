@@ -25,7 +25,8 @@
                 {
                     <MudSelect T="int" Label="Loja" Variant="Variant.Outlined" Placeholder="Selecione a loja"
                     Text="Selecione a loja" @bind-Value="model!.LojaId"
-                    For="@(() => model.LojaId)" Required="true">
+                    For="@(() => model.LojaId)" Required="true"
+                    Validation="mudSelectValidation">
                         @foreach (var item in _LojaList)
                         {
                             <MudSelectItem Value="@item.Id">@item.Nome</MudSelectItem>
