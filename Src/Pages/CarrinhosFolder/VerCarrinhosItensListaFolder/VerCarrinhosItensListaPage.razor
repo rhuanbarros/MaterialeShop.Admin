@@ -60,6 +60,12 @@
     </div>
 
     <br>
+    <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" 
+        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(ListaId)))' >
+        Abrir comparativo de orçamentos
+    </MudButton>
+    <br>
+    <br>
 
 
     @if (_tableList == null)
