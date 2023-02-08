@@ -25,12 +25,21 @@ public partial class VerCarrinhosItensListaPage
     
     [Inject] 
     protected CarrinhoService CarrinhoService {get; set;}
+    
+    [Inject] 
+    protected CarrinhoGroupByListaViewService CarrinhoGroupByListaViewService {get; set;}
 
     protected override async Task OnParametersSetAsync()
     {
-        await GetCarrinhoViewService();
-        await GetTable();
+        CarregaDadosAsync();
+    }
+
+    private async Task CarregaDadosAsync()
+    {
         await GetListaView();
+        await GetCarrinhoViewService();
+        await GetCarrinhoGroupByListaView();
+        await GetTable();
         await InvokeAsync(StateHasChanged);
     }
 
@@ -57,13 +66,20 @@ public partial class VerCarrinhosItensListaPage
     {
         _carrinhoViews = (List<CarrinhoView>) await CarrinhoViewService.SelectAllByListaId(ListaId, Carrinho.StatusConstCarrinho.EmCriacao);
     }
+    
+    
+    CarrinhoGroupByListaView _carrinhoGroupByListaView;
+    private async Task GetCarrinhoGroupByListaView()
+    {
+        List<CarrinhoGroupByListaView> carrinhoGroupByListaViews = (List<CarrinhoGroupByListaView>) await CarrinhoGroupByListaViewService.SelectAllByListaId(ListaId);
+        _carrinhoGroupByListaView = carrinhoGroupByListaViews.First();
+    }
 
     private async void ValueChangedHandler(int newValue, CarrinhoItemView item)
     {
         await CarrinhoItemService.SetQuantidade(newValue, item);
         
-        await GetTable();
-        await InvokeAsync(StateHasChanged);
+        CarregaDadosAsync();
     }
 
     private List<CarrinhoItemView> getCarrinhoItemViewFromCarrinho(int id)
@@ -76,7 +92,6 @@ public partial class VerCarrinhosItensListaPage
         await CarrinhoService.SetStatus(Carrinho.StatusConstCarrinho.Cancelado, ListaId);
         Snackbar.Add("Carrinho removido com sucesso.");
         
-        await GetCarrinhoViewService();
-        await InvokeAsync(StateHasChanged);
+        CarregaDadosAsync();
     }
 }

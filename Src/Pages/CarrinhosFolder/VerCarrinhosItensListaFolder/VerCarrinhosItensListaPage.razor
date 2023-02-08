@@ -137,11 +137,16 @@
 
 </div>
 
-<MudAppBar Bottom="true" Fixed="true" Color="Color.Primary" Elevation="1">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
-    <MudSpacer />
-    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" Edge="Edge.End" />
-    <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+<MudAppBar Bottom="true" Fixed="true" Elevation="3" Style="background-color: #dadada !important" >
+    <div class='d-flex flex-row justify-space-around align-center gap-4' style='width: 100% !important' LINHA>
+        <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert>
+            <div class='d-flex flex-column justify-start align-center gap-1' COLUNA>
+                <MudText Align="Align.Start" Typo="Typo.body2" Color="Color.Secondary"><b>Preço total: @( "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.PrecoTotal + (_carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 ) ) )</b></MudText>
+                <MudText Text Align="Align.Start" Typo="Typo.subtitle2" Color="Color.Secondary">* Economia de R$ XX no dinheiro ou Pix.</MudText>
+            </div>
+        </MudHidden>
+        <MudText Align="Align.Start" Typo="Typo.body1" Color="Color.Secondary"><b>Preço total à vista *: @( "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.PrecoTotal + (_carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 ) ) )</b></MudText>
+    </div>
 </MudAppBar>
 
 <style>

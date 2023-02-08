@@ -107,7 +107,7 @@ SELECT
     STRING_AGG(DISTINCT("CarrinhoView"."LojaNome"), ', ') AS "Lojas",
     --MIN("CarrinhoView"."LojaNome") AS "Lojas",
     MIN("CarrinhoView"."EntregaPrazo") AS "EntregaPrazoMinimo",
-    MIN("CarrinhoView"."EntregaPreco") AS "EntregaPrecoMinimo",
+    SUM("CarrinhoView"."EntregaPreco") AS "EntregaPrecoTotal",
     SUM("CarrinhoView"."PrecoTotal") AS "PrecoTotal",
     SUM("CarrinhoView"."QuantidadeItens") AS "QuantidadeItens"
 FROM "CarrinhoView"

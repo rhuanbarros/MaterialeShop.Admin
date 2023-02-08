@@ -64,8 +64,8 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.EntregaPrecoMinimo)">
-                        EntregaPrecoMinimo
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.EntregaPrecoTotal)">
+                        EntregaPrecoTotal
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
@@ -90,8 +90,8 @@
                     @( "R$" + String.Format("{0:0.00}", @context?.PrecoTotal ) )
                 </MudTd>
                 <MudTd DataLabel="QuantidadeItens">@context?.QuantidadeItens</MudTd>
-                <MudTd DataLabel="EntregaPrecoMinimo">
-                    @( "R$" + String.Format("{0:0.00}", @context?.EntregaPrecoMinimo ) )
+                <MudTd DataLabel="EntregaPrecoTotal">
+                    @( "R$" + String.Format("{0:0.00}", @context?.EntregaPrecoTotal ) )
                 </MudTd>
                 <MudTd DataLabel="EntregaPrazoMinimo">@context?.EntregaPrazoMinimo</MudTd>
                 <MudTd DataLabel="Data de criação da lista">@context?.CreatedAt</MudTd>

@@ -24,7 +24,7 @@ public class CarrinhoGroupByListaView : BaseModelApp
     public string Lojas { get; set; }
 
     [Column("EntregaPrecoMinimo")]
-    public decimal? EntregaPrecoMinimo { get; set; }
+    public decimal? EntregaPrecoTotal { get; set; }
     
     [Column("EntregaPrazoMinimo")]
     public string? EntregaPrazoMinimo { get; set; }
