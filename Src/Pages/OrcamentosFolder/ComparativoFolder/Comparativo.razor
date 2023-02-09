@@ -14,6 +14,53 @@
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
     <MudText Typo="Typo.h5">Comparativo de orçamentos</MudText>
+    
+    <br>
+
+    <div class='d-flex flex-wrap justify-start align-center gap-4' style='width: 100% !important' WRAP>
+        @if(_ListaView is null)
+        {
+            <MudSkeleton></MudSkeleton>
+        } else
+        {
+            <MudCard Elevation=3>
+                <MudCardHeader Class="pb-0">
+                    <CardHeaderContent>
+                        <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+                            <MudIcon Icon="@Icons.Material.Filled.List" /><h3> Lista de compras </h3>
+                        </div>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <p>Endereço: @Endereco</p>
+                    <p>Data de criação da lista de compras: @_ListaView?.CreatedAt</p>
+                </MudCardContent>
+            </MudCard>
+        }
+        <MudCard Elevation=3>
+            <MudCardHeader Class="pb-0">
+                <CardHeaderContent>
+                    <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Economia </h3>
+                    </div>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Text Typo="Typo.h6" Align="Align.Center">
+                    @* @economiaTotal *@
+                </MudText>
+                <MudText Typo="Typo.body2" Align="Align.Center">
+                    @* @economiaTotalPercentual *@
+                    <MudTooltip Text="Em relação ao orçamento mais caro recebido.">
+                        <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
+                    </MudTooltip>
+                </MudText>
+                
+            </MudCardContent>
+        </MudCard>
+    </div>
+
+    
     <br>
     <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" 
         OnClick='@(async (e) => NavigationManager.NavigateTo( Rotas.CarrinhosItensLista(ListaId) ) )' >

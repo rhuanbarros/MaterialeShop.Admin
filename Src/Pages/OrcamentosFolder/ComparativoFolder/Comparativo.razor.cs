@@ -11,6 +11,9 @@ public partial class Comparativo
     [Parameter]
     public int ListaId { get; set; }
 
+    [Inject] 
+    protected ListasViewService ListasViewService {get; set;}
+
     [Inject]
     ListaItensService ListaItensService { get; set; }
 
@@ -35,6 +38,7 @@ public partial class Comparativo
 
     protected override async Task OnParametersSetAsync()
     {
+        await GetListaView();
         await GetListaItem(ListaId);
         await GetOrcamentoView(ListaId);
         await GetOrcamentoItemList(_OrcamentoViewList);
@@ -47,7 +51,19 @@ public partial class Comparativo
 
         await InvokeAsync(StateHasChanged);
         
+        // TODO quem sabe de para remover esta chamada ao banco de dados
         await GetLista(ListaId);
+    }
+
+    // ---------------- GET ListaView
+    private ListasView _ListaView {get; set;}
+    private string NomeCliente = "Carregando";
+    private string Endereco = "Carregando";
+    protected async Task GetListaView()
+    {
+        _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
+        NomeCliente = _ListaView?.NomeCompleto;
+        Endereco = _ListaView?.Endereco;
     }
 
     // ---------------- SELECT TABLE ListaItem
