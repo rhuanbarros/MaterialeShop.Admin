@@ -34,4 +34,11 @@ public class CarrinhoGroupByListaView : BaseModelApp
 
     [Column("QuantidadeItens")]
     public int? QuantidadeItens { get; set; }
+    
+    [Column("OrcamentoMaisCaroPrecoTotalComEntrega")]
+    public decimal? OrcamentoMaisCaroPrecoTotalComEntrega { get; set; }
+    
+    [Column("Economia")]
+    public decimal? Economia { get; set; }
+    
 }

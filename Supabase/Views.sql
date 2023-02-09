@@ -113,17 +113,29 @@ CREATE OR REPLACE VIEW "CarrinhoGroupByListaView"
 WITH (security_invoker=on)
 AS
 SELECT
-    "CarrinhoView"."ListaId",
-    MIN("CarrinhoView"."PerfilId") AS "PerfilId",
-    MIN("CarrinhoView"."NomeCompleto") AS "NomeCompleto", 
-    MIN("CarrinhoView"."Endereco") AS "Endereco", 
-    MIN("CarrinhoView"."ListaCreatedAt") AS "ListaCreatedAt",
-    STRING_AGG(DISTINCT("CarrinhoView"."LojaNome"), ', ') AS "Lojas",
-    --MIN("CarrinhoView"."LojaNome") AS "Lojas",
-    MIN("CarrinhoView"."EntregaPrazo") AS "EntregaPrazoMinimo",
-    SUM("CarrinhoView"."EntregaPreco") AS "EntregaPrecoTotal",
-    SUM("CarrinhoView"."PrecoTotal") AS "PrecoTotal",
-    SUM("CarrinhoView"."QuantidadeItens") AS "QuantidadeItens"
-FROM "CarrinhoView"
-WHERE "CarrinhoView"."Status" LIKE 'Em criação'
-GROUP BY "CarrinhoView"."ListaId"
+	*,
+	( COALESCE("CarrinhoGBLView"."PrecoTotal", 0) - COALESCE("CarrinhoGBLView"."OrcamentoMaisCaroPrecoTotalComEntrega", 0) ) AS "Economia"
+FROM
+	( SELECT
+        "CarrinhoView"."ListaId",
+        MIN("CarrinhoView"."PerfilId") AS "PerfilId",
+        MIN("CarrinhoView"."NomeCompleto") AS "NomeCompleto", 
+        MIN("CarrinhoView"."Endereco") AS "Endereco", 
+        MIN("CarrinhoView"."ListaCreatedAt") AS "ListaCreatedAt",
+        STRING_AGG(DISTINCT("CarrinhoView"."LojaNome"), ', ') AS "Lojas",
+        --MIN("CarrinhoView"."LojaNome") AS "Lojas",
+        MIN("CarrinhoView"."EntregaPrazo") AS "EntregaPrazoMinimo",
+        SUM("CarrinhoView"."EntregaPreco") AS "EntregaPrecoTotal",
+        SUM("CarrinhoView"."PrecoTotal") AS "PrecoTotal",
+        SUM("CarrinhoView"."QuantidadeItens") AS "QuantidadeItens",
+        MAX("OV"."OrcamentoMaisCaroPrecoTotalComEntrega") AS "OrcamentoMaisCaroPrecoTotalComEntrega"
+	FROM "CarrinhoView"
+	JOIN 
+		( SELECT 
+			"OrcamentoView"."ListaId",
+			MAX("OrcamentoView"."PrecoTotalComEntrega")  AS "OrcamentoMaisCaroPrecoTotalComEntrega"
+		FROM "OrcamentoView" 
+		GROUP BY "OrcamentoView"."ListaId" ) AS "OV"
+		ON "OV"."ListaId" = "CarrinhoView"."ListaId"
+	WHERE "CarrinhoView"."Status" LIKE 'Em criação'
+	GROUP BY "CarrinhoView"."ListaId" ) AS "CarrinhoGBLView"

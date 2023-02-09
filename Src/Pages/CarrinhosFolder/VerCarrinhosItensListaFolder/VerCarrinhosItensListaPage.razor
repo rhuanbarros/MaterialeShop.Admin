@@ -48,10 +48,10 @@
             </MudCardHeader>
             <MudCardContent>
                 <MudText Text Typo="Typo.h6" Align="Align.Center">
-                    @( "R$" + String.Format("{0:0.00}", economiaTotal ) )
+                    @economiaTotal
                 </MudText>
                 <MudText Typo="Typo.body2" Align="Align.Center">
-                    @( String.Format("{0:0.00}", economiaTotalPercentual )+"%" )
+                    @economiaTotalPercentual
                     <MudTooltip Text="Em relação ao orçamento mais caro recebido.">
                         <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
                     </MudTooltip>

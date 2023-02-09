@@ -59,6 +59,11 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
+                    <MudTableLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.Economia)">
+                        Economia
+                    </MudTableLabel>
+                </MudTh>
+                <MudTh>
                     <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.QuantidadeItens)">
                         QuantidadeItens
                     </MudTableSortLabel>
@@ -88,6 +93,9 @@
                 <MudTd DataLabel="Lojas">@context?.Lojas</MudTd>
                 <MudTd DataLabel="PrecoTotal">
                     @( "R$" + String.Format("{0:0.00}", @context?.PrecoTotal ) )
+                </MudTd>
+                <MudTd DataLabel="Economia">
+                    @( "R$" + String.Format("{0:0.00}", @context?.Economia ) )
                 </MudTd>
                 <MudTd DataLabel="QuantidadeItens">@context?.QuantidadeItens</MudTd>
                 <MudTd DataLabel="EntregaPrecoTotal">

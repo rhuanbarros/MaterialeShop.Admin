@@ -42,26 +42,26 @@ public partial class VerCarrinhosItensListaPage
         await GetListaView();
         await GetCarrinhoViewService();
         await GetCarrinhoGroupByListaView();
-        await calculaEconomiaTotalAsync();
+        // await calculaEconomiaTotalAsync();
         await InvokeAsync(StateHasChanged);
     }
 
-    private decimal economiaTotal;
-    private decimal economiaTotalPercentual;
-    private async Task calculaEconomiaTotalAsync()
-    {
-        decimal carrinhosTotalTotal = verifyNotNull( _carrinhoGroupByListaView?.PrecoTotal ) + 
-                                            verifyNotNull(_carrinhoGroupByListaView?.EntregaPrecoTotal);
+    // private decimal economiaTotal;
+    // private decimal economiaTotalPercentual;
+    // private async Task calculaEconomiaTotalAsync()
+    // {
+    //     decimal carrinhosTotalTotal = verifyNotNull( _carrinhoGroupByListaView?.PrecoTotal ) + 
+    //                                         verifyNotNull(_carrinhoGroupByListaView?.EntregaPrecoTotal);
 
-        // decimal? carrinhoMaxTotal = _carrinhoViews.Max(x => x.PrecoTotal + x.EntregaPreco);
-        OrcamentoView? orcamentoView = await OrcamentoViewService.SelectOrcamentoMaisCaroByListaId(ListaId);
+    //     // decimal? carrinhoMaxTotal = _carrinhoViews.Max(x => x.PrecoTotal + x.EntregaPreco);
+    //     OrcamentoView? orcamentoView = await OrcamentoViewService.SelectOrcamentoMaisCaroByListaId(ListaId);
         
-        Console.WriteLine("orcamentoView.PrecoTotalComEntrega");
-        Console.WriteLine(orcamentoView?.PrecoTotalComEntrega);
+    //     Console.WriteLine("orcamentoView.PrecoTotalComEntrega");
+    //     Console.WriteLine(orcamentoView?.PrecoTotalComEntrega);
 
-        economiaTotal = carrinhosTotalTotal - verifyNotNull(orcamentoView?.PrecoTotalComEntrega);
-        economiaTotalPercentual = economiaTotal / carrinhosTotalTotal *100 ;
-    }
+    //     economiaTotal = carrinhosTotalTotal - verifyNotNull(orcamentoView?.PrecoTotalComEntrega);
+    //     economiaTotalPercentual = economiaTotal / carrinhosTotalTotal *100 ;
+    // }
 
     private decimal verifyNotNull(decimal? value)
     {
@@ -100,12 +100,20 @@ public partial class VerCarrinhosItensListaPage
         await GetCarrinhoItemView(carrinhoIdList);
     }
     
-    
+    private string economiaTotal = "Carregando";
+    private string economiaTotalPercentual = "Carregando";
+
     CarrinhoGroupByListaView? _carrinhoGroupByListaView;
     private async Task GetCarrinhoGroupByListaView()
     {
         List<CarrinhoGroupByListaView> carrinhoGroupByListaViews = (List<CarrinhoGroupByListaView>) await CarrinhoGroupByListaViewService.SelectAllByListaId(ListaId);
         _carrinhoGroupByListaView = carrinhoGroupByListaViews?.FirstOrDefault();
+
+        if(_carrinhoGroupByListaView is not null)
+        {
+            economiaTotal = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView.Economia );
+            economiaTotalPercentual = String.Format("{0:0.00}", _carrinhoGroupByListaView?.Economia / _carrinhoGroupByListaView?.PrecoTotal )+"%";
+        }
     }
 
     private async void ValueChangedHandler(int newValue, CarrinhoItemView item)
