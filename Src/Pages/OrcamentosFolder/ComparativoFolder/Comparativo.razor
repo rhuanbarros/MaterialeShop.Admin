@@ -5,6 +5,8 @@
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
 
+@inject NavigationManager NavigationManager
+
 <PageTitle>MaterialeShop - Orçamentos</PageTitle>
 
 <AppBarCustom />
@@ -12,6 +14,12 @@
 <div class="px-2 px-sm-8 px-md-16 pt-6 pt-sm-8 pt-md-8">
 
     <MudText Typo="Typo.h5">Comparativo de orçamentos</MudText>
+    <br>
+    <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" 
+        OnClick='@(async (e) => NavigationManager.NavigateTo( Rotas.CarrinhosItensLista(ListaId) ) )' >
+        Ver carrinhos de compras desta lista
+    </MudButton>
+    <br>
     <br>
 
     @if( (_ListaItemList == null || !_ListaItemList.Any()) && 
@@ -107,16 +115,17 @@
                                         <td><MudText Align="Align.Center" Typo="Typo.body2">@orcamentoItem_?.Quantidade</MudText></td>
 
                                         <td>
-                                            <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>                                            
-                                                <MudTooltip Style="display: inline;">
+                                            <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>
+                                                <MudTooltip Style="display: inline;" >
                                                     <ChildContent>
-                                                        <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px"/>
+                                                        <MudIconButton Icon="@Icons.Material.Filled.Add" Style="padding: 4px" OnClick="@( e => AddToCarrinhoAsync(orcamentoItem_) )"/>
                                                     </ChildContent>
                                                     <TooltipContent>
                                                         <MudText Typo="Typo.h6" Align="Align.Left">Item ofertado: @orcamentoItem_?.Descricao</MudText>
                                                         <MudText Typo="Typo.body2" Align="Align.Left">Quantidade ofertada: @orcamentoItem_?.Quantidade</MudText>
                                                         <MudText Typo="Typo.body2" Align="Align.Left">Preço unitário: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText>
                                                         <MudText Typo="Typo.body2" Align="Align.Left">Preço total: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Observações: @orcamentoItem_?.Observacao</MudText>
                                                     </TooltipContent>
                                                 </MudTooltip>
 

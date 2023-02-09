@@ -1,5 +1,6 @@
 using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
+using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -246,22 +247,41 @@ public partial class Comparativo
     protected virtual async Task OnClickAdicionarAoCarrinhoTodoOrcamento(OrcamentoView item)
     {
         // TODO verificar se as variveis sao nulas antes de tentar fazer o seguinte.
-            // quem sabe usar um try e capturar, em vez de usar 3 ifs
+        // quem sabe usar um try e capturar, em vez de usar 3 ifs
 
         // TODO arrumar o indicador de loading dos botoes
         _processingNewItem = true;
 
-        Carrinho? carrinho;
+        Carrinho? carrinho = await CriaCarrinhoSeNaoExistir(item);
 
+        // INSERE TODOS OS ITENS DO ORCAMENTO NO CARRINHO
+        //pega todos os itens do orcamento especifico
+
+        //transforma List<List<OrcamentoItem>> em List<OrcamentoItem>
+        var orcamentoItemList = _OrcamentoItemListList?.SelectMany(x => x).ToList();
+        // filtra todos os itens de orçamento pelo item.OrcamentoId
+        List<OrcamentoItem>? orcamentoItemsListOrcamentoId = orcamentoItemList?.FindAll(x => x.OrcamentoId == item.OrcamentoId);
+
+        //cria CarrinhoItem para cada item do orcamento
+        List<CarrinhoItem>? CarrinhoItemList = orcamentoItemsListOrcamentoId?.Select(x => new CarrinhoItem(carrinho.Id, x.Id, x.Quantidade, null)).ToList();
+
+        //insere todos os itens ao mesmo tempo no banco de dados
+        await CarrinhoItemService.Upsert(CarrinhoItemList);
+
+        NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(ListaId));
+
+        _processingNewItem = false;
+    }
+
+    private async Task<Carrinho?> CriaCarrinhoSeNaoExistir(OrcamentoView item)
+    {
         //verificar se carrinho para este orcamento ja existe
         IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(ListaId, _Lista.PerfilId, item.OrcamentoId);
-        carrinho = carrinhos?.FirstOrDefault();
-
-        Console.WriteLine("carrinho");
-        Console.WriteLine(carrinho);
+        Carrinho? carrinho = carrinhos?.FirstOrDefault();
 
         bool carrinhoNaoExiste = carrinho is null ? true : false;
-        if(carrinhoNaoExiste)
+
+        if (carrinhoNaoExiste)
         {
             //criar carrinho
             carrinho = new()
@@ -273,27 +293,17 @@ public partial class Comparativo
             };
             List<Carrinho> carrinhos1 = await CarrinhoService.Insert(carrinho);
             carrinho = carrinhos1.First();
-            
-            //pega todos os itens do orcamento especifico
-
-            //transforma List<List<OrcamentoItem>> em List<OrcamentoItem>
-            var orcamentoItemList = _OrcamentoItemListList?.SelectMany(x => x).ToList();
-            // filtra todos os itens de orçamento pelo item.OrcamentoId
-            List<OrcamentoItem>? orcamentoItemsListOrcamentoId = orcamentoItemList?.FindAll(x => x.OrcamentoId == item.OrcamentoId);
-
-            //cria CarrinhoItem para cada item do orcamento
-            List<CarrinhoItem>? CarrinhoItemList = orcamentoItemsListOrcamentoId?.Select( x => new CarrinhoItem( carrinho.Id, x.Id, x.Quantidade, null ) ).ToList();
-
-            //insere todos os itens ao mesmo tempo no banco de dados
-            await CarrinhoItemService.Upsert(CarrinhoItemList);
-        } else
-        {
-            // carrinho ja existe
-
-            // abre pagina do carrinho
         }
 
-        _processingNewItem = false;
+        return carrinho;
+    }
+
+    private async Task AddToCarrinhoAsync(OrcamentoItem item)
+    {
+        //verificar se carrinho para este orcamento ja existe
+        IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(ListaId, _Lista.PerfilId, item.OrcamentoId);
+        carrinhos?.FirstOrDefault();
+        
     }
 
 

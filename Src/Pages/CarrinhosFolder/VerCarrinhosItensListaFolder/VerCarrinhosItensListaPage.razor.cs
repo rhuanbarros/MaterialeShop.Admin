@@ -39,7 +39,6 @@ public partial class VerCarrinhosItensListaPage
         await GetListaView();
         await GetCarrinhoViewService();
         await GetCarrinhoGroupByListaView();
-        await GetTable();
         await InvokeAsync(StateHasChanged);
     }
 
@@ -55,24 +54,32 @@ public partial class VerCarrinhosItensListaPage
     }
 
     // ---------------- SELECT TABLE
-    protected override async Task GetTable()
+    protected async Task GetCarrinhoItemView(List<int> carrinhoIdList)
     {
-        _tableList = await CarrinhoItemViewService.SelectAll();
+        Console.WriteLine("GetCarrinhoItemView()");
+
+        _tableList = await CarrinhoItemViewService.SelectAllByCarrinhoId(carrinhoIdList);
         
     }
 
     List<CarrinhoView> _carrinhoViews;
     private async Task GetCarrinhoViewService()
     {
+        Console.WriteLine("GetCarrinhoViewService()");
         _carrinhoViews = (List<CarrinhoView>) await CarrinhoViewService.SelectAllByListaId(ListaId, Carrinho.StatusConstCarrinho.EmCriacao);
+
+        //pega os ids dos carrinhos para poder buscar os itens apenas dos carrinhos que vao aparecer na tela
+        List<int> carrinhoIdList = _carrinhoViews.Select(x => x.CarrinhoId).ToList();
+
+        await GetCarrinhoItemView(carrinhoIdList);
     }
     
     
-    CarrinhoGroupByListaView _carrinhoGroupByListaView;
+    CarrinhoGroupByListaView? _carrinhoGroupByListaView;
     private async Task GetCarrinhoGroupByListaView()
     {
         List<CarrinhoGroupByListaView> carrinhoGroupByListaViews = (List<CarrinhoGroupByListaView>) await CarrinhoGroupByListaViewService.SelectAllByListaId(ListaId);
-        _carrinhoGroupByListaView = carrinhoGroupByListaViews.First();
+        _carrinhoGroupByListaView = carrinhoGroupByListaViews?.FirstOrDefault();
     }
 
     private async void ValueChangedHandler(int newValue, CarrinhoItemView item)

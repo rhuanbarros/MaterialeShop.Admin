@@ -68,9 +68,17 @@
     <br>
 
 
-    @if (_tableList == null)
+    @if (_carrinhoViews == null)
     {
         <LoadingTable />
+    } else if (_carrinhoViews.Count() == 0)
+    {
+        <br>
+        <br>
+        <br>
+        <MudText Typo="Typo.h5" Align="Align.Center">Não há carrinhos de compras para esta lista.</MudText>
+        <br>
+        <MudText Typo="Typo.body2" Align="Align.Center">Veja os comparativos de orçamentos e adicione itens ao carrinho para eles aparecem nesta tela.</MudText>
     }
     else
     {

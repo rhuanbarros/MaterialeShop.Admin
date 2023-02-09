@@ -33,4 +33,22 @@ public class CarrinhoItemViewService
         return modeledResponse.Models;
     }
     
+    public async Task<IReadOnlyList<CarrinhoItemView>?> SelectAllByCarrinhoId(List<int> carrinhoIdList)
+    {
+        logger.LogInformation("------------------- CarrinhoItemViewService SelectAllByCarrinhoId -------------------");
+
+        if(carrinhoIdList is null)
+            return null;
+        else if(carrinhoIdList.Count() == 0)
+            return null;
+
+        List<Postgrest.QueryFilter> queryFilters = carrinhoIdList.Select( x=> new Postgrest.QueryFilter("CarrinhoId", Postgrest.Constants.Operator.Equals, x) ).ToList();
+
+        Postgrest.Responses.ModeledResponse<CarrinhoItemView> modeledResponse = await client
+            .From<CarrinhoItemView>()            
+            .Or(queryFilters)
+            .Get();
+        return modeledResponse.Models;
+    }
+    
 }

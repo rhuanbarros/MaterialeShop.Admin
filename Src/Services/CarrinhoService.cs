@@ -76,6 +76,10 @@ public class CarrinhoService
             .Where(x => x.PerfilId == PerfilId)
             .Where(x => x.OrcamentoId == OrcamentoId)
             .Where(x => x.ListaId == ListaId)
+            .Filter("Status", Postgrest.Constants.Operator.Equals, Carrinho.StatusConstCarrinho.EmCriacao)
+            // this doesnt work. it throws exception.
+            // TODO open issue later
+            // .Where(x => x.Status == Carrinho.StatusConstCarrinho.EmCriacao)
             .Get();
         return modeledResponse.Models;
     }
