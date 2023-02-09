@@ -27,6 +27,9 @@ public partial class VerCarrinhosItensListaPage
     protected CarrinhoService CarrinhoService {get; set;}
     
     [Inject] 
+    protected OrcamentoViewService OrcamentoViewService {get; set;}
+    
+    [Inject] 
     protected CarrinhoGroupByListaViewService CarrinhoGroupByListaViewService {get; set;}
 
     protected override async Task OnParametersSetAsync()
@@ -39,7 +42,30 @@ public partial class VerCarrinhosItensListaPage
         await GetListaView();
         await GetCarrinhoViewService();
         await GetCarrinhoGroupByListaView();
+        await calculaEconomiaTotalAsync();
         await InvokeAsync(StateHasChanged);
+    }
+
+    private decimal economiaTotal;
+    private decimal economiaTotalPercentual;
+    private async Task calculaEconomiaTotalAsync()
+    {
+        decimal carrinhosTotalTotal = verifyNotNull( _carrinhoGroupByListaView?.PrecoTotal ) + 
+                                            verifyNotNull(_carrinhoGroupByListaView?.EntregaPrecoTotal);
+
+        // decimal? carrinhoMaxTotal = _carrinhoViews.Max(x => x.PrecoTotal + x.EntregaPreco);
+        OrcamentoView? orcamentoView = await OrcamentoViewService.SelectOrcamentoMaisCaroByListaId(ListaId);
+        
+        Console.WriteLine("orcamentoView.PrecoTotalComEntrega");
+        Console.WriteLine(orcamentoView?.PrecoTotalComEntrega);
+
+        economiaTotal = carrinhosTotalTotal - verifyNotNull(orcamentoView?.PrecoTotalComEntrega);
+        economiaTotalPercentual = economiaTotal / carrinhosTotalTotal *100 ;
+    }
+
+    private decimal verifyNotNull(decimal? value)
+    {
+        return (decimal) (value is not null ? value : 0);
     }
 
      // ---------------- GET ListaView

@@ -45,7 +45,20 @@ public class OrcamentoViewService
         return modeledResponse.Models;
     }
     
-    public async Task<OrcamentoView> SelectByOrcamentoId(int id)
+    public async Task<OrcamentoView?> SelectOrcamentoMaisCaroByListaId(int ListaId)
+    {
+        logger.LogInformation("------------------- OrcamentoViewService SelectAllByListaId -------------------");
+        return await client
+            .From<OrcamentoView>()
+            // .Filter(nameof(OrcamentoView.ListaId), Postgrest.Constants.Operator.Equals, id)
+            .Where(x => x.ListaId == ListaId)
+            .Where(x => x.SoftDeleted == false)
+            .Order(x => x.PrecoTotalComEntrega, Postgrest.Constants.Ordering.Descending)
+            .Limit(1)
+            .Single();
+    }
+    
+    public async Task<OrcamentoView?> SelectByOrcamentoId(int id)
     {
         logger.LogInformation("------------------- OrcamentoViewService SelectByOrcamentoId -------------------");
         return await client

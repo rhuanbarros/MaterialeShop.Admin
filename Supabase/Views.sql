@@ -12,11 +12,25 @@ CREATE OR REPLACE VIEW "OrcamentoView"
 -- A PROXIMA LINHA APLICA POLICIES NA VIEW
 WITH (security_invoker=on)
 AS
-SELECT "Orcamento"."Id" as "OrcamentoId", "Orcamento"."CreatedAt", "Loja"."Id" as "LojaId", "Loja"."Nome" as "LojaNome", "Orcamento"."ListaId", 
-"Orcamento"."SolicitacaoData", "Orcamento"."SolicitacaoHora", "Orcamento"."Recebido", "Orcamento"."RecebidoData", "Orcamento"."EntregaPreco", 
-"Orcamento"."EntregaPrazo" , "Orcamento"."DescontoNoTotal" , "Orcamento"."OrcamentoAnexo" , "Orcamento"."CodigoLoja", 
-"OrcamentoTotal"."PrecoTotal" as "PrecoTotalSemEntrega", ("Orcamento"."EntregaPreco" + "OrcamentoTotal"."PrecoTotal" )  as "PrecoTotalComEntrega", 
-"OrcamentoTotal"."QuantidadeItens", "Orcamento"."SoftDeleted", "Orcamento"."SoftDeletedAt"
+SELECT 
+    "Orcamento"."Id" as "OrcamentoId", 
+    "Orcamento"."CreatedAt", "Loja"."Id" as "LojaId", 
+    "Loja"."Nome" as "LojaNome", 
+    "Orcamento"."ListaId", 
+    "Orcamento"."SolicitacaoData", 
+    "Orcamento"."SolicitacaoHora", 
+    "Orcamento"."Recebido", 
+    "Orcamento"."RecebidoData", 
+    "Orcamento"."EntregaPreco", 
+    "Orcamento"."EntregaPrazo", 
+    "Orcamento"."DescontoNoTotal", 
+    "Orcamento"."OrcamentoAnexo", 
+    "Orcamento"."CodigoLoja", 
+    COALESCE( "OrcamentoTotal"."PrecoTotal", 0 ) as "PrecoTotalSemEntrega", 
+    COALESCE( ("Orcamento"."EntregaPreco" + "OrcamentoTotal"."PrecoTotal" ), 0 ) as "PrecoTotalComEntrega", 
+    "OrcamentoTotal"."QuantidadeItens", 
+    "Orcamento"."SoftDeleted", 
+    "Orcamento"."SoftDeletedAt"
 FROM "Orcamento"
 LEFT JOIN "Loja" ON "Orcamento"."LojaId" = "Loja"."Id"
 LEFT JOIN "OrcamentoTotal" ON "Orcamento"."Id" = "OrcamentoTotal"."OrcamentoId"
