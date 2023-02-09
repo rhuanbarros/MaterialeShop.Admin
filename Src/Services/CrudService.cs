@@ -68,7 +68,7 @@ public class CrudService
         return modeledResponse.Models;
     }
 
-    public async Task<List<TModel>> SoftDelete<TModel>(TModel item) where TModel : BaseModelApp, new()
+    public async Task<List<TModel>> SoftDeleted<TModel>(TModel item) where TModel : BaseModelApp, new()
     {
         Postgrest.Responses.ModeledResponse<TModel> modeledResponse = await client
             .From<TModel>()

@@ -103,7 +103,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         
         if(result == true)
         {
-            await CrudService.SoftDelete<TModel>(item);
+            await CrudService.SoftDeleted<TModel>(item);
             Snackbar.Add("Registro apagado com sucesso.");
         }
         await GetTable();

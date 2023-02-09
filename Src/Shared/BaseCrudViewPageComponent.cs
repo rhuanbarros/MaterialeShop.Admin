@@ -72,7 +72,7 @@ public class BaseCrudViewPageComponent<TCrudModel, TViewModel> : BaseCrudPageCom
 
             TCrudModel newItem = SetModelIdToDelete(item);
             
-            await CrudService.SoftDelete<TCrudModel>(newItem);
+            await CrudService.SoftDeleted<TCrudModel>(newItem);
             
             Snackbar.Add("Registro apagado com sucesso.");
         }

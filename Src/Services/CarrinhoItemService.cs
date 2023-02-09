@@ -87,5 +87,16 @@ public class CarrinhoItemService
             .Update();
         return modeledResponse.Models;
     }
+    
+    public async Task<List<CarrinhoItem>> SetSoftDeleted(int itemId)
+    {
+        Postgrest.Responses.ModeledResponse<CarrinhoItem> modeledResponse = await client
+            .From<CarrinhoItem>()
+            .Set(x => x.SoftDeleted, true)
+            .Set(x => x.SoftDeletedAt, DateTime.Now)
+            .Where( x => x.Id == itemId)
+            .Update();
+        return modeledResponse.Models;
+    }
 
 }

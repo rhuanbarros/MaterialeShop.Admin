@@ -84,7 +84,12 @@ public partial class VerCarrinhosItensListaPage
 
     private async void ValueChangedHandler(int newValue, CarrinhoItemView item)
     {
-        await CarrinhoItemService.SetQuantidade(newValue, item);
+        if(newValue == 0)
+        {
+            await CarrinhoItemService.SetSoftDeleted(item.CarrinhoItemId);
+            Snackbar.Add("Item removido do carrinho com sucesso.");
+        } else
+            await CarrinhoItemService.SetQuantidade(newValue, item);
         
         CarregaDadosAsync();
     }
