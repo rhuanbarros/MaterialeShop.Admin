@@ -242,6 +242,14 @@ public partial class Comparativo
         return orcamentoItemListList.OrderBy(o => o.QuantidadeItens).Last().OrcamentoId;
     }
 
+    protected async Task OnClickhandlerTeste()
+    {
+        Console.WriteLine("OnClickhandlerTeste()");
+        await Task.Delay(3000);
+        Console.WriteLine("FOI");
+
+    }
+
     protected bool _processingNewItem = false;
 
     protected virtual async Task OnClickAdicionarAoCarrinhoTodoOrcamento(OrcamentoView item)

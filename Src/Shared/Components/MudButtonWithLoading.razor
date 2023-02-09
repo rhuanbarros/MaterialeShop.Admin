@@ -1,0 +1,15 @@
+<MudButton Variant="Variant.Filled" Color="Color.Primary"
+    OnClick="onClickEventHandlerProcessingAsync"
+    Disabled="_processingNewItem" >
+
+    @if (_processingNewItem)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+        <MudText Class="ms-2">Processando</MudText>
+    }
+    else
+    {
+        <MudText><strong>@titulo</strong></MudText>
+    }
+
+</MudButton>
