@@ -162,6 +162,10 @@ FROM
 	GROUP BY "CarrinhoView"."ListaId" ) AS "CarrinhoGBLView"
 
 
+-- // TODO há um problema nessa view que ela nao está apresentando os valores totalmente certos.
+-- quando há dois itens de orçamentos diferentes com o mesmo menor valor, as vezes
+-- ela acaba retornar nao o item ideal, que seria o item da mesma loja q as outras, ou seja, mais otimizado.
+--  oq faz com que o vlaor total fique mais caro pq acaba somando o frente de duas lojas qdo podia ser de só uma.
 CREATE OR REPLACE VIEW "EconomiaOrcamentoItemView"
 -- A PROXIMA LINHA APLICA POLICIES NA VIEW
 WITH (security_invoker=on)
