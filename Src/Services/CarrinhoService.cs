@@ -102,7 +102,7 @@ public class CarrinhoService
         Postgrest.Responses.ModeledResponse<Carrinho> modeledResponse = await client
             .From<Carrinho>()
             .Set( x => x.Status, newValue)
-            .Where( x => x.Id == ListaId)
+            .Where( x => x.ListaId == ListaId)
             .Update();
         return modeledResponse.Models;
     }
