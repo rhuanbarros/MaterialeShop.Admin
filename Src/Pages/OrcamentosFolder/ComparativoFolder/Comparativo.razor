@@ -41,13 +41,13 @@
             <MudCardHeader Class="pb-0">
                 <CardHeaderContent>
                     <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
-                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Economia </h3>
+                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Preço total do carrinho mais econômico</h3>
                     </div>
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
                 <MudText Text Typo="Typo.h6" Align="Align.Center">
-                    @* @economiaTotal *@
+                    @PrecoTotalCarrinhosMaisEconomico
                 </MudText>
                 <MudText Typo="Typo.body2" Align="Align.Center">
                     @* @economiaTotalPercentual *@
@@ -55,6 +55,8 @@
                         <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
                     </MudTooltip>
                 </MudText>
+                <MudButtonWithLoading 
+                    titulo="Montar carrinho mais econômico" />
                 
             </MudCardContent>
         </MudCard>

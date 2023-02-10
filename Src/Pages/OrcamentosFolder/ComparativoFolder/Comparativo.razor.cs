@@ -59,11 +59,16 @@ public partial class Comparativo
     private ListasView _ListaView {get; set;}
     private string NomeCliente = "Carregando";
     private string Endereco = "Carregando";
+    private string PrecoTotalCarrinhosMaisEconomico = "Carregando";
     protected async Task GetListaView()
     {
         _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
         NomeCliente = _ListaView?.NomeCompleto;
         Endereco = _ListaView?.Endereco;
+        PrecoTotalCarrinhosMaisEconomico = "R$" + String.Format("{0:0.00}", _ListaView?.EconomiaPrecoTotalComEntrega );
+        
+        Console.WriteLine("_ListaView?.EconomiaPrecoTotalComEntrega");
+        Console.WriteLine(_ListaView?.EconomiaPrecoTotalComEntrega);
     }
 
     // ---------------- SELECT TABLE ListaItem

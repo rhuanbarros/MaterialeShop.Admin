@@ -2,11 +2,32 @@ CREATE OR REPLACE VIEW "ListasView"
 -- A PROXIMA LINHA APLICA POLICIES NA VIEW
 WITH (security_invoker=on)
 AS
-SELECT "Lista"."Id" as "ListaId", "Perfil"."Id" as "PerfilId", "Perfil"."NomeCompleto", "Lista"."Endereco", "Lista"."Status", "Lista"."CreatedAt", "Lista"."SoftDeleted", "Lista"."SoftDeletedAt"
-FROM "Lista"
-LEFT JOIN "Perfil" ON "Lista"."PerfilId" = "Perfil"."Id"
-WHERE "Perfil"."SoftDeleted" = false
+SELECT 
+    "Lista"."Id" as "ListaId", 
+    "Perfil"."Id" as "PerfilId", 
+    "Perfil"."NomeCompleto", 
+    "Lista"."Endereco", 
+    "Lista"."Status", 
+    "Lista"."CreatedAt", 
+    "Lista"."SoftDeleted", 
+    "Lista"."SoftDeletedAt",
+    "EconomiaOrcamentoItemTotalView"."PrecoTotal" AS "EconomiaPrecoTotalSemEntrega",
+    "EconomiaOrcamentosEntregaTotalView"."EntregaPrecoTotal",
+    ( "EconomiaOrcamentoItemTotalView"."PrecoTotal" + "EconomiaOrcamentosEntregaTotalView"."EntregaPrecoTotal" ) as "EconomiaPrecoTotalComEntrega"
+FROM 
+    "Lista"
+    LEFT JOIN "Perfil" ON "Lista"."PerfilId" = "Perfil"."Id"
+    LEFT JOIN "EconomiaOrcamentoItemTotalView" ON "EconomiaOrcamentoItemTotalView"."ListaId"  = "Lista"."Id"
+    LEFT JOIN "EconomiaOrcamentosEntregaTotalView" on "EconomiaOrcamentosEntregaTotalView"."ListaId"  = "Lista"."Id"
+WHERE 
+    "Perfil"."SoftDeleted" = false
 ORDER BY "Lista"."CreatedAt" DESC;
+
+
+
+
+
+
 
 CREATE OR REPLACE VIEW "OrcamentoView"
 -- A PROXIMA LINHA APLICA POLICIES NA VIEW
@@ -139,3 +160,95 @@ FROM
 		ON "OV"."ListaId" = "CarrinhoView"."ListaId"
 	WHERE "CarrinhoView"."Status" LIKE 'Em criação'
 	GROUP BY "CarrinhoView"."ListaId" ) AS "CarrinhoGBLView"
+
+
+CREATE OR REPLACE VIEW "EconomiaOrcamentoItemView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT
+	( 	SELECT 
+            "ListaItem"."ListaId" 
+		FROM "ListaItem" 
+		WHERE 
+			"ListaItem"."Id" = "QueryMIN"."ListaItemId"  
+		LIMIT 1 ) AS "ListaId",		
+    "QueryMIN"."ListaItemId", 
+    "QueryMIN"."MenorPreco", 
+    ( 	SELECT 
+            "OrcamentoItem"."Id" 
+		FROM "OrcamentoItem" 
+		WHERE 
+			"OrcamentoItem"."ListaItemId" = "QueryMIN"."ListaItemId" 
+			AND "OrcamentoItem"."Preco" = "QueryMIN"."MenorPreco" 
+		LIMIT 1 ) AS "OrcamentoItemId",
+    ( 	SELECT 
+            "OrcamentoItem"."OrcamentoId" 
+		FROM "OrcamentoItem" 
+		WHERE 
+			"OrcamentoItem"."ListaItemId" = "QueryMIN"."ListaItemId" 
+			AND "OrcamentoItem"."Preco" = "QueryMIN"."MenorPreco" 
+		LIMIT 1 ) AS "OrcamentoId"
+FROM 
+    ( SELECT 
+        "OrcamentoItem"."ListaItemId", 
+        MIN( "OrcamentoItem"."Preco" ) AS "MenorPreco"
+    FROM "OrcamentoItem"
+    WHERE 
+        "OrcamentoItem"."Preco" IS NOT NULL
+        AND "OrcamentoItem"."ListaItemId" IS NOT NULL
+    GROUP BY "OrcamentoItem"."ListaItemId" ) AS "QueryMIN"
+
+
+-- versao otimizada pelo chatgpt
+-- acho q nao ta funcionando
+-- CREATE OR REPLACE VIEW "EconomiaOrcamentoItemView"
+-- -- A PROXIMA LINHA APLICA POLICIES NA VIEW
+-- WITH (security_invoker=on)
+-- AS
+-- SELECT 
+--     "ListaItem"."ListaId",
+-- 	"OrcamentoItem"."ListaItemId", 
+--     MIN("OrcamentoItem"."Preco") AS "MenorPreco", 
+--     -- quem sabe haja um problema nessa linha
+--     MIN("OrcamentoItem"."Id") AS "OrcamentoItemId",
+--     "OrcamentoItem"."OrcamentoId" 
+-- FROM 
+--     "OrcamentoItem"
+--     JOIN "ListaItem" ON "OrcamentoItem"."ListaItemId" = "ListaItem"."Id"
+-- WHERE 
+--     "OrcamentoItem"."Preco" IS NOT NULL
+--     AND "OrcamentoItem"."ListaItemId" IS NOT NULL
+-- GROUP BY 
+--     "OrcamentoItem"."ListaItemId", "ListaItem"."ListaId", "OrcamentoItem"."OrcamentoId"
+
+
+
+CREATE OR REPLACE VIEW "EconomiaOrcamentoItemTotalView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT
+	"EconomiaOrcamentoItemView"."ListaId",
+	SUM( "EconomiaOrcamentoItemView"."MenorPreco" )	AS "PrecoTotal"
+FROM "EconomiaOrcamentoItemView"
+GROUP BY "EconomiaOrcamentoItemView"."ListaId"
+
+
+
+
+CREATE OR REPLACE VIEW "EconomiaOrcamentosEntregaTotalView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+select 
+	"QueryPrecoEntregas"."ListaId",
+	sum( "QueryPrecoEntregas"."EntregaPreco" ) as "EntregaPrecoTotal"
+from
+(	SELECT
+		"EconomiaOrcamentoItemView"."ListaId",
+		"OrcamentoView"."EntregaPreco"
+	FROM "EconomiaOrcamentoItemView"
+	join "OrcamentoView" on "OrcamentoView"."OrcamentoId" =  "EconomiaOrcamentoItemView"."OrcamentoId"
+	GROUP BY "EconomiaOrcamentoItemView"."ListaId", "OrcamentoView"."EntregaPreco"		) as "QueryPrecoEntregas"
+GROUP BY "QueryPrecoEntregas"."ListaId"

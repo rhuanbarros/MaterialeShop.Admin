@@ -23,6 +23,15 @@ public class ListasView : BaseModelApp
     [Column("Status")]
     public string? Status { get; set; }
 
+    [Column("EconomiaPrecoTotalSemEntrega")]
+    public decimal? EconomiaPrecoTotalSemEntrega { get; set; }
+
+    [Column("EntregaPrecoTotal")]
+    public decimal? EntregaPrecoTotal { get; set; }
+    
+    [Column("EconomiaPrecoTotalComEntrega")]
+    public decimal? EconomiaPrecoTotalComEntrega { get; set; }
+
     public static class StatusConstLista
     {
         public static string EmCriacao = "Em criação";
