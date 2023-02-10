@@ -63,7 +63,7 @@ public partial class Comparativo
     private ListasView _ListaView { get; set; }
     private string NomeCliente = "Carregando";
     private string Endereco = "Carregando";
-    private string PrecoTotalCarrinhosMaisEconomico = "Carregando";
+    
     protected async Task GetListaView()
     {
         _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
@@ -340,6 +340,9 @@ public partial class Comparativo
     }
 
     // ---------------- SELECT TABLE ListaItem
+    private string PrecoTotalCarrinhosMaisEconomico = "Carregando";
+    private string EconomiaEmRelacaoAoOrcamentoMaisCaro = "Carregando";
+    private string EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = "Carregando";
     protected List<OrcamentoItemView>? _OrcamentoItemViewList { get; set; } = new();
     protected async Task GetOrcamentoItemView(int ListaId)
     {
@@ -369,6 +372,14 @@ public partial class Comparativo
         decimal? economiaTotalComEntrega = economiaTotal + totalOrcamentoEconomia;
 
         PrecoTotalCarrinhosMaisEconomico = "R$" + String.Format("{0:0.00}", economiaTotalComEntrega);
+
+        decimal? PrecoOrcamentoMaisCaro = _OrcamentoViewList.Max( x => x.PrecoTotalComEntrega);
+        decimal? diferencaPrecoOrcamentoMaisCaro = PrecoOrcamentoMaisCaro - economiaTotalComEntrega;
+        
+        EconomiaEmRelacaoAoOrcamentoMaisCaro = "R$" + String.Format("{0:0.00}", diferencaPrecoOrcamentoMaisCaro);
+
+        decimal? porcentagemDiferencaPrecoOrcamentoMaisCaro = diferencaPrecoOrcamentoMaisCaro / PrecoOrcamentoMaisCaro * 100;
+        EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = String.Format("{0:0.00}", porcentagemDiferencaPrecoOrcamentoMaisCaro )+"%";
     }
 
     private decimal verifyNotNull(decimal? value)
