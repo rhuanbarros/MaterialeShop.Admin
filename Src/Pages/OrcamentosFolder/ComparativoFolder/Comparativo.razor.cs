@@ -267,23 +267,10 @@ public partial class Comparativo
         return orcamentoItemListList.OrderBy(o => o.QuantidadeItens).Last().OrcamentoId;
     }
 
-    protected async Task OnClickhandlerTeste()
-    {
-        Console.WriteLine("OnClickhandlerTeste()");
-        await Task.Delay(3000);
-        Console.WriteLine("FOI");
-
-    }
-
-    protected bool _processingNewItem = false;
-
     protected virtual async Task OnClickAdicionarAoCarrinhoTodoOrcamento(OrcamentoView item)
     {
         // TODO verificar se as variveis sao nulas antes de tentar fazer o seguinte.
         // quem sabe usar um try e capturar, em vez de usar 3 ifs
-
-        // TODO arrumar o indicador de loading dos botoes
-        _processingNewItem = true;
 
         Carrinho? carrinho = await CriaCarrinhoSeNaoExistir(item);
 
@@ -302,8 +289,6 @@ public partial class Comparativo
         await CarrinhoItemService.Upsert(CarrinhoItemList);
 
         NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(ListaId));
-
-        _processingNewItem = false;
     }
 
     private async Task<Carrinho?> CriaCarrinhoSeNaoExistir(OrcamentoView item)
@@ -344,19 +329,19 @@ public partial class Comparativo
     private string EconomiaEmRelacaoAoOrcamentoMaisCaro = "Carregando";
     private string EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = "Carregando";
     protected List<OrcamentoItemView>? _OrcamentoItemViewList { get; set; } = new();
+    List<OrcamentoItemView> itensEconomia;
     protected async Task GetOrcamentoItemView(int ListaId)
     {
         _OrcamentoItemViewList = (List<OrcamentoItemView>?)await OrcamentoItemViewService.SelectByListaId(ListaId);
 
         List<OrcamentoItemView> ListOrcamentoItemViewMaisBaratoParaCadaListaItem = GetListOrcamentoItemViewMaisBaratoParaCadaListaItem(_OrcamentoItemViewList);
 
-        List<OrcamentoItemView> itensEconomia = RemoveItensDuplicadosEMantemAPenasUm(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
+        itensEconomia = RemoveItensDuplicadosEMantemAPenasUm(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
 
         // PrintList(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
         // Console.WriteLine("");
-        // Console.WriteLine("");
-        
-        PrintList(itensEconomia);
+        // Console.WriteLine("");        
+        // PrintList(itensEconomia);
 
         List<int> listOrcamentoId = itensEconomia.Select( x => x.OrcamentoId).Distinct().ToList();
         
@@ -378,7 +363,12 @@ public partial class Comparativo
         
         EconomiaEmRelacaoAoOrcamentoMaisCaro = "R$" + String.Format("{0:0.00}", diferencaPrecoOrcamentoMaisCaro);
 
-        decimal? porcentagemDiferencaPrecoOrcamentoMaisCaro = diferencaPrecoOrcamentoMaisCaro / PrecoOrcamentoMaisCaro * 100;
+        decimal? porcentagemDiferencaPrecoOrcamentoMaisCaro;
+        if(PrecoOrcamentoMaisCaro == 0)
+            porcentagemDiferencaPrecoOrcamentoMaisCaro = 0;
+        else
+            porcentagemDiferencaPrecoOrcamentoMaisCaro = diferencaPrecoOrcamentoMaisCaro / PrecoOrcamentoMaisCaro * 100;
+            
         EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = String.Format("{0:0.00}", porcentagemDiferencaPrecoOrcamentoMaisCaro )+"%";
     }
 
@@ -515,8 +505,38 @@ public partial class Comparativo
     }
 
 
+    private async Task OnClickMontarCarrinhoEconomico()
+    {
+        // limpa todos os carrinhos ja existentes pra esta lista
+        await CarrinhoService.SetStatus( Carrinho.StatusConstCarrinho.Cancelado, ListaId );
 
+        List<int> listOrcamentoId = itensEconomia.Select( x => x.OrcamentoId ).Distinct().ToList();
 
+        foreach (var orcamentoId in listOrcamentoId)
+        {
+            // cria carrinho novo para cada orcamento existente
+            Carrinho carrinho = new()
+            {
+                PerfilId = _Lista.PerfilId,
+                ListaId = ListaId,
+                OrcamentoId = orcamentoId,
+                Status = Carrinho.StatusConstCarrinho.EmCriacao
+            };
+            List<Carrinho> carrinhos1 = await CarrinhoService.Insert(carrinho);
+            carrinho = carrinhos1.First();
 
+            // INSERE TODOS OS ITENS DO ORCAMENTO NO CARRINHO
+            // filtra todos os itens de orçamento pelo item.OrcamentoId
+            List<OrcamentoItemView>? orcamentoItemViews = itensEconomia?.FindAll(x => x.OrcamentoId == orcamentoId);
+
+            //cria CarrinhoItem para cada item do orcamento
+            List<CarrinhoItem>? CarrinhoItemList = orcamentoItemViews?.Select(x => new CarrinhoItem(carrinho.Id, x.Id, x.ListaItem_Quantidade, null)).ToList();
+
+            //insere todos os itens ao mesmo tempo no banco de dados
+            await CarrinhoItemService.Upsert(CarrinhoItemList);            
+        }
+
+        NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(ListaId));
+    }
 
 }

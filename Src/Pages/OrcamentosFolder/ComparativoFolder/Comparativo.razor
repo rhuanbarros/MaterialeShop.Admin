@@ -55,8 +55,8 @@
                         </MudTooltip>
                     </MudText>
                     
-                    <MudButtonWithLoading 
-                        titulo="Montar carrinho mais econômico" />
+                    <MudButtonWithLoading titulo="Montar carrinho mais econômico"
+                        onClickEventHandler="@(async () => await OnClickMontarCarrinhoEconomico() )"/>
                 </div>                
                 
             </MudCardContent>
