@@ -32,6 +32,9 @@ public partial class Comparativo
     [Inject]
     CarrinhoItemService CarrinhoItemService { get; set; }
 
+    [Inject]
+    OrcamentoItemViewService OrcamentoItemViewService { get; set; }
+
     public List<List<CelulaTabelaComparativa>> tabelaComparativa;
     public int? maisBarato;
     public int? maisQuantidadeItens;
@@ -332,6 +335,15 @@ public partial class Comparativo
         //verificar se carrinho para este orcamento ja existe
         IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(ListaId, _Lista.PerfilId, item.OrcamentoId);
         carrinhos?.FirstOrDefault();
+        
+    }
+
+    // ---------------- SELECT TABLE ListaItem
+    protected List<OrcamentoItemView>? _OrcamentoItemViewList { get; set; } = new();
+    protected async Task GetOrcamentoItemView(int ListaId)
+    {
+        _OrcamentoItemViewList = (List<OrcamentoItemView>?)await OrcamentoItemViewService.SelectByListaId(ListaId);
+
         
     }
 

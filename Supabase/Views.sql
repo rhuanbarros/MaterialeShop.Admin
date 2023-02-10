@@ -172,7 +172,7 @@ SELECT
 		FROM "ListaItem" 
 		WHERE 
 			"ListaItem"."Id" = "QueryMIN"."ListaItemId"  
-		LIMIT 1 ) AS "ListaId",		
+		LIMIT 1 ) AS "ListaId",
     "QueryMIN"."ListaItemId", 
     "QueryMIN"."MenorPreco", 
     ( 	SELECT 
@@ -188,7 +188,13 @@ SELECT
 		WHERE 
 			"OrcamentoItem"."ListaItemId" = "QueryMIN"."ListaItemId" 
 			AND "OrcamentoItem"."Preco" = "QueryMIN"."MenorPreco" 
-		LIMIT 1 ) AS "OrcamentoId"
+		LIMIT 1 ) AS "OrcamentoId",
+		( 	SELECT 
+            "ListaItem"."Quantidade"  
+		FROM "ListaItem" 
+		WHERE 
+			"ListaItem"."Id" = "QueryMIN"."ListaItemId"  
+		LIMIT 1 ) AS "Quantidade"
 FROM 
     ( SELECT 
         "OrcamentoItem"."ListaItemId", 
@@ -252,3 +258,24 @@ from
 	join "OrcamentoView" on "OrcamentoView"."OrcamentoId" =  "EconomiaOrcamentoItemView"."OrcamentoId"
 	GROUP BY "EconomiaOrcamentoItemView"."ListaId", "OrcamentoView"."EntregaPreco"		) as "QueryPrecoEntregas"
 GROUP BY "QueryPrecoEntregas"."ListaId"
+
+
+CREATE OR REPLACE VIEW "OrcamentoItemView"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT 
+	"OrcamentoItem"."Id",
+	"OrcamentoItem"."OrcamentoId",
+	"OrcamentoItem"."ListaItemId",
+	"OrcamentoItem"."Descricao" AS "OrcamentoItem_Descricao",
+	"OrcamentoItem"."Quantidade" AS "OrcamentoItem_Quantidade",
+	"OrcamentoItem"."UnidadeMedida",
+	"OrcamentoItem"."Observacao",
+	"OrcamentoItem"."Preco",
+	"OrcamentoItem"."Desconto",
+	"ListaItem"."ListaId",
+	"ListaItem"."Descricao" AS "ListaItem_Descricao",
+	"ListaItem"."Quantidade" AS "ListaItem_Quantidade"	
+FROM "OrcamentoItem"
+JOIN "ListaItem" ON "ListaItem"."Id" = "OrcamentoItem"."ListaItemId"

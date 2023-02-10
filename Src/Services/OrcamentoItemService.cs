@@ -33,16 +33,17 @@ public class OrcamentoItemService
         return modeledResponse.Models;
     }
     
-    public async Task<IReadOnlyList<OrcamentoItem>> SelectByOrcamentoId(int id)
+    public async Task<IReadOnlyList<OrcamentoItem>> SelectByOrcamentoId(int OrcamentoId)
     {
         logger.LogInformation("------------------- OrcamentoItemService SelectByOrcamentoId -------------------");
         Postgrest.Responses.ModeledResponse<OrcamentoItem> modeledResponse =  await client
             .From<OrcamentoItem>()
             // .Filter(nameof(OrcamentoItem.OrcamentoId), Postgrest.Constants.Operator.Equals, id)
-            .Where(x => x.OrcamentoId == id)
+            .Where(x => x.OrcamentoId == OrcamentoId)
             .Where(x => x.SoftDeleted == false)
             .Get();
         return modeledResponse.Models;
     }
+    
 
 }
