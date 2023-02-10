@@ -11,8 +11,8 @@ public partial class Comparativo
     [Parameter]
     public int ListaId { get; set; }
 
-    [Inject] 
-    protected ListasViewService ListasViewService {get; set;}
+    [Inject]
+    protected ListasViewService ListasViewService { get; set; }
 
     [Inject]
     ListaItensService ListaItensService { get; set; }
@@ -22,7 +22,7 @@ public partial class Comparativo
 
     [Inject]
     OrcamentoItemService OrcamentoItemService { get; set; }
-    
+
     [Inject]
     ListasService ListasService { get; set; }
 
@@ -53,13 +53,14 @@ public partial class Comparativo
         maisQuantidadeItens = getMaisQuantidadeItens(_OrcamentoViewList);
 
         await InvokeAsync(StateHasChanged);
-        
+
         // TODO quem sabe de para remover esta chamada ao banco de dados
         await GetLista(ListaId);
+        await GetOrcamentoItemView(ListaId);
     }
 
     // ---------------- GET ListaView
-    private ListasView _ListaView {get; set;}
+    private ListasView _ListaView { get; set; }
     private string NomeCliente = "Carregando";
     private string Endereco = "Carregando";
     private string PrecoTotalCarrinhosMaisEconomico = "Carregando";
@@ -68,10 +69,10 @@ public partial class Comparativo
         _ListaView = await ListasViewService.SelectAllByListaId(ListaId);
         NomeCliente = _ListaView?.NomeCompleto;
         Endereco = _ListaView?.Endereco;
-        PrecoTotalCarrinhosMaisEconomico = "R$" + String.Format("{0:0.00}", _ListaView?.EconomiaPrecoTotalComEntrega );
-        
-        Console.WriteLine("_ListaView?.EconomiaPrecoTotalComEntrega");
-        Console.WriteLine(_ListaView?.EconomiaPrecoTotalComEntrega);
+        // PrecoTotalCarrinhosMaisEconomico = "R$" + String.Format("{0:0.00}", _ListaView?.EconomiaPrecoTotalComEntrega);
+
+        // Console.WriteLine("_ListaView?.EconomiaPrecoTotalComEntrega");
+        // Console.WriteLine(_ListaView?.EconomiaPrecoTotalComEntrega);
     }
 
     // ---------------- SELECT TABLE ListaItem
@@ -168,7 +169,7 @@ public partial class Comparativo
                 for (int i = 0; i < maxBudgetCount; i++)
                 {
                     var itemOrcamento = new List<CelulaTabelaComparativa>();
-                    
+
                     // adiciona o item na primeira coluna
                     itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.ListaItem, item));
 
@@ -177,7 +178,7 @@ public partial class Comparativo
                     {
                         //Obtém o orçamento correspondente para o id de orçamento atual.
                         var budget = budgets.FirstOrDefault(x => x.OrcamentoId == budgetId);
-                        
+
                         //  Verifica se existe e se ainda há itens de orçamento para serem adicionados.
                         // Se existir orçamento correspondente e ainda há itens de orçamento para serem adicionados, adiciona o orçamento na coluna correspondente e remove-o da lista de orçamentos
                         // if (budget != null && i < budgets.Count(x => x.OrcamentoId == budgetId))
@@ -195,7 +196,7 @@ public partial class Comparativo
                     result.Add(itemOrcamento);
                 }
             }
-            
+
         }
 
 
@@ -335,7 +336,7 @@ public partial class Comparativo
         //verificar se carrinho para este orcamento ja existe
         IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(ListaId, _Lista.PerfilId, item.OrcamentoId);
         carrinhos?.FirstOrDefault();
-        
+
     }
 
     // ---------------- SELECT TABLE ListaItem
@@ -344,8 +345,167 @@ public partial class Comparativo
     {
         _OrcamentoItemViewList = (List<OrcamentoItemView>?)await OrcamentoItemViewService.SelectByListaId(ListaId);
 
+        List<OrcamentoItemView> ListOrcamentoItemViewMaisBaratoParaCadaListaItem = GetListOrcamentoItemViewMaisBaratoParaCadaListaItem(_OrcamentoItemViewList);
+
+        List<OrcamentoItemView> itensEconomia = RemoveItensDuplicadosEMantemAPenasUm(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
+
+        // PrintList(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
+        // Console.WriteLine("");
+        // Console.WriteLine("");
         
+        PrintList(itensEconomia);
+
+        List<int> listOrcamentoId = itensEconomia.Select( x => x.OrcamentoId).Distinct().ToList();
+        
+        decimal totalOrcamentoEconomia = 0;
+        foreach (var item in listOrcamentoId)
+        {
+            OrcamentoView? orcamentoView = _OrcamentoViewList?.Find( x=> x.OrcamentoId == item);
+            totalOrcamentoEconomia += verifyNotNull(orcamentoView?.EntregaPreco);
+        }        
+
+        decimal? economiaTotal = itensEconomia.Sum( x => x.Preco * x.ListaItem_Quantidade);
+
+        decimal? economiaTotalComEntrega = economiaTotal + totalOrcamentoEconomia;
+
+        PrecoTotalCarrinhosMaisEconomico = "R$" + String.Format("{0:0.00}", economiaTotalComEntrega);
     }
+
+    private decimal verifyNotNull(decimal? value)
+    {
+        return (decimal) (value is not null ? value : 0);
+    }
+
+    public List<OrcamentoItemView> GetListOrcamentoItemViewMaisBaratoParaCadaListaItem(List<OrcamentoItemView> _OrcamentoItemViewList)
+    {
+        // Agrupa os itens por ListaItemId
+        var grouped = _OrcamentoItemViewList.GroupBy(x => x.ListaItemId);
+
+        // Cria uma lista para armazenar os itens selecionados
+        List<OrcamentoItemView> result = new List<OrcamentoItemView>();
+
+        // Para cada grupo de itens com o mesmo ListaItemId
+        foreach (var group in grouped)
+        {
+            // Seleciona o item com o menor valor de Preco
+            var minPreco = group.Min(x => x.Preco);
+
+            // Adiciona todos os itens com o menor valor de Preco à lista de resultados
+            result.AddRange(group.Where(x => x.Preco == minPreco));
+        }
+
+        // Retorna a lista de resultados
+        return result;
+    }
+
+    public List<OrcamentoItemView> RemoveItensDuplicadosEMantemAPenasUm(List<OrcamentoItemView> _OrcamentoItemViewList)
+    {
+        // Usaremos um dicionário para armazenar as ocorrências de ListaItemId
+        Dictionary<int?, int> ocorrencias = new Dictionary<int?, int>();
+
+        // Loop para contar o número de ocorrências de cada ListaItemId
+        foreach (var item in _OrcamentoItemViewList)
+        {
+            if (item.ListaItemId != null)
+            {
+                if (ocorrencias.ContainsKey(item.ListaItemId))
+                {
+                    ocorrencias[item.ListaItemId]++;
+                }
+                else
+                {
+                    ocorrencias[item.ListaItemId] = 1;
+                }
+            }
+        }
+
+        // Criamos uma lista para armazenar os itens a serem removidos
+        List<OrcamentoItemView> itensRemovidos = new List<OrcamentoItemView>();
+
+        // Loop para verificar se há itens com ListaItemId duplicado
+        foreach (var item in _OrcamentoItemViewList)
+        {
+            if (item.ListaItemId != null && ocorrencias[item.ListaItemId] > 1)
+            {
+                // TODO isso daqui possivelmente vai dar problema no futuro, pq ele pode remover um item que nao era pra remover
+                //      fiz um teste diferente e funcionou, vai ver ta certo mesmo.
+
+                // Se houver, contamos quantos itens contém o mesmo OrcamentoId
+                int quantidade = _OrcamentoItemViewList.Count(i => i.OrcamentoId == item.OrcamentoId);
+
+                // Se não houver mais de 1 item com o mesmo OrcamentoId, adicionamos o item à lista de itens a serem removidos
+                if (quantidade < 2)
+                {
+                    itensRemovidos.Add(item);
+                }
+            }
+        }
+
+        // Removemos os itens a serem removidos da lista original
+        foreach (var item in itensRemovidos)
+        {
+            _OrcamentoItemViewList.Remove(item);
+        }
+
+        // Retornamos a lista atualizada
+        return _OrcamentoItemViewList;
+    }
+
+
+
+    public void PrintList(List<OrcamentoItemView> orcamentoItemViews)
+    {
+        orcamentoItemViews = orcamentoItemViews.OrderBy(x => x.OrcamentoId).ToList();
+
+        int maxOrcamentoIdLength = "OrcamentoId".Length;
+        int maxPrecoLength = "Preco".Length;
+        int maxListaIdLength = "ListaId".Length;
+        int maxListaItemIdLength = "ListaItemId".Length;
+        int maxListaItemDescricaoLength = "ListaItem_Descricao".Length;
+
+        foreach (var item in orcamentoItemViews)
+        {
+            if (item.OrcamentoId.ToString().Length > maxOrcamentoIdLength)
+                maxOrcamentoIdLength = item.OrcamentoId.ToString().Length;
+
+            if (item.Preco.ToString().Length > maxPrecoLength)
+                maxPrecoLength = item.Preco.ToString().Length;
+
+            if (item.ListaId.ToString().Length > maxListaIdLength)
+                maxListaIdLength = item.ListaId.ToString().Length;
+
+            if (item.ListaItemId.ToString().Length > maxListaItemIdLength)
+                maxListaItemIdLength = item.ListaItemId.ToString().Length;
+
+            if (item.ListaItem_Descricao.Length > maxListaItemDescricaoLength)
+                maxListaItemDescricaoLength = item.ListaItem_Descricao.Length;
+        }
+
+        Console.WriteLine("OrcamentoId".PadRight(maxOrcamentoIdLength) + " " +
+                        "Preco".PadRight(maxPrecoLength) + " " +
+                        "ListaId".PadRight(maxListaIdLength) + " " +
+                        "ListaItemId".PadRight(maxListaItemIdLength) + " " +
+                        "ListaItem_Descricao");
+
+        Console.WriteLine(new string('-', maxOrcamentoIdLength) + " " +
+                        new string('-', maxPrecoLength) + " " +
+                        new string('-', maxListaIdLength) + " " +
+                        new string('-', maxListaItemIdLength) + " " +
+                        new string('-', maxListaItemDescricaoLength));
+
+        foreach (var item in orcamentoItemViews)
+        {
+            Console.WriteLine(item.OrcamentoId.ToString().PadRight(maxOrcamentoIdLength) + " " +
+                            item.Preco.ToString().PadRight(maxPrecoLength) + " " +
+                            item.ListaId.ToString().PadRight(maxListaIdLength) + " " +
+                            item.ListaItemId.ToString().PadRight(maxListaItemIdLength) + " " +
+                            item.ListaItem_Descricao);
+        }
+    }
+
+
+
+
 
 
 }

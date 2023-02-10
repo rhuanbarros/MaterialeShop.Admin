@@ -50,13 +50,11 @@
                 <div class='d-flex flex-column justify-start align-center gap-1' style='width: 100% !important' COLUNA>
                     <MudText Text Typo="Typo.h6" Align="Align.Center">
                         @PrecoTotalCarrinhosMaisEconomico
-                    </MudText>
-                    <MudText Typo="Typo.body2" Align="Align.Center">
-                        @* @economiaTotalPercentual *@
-                        <MudTooltip Text="Em relação ao orçamento mais caro recebido.">
+                        <MudTooltip Text="O preço total do carrinho mais econômico considera a seleção da oferta de preço unitário mais barato para cada item solicitado, somando, também, os valores de frete aplicáveis.">
                             <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
                         </MudTooltip>
                     </MudText>
+                    
                     <MudButtonWithLoading 
                         titulo="Montar carrinho mais econômico" />
                 </div>                

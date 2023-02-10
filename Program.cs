@@ -80,6 +80,7 @@ builder.Services.AddScoped<CarrinhoItemService>();
 builder.Services.AddScoped<CarrinhoViewService>();
 builder.Services.AddScoped<CarrinhoItemViewService>();
 builder.Services.AddScoped<CarrinhoGroupByListaViewService>();
+builder.Services.AddScoped<OrcamentoItemViewService>();
 
 
 
