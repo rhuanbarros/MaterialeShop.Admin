@@ -39,6 +39,9 @@
 
             <HeaderContent>
                 <MudTh>
+                    Ações
+                </MudTh>
+                <MudTh>
                     <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.NomeCompleto)">
                         NomeCompleto
                     </MudTableSortLabel>
@@ -83,11 +86,19 @@
                         Data de criação da lista
                     </MudTableSortLabel>
                 </MudTh>
-                <MudTh>
-                    Ações
-                </MudTh>
+                
             </HeaderContent>
             <RowTemplate>
+                <MudTd DataLabel="Ação">
+                    <MudIconButton Icon="@Icons.Material.Filled.ShoppingCartCheckout" aria-label="Ver carrinhos de compras desta lista"
+                    Title="Ver carrinhos de compras desta lista" Size="MudBlazor.Size.Small"
+                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
+                    
+                    <MudIconButton Icon="@Icons.Material.Filled.TableChart"
+                        Title="Ver comparativo de orçamentos" Size="MudBlazor.Size.Small"
+                        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(context.ListaId)))' />
+                </MudTd>
+                
                 <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Lojas">@context?.Lojas</MudTd>
@@ -103,15 +114,7 @@
                 </MudTd>
                 <MudTd DataLabel="EntregaPrazoMinimo">@context?.EntregaPrazoMinimo</MudTd>
                 <MudTd DataLabel="Data de criação da lista">@context?.CreatedAt</MudTd>
-                <MudTd DataLabel="Ação">
-                    <MudIconButton Icon="@Icons.Material.Filled.ShoppingCartCheckout" aria-label="Ver carrinhos de compras desta lista"
-                    Title="Ver carrinhos de compras desta lista" Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
-                    
-                    <MudIconButton Icon="@Icons.Material.Filled.TableChart"
-                        Title="Ver comparativo de orçamentos" Size="MudBlazor.Size.Small"
-                        OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Orcamentos_comparativo(context.ListaId)))' />
-                </MudTd>
+                
             </RowTemplate>
 
             <NoRecordsContent>
