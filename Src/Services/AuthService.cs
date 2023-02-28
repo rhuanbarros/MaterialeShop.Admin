@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using MaterialeShop.Admin.Src.Dtos;
 using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
 using Supabase.Gotrue;
 using Supabase.Interfaces;
 using Supabase.Realtime;
@@ -15,7 +16,8 @@ public class AuthService
     private readonly UsuarioPerfilService usuarioPerfilService;
     private readonly ILocalStorageService localStorage;
     private readonly ILogger<AuthService> logger;
-    
+    private readonly IDialogService dialogService;
+
     // guarda o model UsuarioPerfil do usuario logado 
     public Perfil UsuarioPerfil {get;set;}
 
@@ -26,7 +28,8 @@ public class AuthService
         AuthenticationStateProvider CustomAuthStateProvider,
         UsuarioPerfilService UsuarioPerfilService,
         ILocalStorageService localStorage,
-        ILogger<AuthService> logger
+        ILogger<AuthService> logger,
+        IDialogService DialogService
     ) : base()
     {
         logger.LogInformation("------------------- CONSTRUCTOR -------------------");
@@ -36,7 +39,7 @@ public class AuthService
         this.usuarioPerfilService = UsuarioPerfilService;
         this.localStorage = localStorage;
         this.logger = logger;
-
+        dialogService = DialogService;
         client.InitializeAsync();
         client.Auth.RetrieveSessionAsync();
     }
@@ -62,7 +65,17 @@ public class AuthService
     {
         logger.LogInformation("METHOD: Login");
         
-        Session? session = await client.Auth.SignIn(Email, Password);
+        try
+        {
+            Session? session = await client.Auth.SignIn(Email, Password);            
+        }
+        catch (System.Net.Http.HttpRequestException ex)
+        {
+            await dialogService.ShowMessageBox(
+                    "Atenção", 
+                    "Houve um erro de conexão de rede. Tente novamente ou contate o suporte."
+                );            
+        }
 
         logger.LogInformation("------------------- User logged in -------------------");
         logger.LogInformation($"instance.Auth.CurrentUser.Id {client?.Auth?.CurrentUser?.Id}");
