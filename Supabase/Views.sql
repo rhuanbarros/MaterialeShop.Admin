@@ -71,6 +71,7 @@ SELECT
                                                                             where li."Id" = "OrcamentoItem"."ListaItemId") , 1) ) as "PrecoTotal", 
     count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" 
 FROM "OrcamentoItem" 
+WHERE "OrcamentoItem"."SoftDeleted" = false 
 GROUP BY "OrcamentoItem"."OrcamentoId";
 
 
