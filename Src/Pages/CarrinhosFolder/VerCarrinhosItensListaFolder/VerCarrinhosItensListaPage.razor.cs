@@ -102,6 +102,8 @@ public partial class VerCarrinhosItensListaPage
     
     private string economiaTotal = "Carregando";
     private string economiaTotalPercentual = "Carregando";
+    private string EntregaPrecoTotal = "Carregando";
+    private string PrecoTotalComEntrega = "Carregando";
 
     CarrinhoGroupByListaView? _carrinhoGroupByListaView;
     private async Task GetCarrinhoGroupByListaView()
@@ -113,6 +115,15 @@ public partial class VerCarrinhosItensListaPage
         {
             economiaTotal = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView.Economia );
             economiaTotalPercentual = String.Format("{0:0.00}", _carrinhoGroupByListaView?.Economia / _carrinhoGroupByListaView?.PrecoTotal )+"%";
+
+            Console.WriteLine("_carrinhoGroupByListaView?.EntregaPrecoTotal");
+            Console.WriteLine(_carrinhoGroupByListaView?.EntregaPrecoTotal);
+
+            Console.WriteLine("_carrinhoGroupByListaView?.PrecoTotal");
+            Console.WriteLine(_carrinhoGroupByListaView?.PrecoTotal);
+
+            EntregaPrecoTotal = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 );
+            PrecoTotalComEntrega = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.PrecoTotal + (_carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 ) );
         }
     }
 

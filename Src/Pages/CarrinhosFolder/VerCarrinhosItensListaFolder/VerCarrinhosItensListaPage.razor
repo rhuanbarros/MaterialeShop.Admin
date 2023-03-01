@@ -133,7 +133,8 @@
                         <div class='d-flex flex-column justify-start align-start gap-4' style='width: 100% !important' COLUNA>
 
                             <div class='d-flex flex-column justify-start align-start gap-1' style='width: 100% !important' COLUNA>
-                                <MudText Align="Align.Start" Typo="Typo.body1"><b>Preço total: @( "R$" + String.Format("{0:0.00}", carrinhoView?.PrecoTotal + carrinhoView?.EntregaPreco ) )</b></MudText>
+                                <MudText Align="Align.Start" Typo="Typo.body1"><b>Preço total: @( "R$" + String.Format("{0:0.00}", carrinhoView?.PrecoTotal ) )</b></MudText>
+                                <MudText Align="Align.Start" Typo="Typo.body1"><b>Preço total com entrega: @( "R$" + String.Format("{0:0.00}", carrinhoView?.PrecoTotal + carrinhoView?.EntregaPreco ) )</b></MudText>
                             </div>
                             @* <MudText Align="Align.Start" Typo="Typo.body2"><b>Preço total: @( "R$" + String.Format("{0:0.00}", carrinhoView?.PrecoTotal + carrinhoView?.EntregaPreco ) )</b></MudText>
                             <div class='d-flex flex-column justify-start align-start gap-1' style='width: 100% !important' COLUNA>
@@ -162,7 +163,8 @@
 <MudAppBar Bottom="true" Fixed="true" Elevation="3" Style="background-color: #dadada !important" >
     <div class='d-flex flex-row justify-space-around align-center gap-4' style='width: 100% !important' LINHA>
 
-        <MudText Align="Align.Start" Typo="Typo.body1" Color="Color.Secondary"><b>Preço total: @( "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.PrecoTotal + (_carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 ) ) )</b></MudText>
+        <MudText Align="Align.Start" Typo="Typo.body1" Color="Color.Secondary"><b>Preço entrega: @EntregaPrecoTotal</b></MudText>
+        <MudText Align="Align.Start" Typo="Typo.body1" Color="Color.Secondary"><b>Preço total: @PrecoTotalComEntrega</b></MudText>
 
         @* <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert>
             <div class='d-flex flex-column justify-start align-center gap-1' COLUNA>
