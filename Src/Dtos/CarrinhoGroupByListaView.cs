@@ -7,10 +7,10 @@ public class CarrinhoGroupByListaView : BaseModelApp
 {
     [Column("ListaId")]
     public int ListaId { get; set; }
-    
+
     [Column("PerfilId")]
     public int PerfilId { get; set; }
-    
+
     [Column("NomeCompleto")]
     public string NomeCompleto { get; set; }
 
@@ -23,9 +23,9 @@ public class CarrinhoGroupByListaView : BaseModelApp
     [Column("Lojas")]
     public string Lojas { get; set; }
 
-    [Column("EntregaPrecoMinimo")]
+    [Column("EntregaPrecoTotal")]
     public decimal? EntregaPrecoTotal { get; set; }
-    
+
     [Column("EntregaPrazoMinimo")]
     public string? EntregaPrazoMinimo { get; set; }
 
@@ -34,11 +34,17 @@ public class CarrinhoGroupByListaView : BaseModelApp
 
     [Column("QuantidadeItens")]
     public int? QuantidadeItens { get; set; }
-    
+
     [Column("OrcamentoMaisCaroPrecoTotalComEntrega")]
     public decimal? OrcamentoMaisCaroPrecoTotalComEntrega { get; set; }
-    
+
     [Column("Economia")]
     public decimal? Economia { get; set; }
-    
+
+    public override string ToString()
+    {
+        return $"ListaId: {ListaId}, PerfilId: {PerfilId}, NomeCompleto: {NomeCompleto}, Endereco: {Endereco}, ListaCreatedAt: {ListaCreatedAt}, Lojas: {Lojas}, EntregaPrecoTotal: {EntregaPrecoTotal}, EntregaPrazoMinimo: {EntregaPrazoMinimo}, PrecoTotal: {PrecoTotal}, QuantidadeItens: {QuantidadeItens}, OrcamentoMaisCaroPrecoTotalComEntrega: {OrcamentoMaisCaroPrecoTotalComEntrega}, Economia: {Economia}";
+    }
+
+
 }
