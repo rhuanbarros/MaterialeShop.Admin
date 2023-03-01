@@ -55,7 +55,9 @@ SELECT
 FROM "Orcamento"
 LEFT JOIN "Loja" ON "Orcamento"."LojaId" = "Loja"."Id"
 LEFT JOIN "OrcamentoTotal" ON "Orcamento"."Id" = "OrcamentoTotal"."OrcamentoId"
-WHERE "Loja"."SoftDeleted" = false
+WHERE 
+	"Loja"."SoftDeleted" = false
+	AND "OrcamentoTotal"."QuantidadeItens" IS NOT NULL 
 ORDER BY "PrecoTotalComEntrega" ASC;
 
 
