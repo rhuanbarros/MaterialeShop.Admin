@@ -245,7 +245,16 @@
                     {
                         <td Class="borda-remove"></td>
                         <td colspan="2"><MudText Align="Align.Center" Typo="Typo.body2">Taxa de entrega</MudText></td>
-                        <td><MudText Align="Align.Right" Typo="Typo.body2">@("R$"+String.Format("{0:0.00}", item.EntregaPreco))</MudText></td>
+                        <td>
+                            @if(item?.EntregaPreco is null)
+                            {
+                                <MudText Align="Align.Right" Typo="Typo.body2">Não informada.</MudText>
+                            }
+                            else
+                            {
+                                <MudText Align="Align.Right" Typo="Typo.body2">@("R$"+String.Format("{0:0.00}", item.EntregaPreco))</MudText>
+                            }
+                        </td>
                     }
                 </tr>
 
