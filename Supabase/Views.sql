@@ -58,6 +58,8 @@ LEFT JOIN "OrcamentoTotal" ON "Orcamento"."Id" = "OrcamentoTotal"."OrcamentoId"
 WHERE "Loja"."SoftDeleted" = false
 ORDER BY "PrecoTotalComEntrega" ASC;
 
+
+-- //TODO daria pra criar essa view usando OrcamentoItemView. quem sabe fosse mais otimizado.
 CREATE OR REPLACE VIEW "OrcamentoTotal"
 -- A PROXIMA LINHA APLICA POLICIES NA VIEW
 WITH (security_invoker=on)

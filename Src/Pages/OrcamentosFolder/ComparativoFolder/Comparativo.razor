@@ -181,10 +181,10 @@
                                         <td><MudText Align="Align.Left" Typo="Typo.body2"></MudText></td>
                                         break;
                                     case TipoColuna.OrcamentoItem:
-                                        OrcamentoItem orcamentoItem_ = coluna.Conteudo as OrcamentoItem;
+                                        OrcamentoItemView orcamentoItem_ = coluna.Conteudo as OrcamentoItemView;
                                         // coluna de separação
                                         <td Class="borda-remove"></td>
-                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@orcamentoItem_?.Quantidade</MudText></td>
+                                        <td><MudText Align="Align.Center" Typo="Typo.body2">@orcamentoItem_?.OrcamentoItem_Quantidade</MudText></td>
 
                                         <td>
                                             <div class='d-flex flex-row justify-space-between align-center gap-1' style='width: 100% !important' LINHA>
@@ -193,10 +193,10 @@
                                                         <MudIconButton Icon="@Icons.Material.Filled.Add" Style="padding: 4px" OnClick="@( e => AddToCarrinhoAsync(orcamentoItem_) )"/>
                                                     </ChildContent>
                                                     <TooltipContent>
-                                                        <MudText Typo="Typo.h6" Align="Align.Left">Item ofertado: @orcamentoItem_?.Descricao</MudText>
-                                                        <MudText Typo="Typo.body2" Align="Align.Left">Quantidade ofertada: @orcamentoItem_?.Quantidade</MudText>
+                                                        <MudText Typo="Typo.h6" Align="Align.Left">Item ofertado: @orcamentoItem_?.OrcamentoItem_Descricao</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Quantidade ofertada: @orcamentoItem_?.OrcamentoItem_Quantidade</MudText>
                                                         <MudText Typo="Typo.body2" Align="Align.Left">Preço unitário: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText>
-                                                        <MudText Typo="Typo.body2" Align="Align.Left">Preço total: @( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText>
+                                                        <MudText Typo="Typo.body2" Align="Align.Left">Preço total: @( "R$" + String.Format("{0:0.00}", ( orcamentoItem_?.OrcamentoItem_Quantidade ?? orcamentoItem_?.ListaItem_Quantidade ?? 1 ) * orcamentoItem_?.Preco) )</MudText>
                                                         <MudText Typo="Typo.body2" Align="Align.Left">Observações: @orcamentoItem_?.Observacao</MudText>
                                                     </TooltipContent>
                                                 </MudTooltip>
@@ -209,7 +209,7 @@
 
                                         @* <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Preco) )</MudText></td> *@
 
-                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", orcamentoItem_?.Quantidade * orcamentoItem_?.Preco) )</MudText></td>
+                                        <td><MudText Align="Align.Right" Typo="Typo.body2">@( "R$" + String.Format("{0:0.00}", ( orcamentoItem_?.OrcamentoItem_Quantidade ?? orcamentoItem_?.ListaItem_Quantidade ?? 1 ) * orcamentoItem_?.Preco) )</MudText></td>
                                         break;
                                     case TipoColuna.OrcamentoItemVazio:
                                         <td Class="borda-remove"></td>

@@ -45,8 +45,9 @@ public partial class Comparativo
         await GetListaItem(ListaId);
         await GetOrcamentoView(ListaId);
         await GetOrcamentoItemList(_OrcamentoViewList);
+        await GetOrcamentoItemViewList(_OrcamentoViewList);
 
-        tabelaComparativa = CriarTabelaComparativa(_ListaItemList, _OrcamentoItemListList);
+        tabelaComparativa = CriarTabelaComparativa(_ListaItemList, _OrcamentoItemViewListList);
         // ImprimirResultado(tabelaComparativa);
 
         maisBarato = getMaisBarato(_OrcamentoViewList);
@@ -102,6 +103,18 @@ public partial class Comparativo
             _OrcamentoItemListList.Add(aux);
         }
     }
+    
+    // ---------------- SELECT TABLE OrcamentoItemView
+    protected List<List<OrcamentoItemView>>? _OrcamentoItemViewListList { get; set; } = new();
+    protected async Task GetOrcamentoItemViewList(List<OrcamentoView>? OrcamentoViewList)
+    {
+        _OrcamentoItemViewListList = new();
+        foreach (var item in OrcamentoViewList)
+        {
+            List<OrcamentoItemView>? aux = (List<OrcamentoItemView>?)await OrcamentoItemViewService.SelectByOrcamentoId(item.OrcamentoId);
+            _OrcamentoItemViewListList.Add(aux);
+        }
+    }
 
     // ---------------- SELECT TABLE Lista
     protected Lista? _Lista { get; set; } = new();
@@ -131,7 +144,7 @@ public partial class Comparativo
     }
 
     // TODO: qdo o orcamento nao tiver nenhum item, ele nao aparece no comparativo
-    List<List<CelulaTabelaComparativa>> CriarTabelaComparativa(List<ListaItem> listaItemList, List<List<OrcamentoItem>> orcamentoItemListList)
+    List<List<CelulaTabelaComparativa>> CriarTabelaComparativa(List<ListaItem> listaItemList, List<List<OrcamentoItemView>> orcamentoItemListList)
     {
         //cria uma lista vazia para armazenar os resultados
         var result = new List<List<CelulaTabelaComparativa>>();
@@ -145,11 +158,12 @@ public partial class Comparativo
         {
             // obtém os orçamentos correspondentes para o item atual
             var budgets = budgetItems.Where(x => x.ListaItemId == item.Id).ToList();
+            
+            // se não houver orçamento correspondente, adiciona o item na primeira coluna e colunas vazias para os orçamentos
             if (budgets.Count == 0)
             {
                 var itemOrcamento = new List<CelulaTabelaComparativa>();
 
-                // se não houver orçamento correspondente, adiciona o item na primeira coluna e colunas vazias para os orçamentos
                 itemOrcamento.Add(new CelulaTabelaComparativa(TipoColuna.ListaItem, item));
                 foreach (var budgetId in distinctBudgetIds)
                 {
@@ -316,7 +330,7 @@ public partial class Comparativo
         return carrinho;
     }
 
-    private async Task AddToCarrinhoAsync(OrcamentoItem item)
+    private async Task AddToCarrinhoAsync(OrcamentoItemView item)
     {
         //verificar se carrinho para este orcamento ja existe
         IReadOnlyList<Carrinho> carrinhos = await CarrinhoService.FindCarrinho(ListaId, _Lista.PerfilId, item.OrcamentoId);
