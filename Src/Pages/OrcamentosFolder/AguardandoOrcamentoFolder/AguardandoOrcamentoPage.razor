@@ -40,6 +40,9 @@
 
             <HeaderContent>
                 <MudTh>
+                    Ações
+                </MudTh>
+                <MudTh>
                     <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.NomeCompleto)">
                         NomeCompleto
                     </MudTableSortLabel>
@@ -59,15 +62,9 @@
                         Status
                     </MudTableSortLabel>
                 </MudTh>
-                <MudTh>
-                    Ações
-                </MudTh>
+                
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
-                <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
-                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
-                <MudTd DataLabel="Status">@context?.Status</MudTd>
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.List"
                         Title="Editar itens da lista de compras" Size="MudBlazor.Size.Small"
@@ -103,6 +100,10 @@
                         </MudMenuItem>
                     </MudMenu> *@
                 </MudTd>
+                <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
+                <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
+                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
+                <MudTd DataLabel="Status">@context?.Status</MudTd>
             </RowTemplate>
 
             <NoRecordsContent>
