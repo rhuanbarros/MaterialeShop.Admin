@@ -344,19 +344,31 @@ public partial class Comparativo
     private string EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = "Carregando";
     protected List<OrcamentoItemView>? _OrcamentoItemViewList { get; set; } = new();
     List<OrcamentoItemView> itensEconomia;
+    decimal? diferencaPrecoOrcamentoMaisCaro = 0;
     protected async Task CalculaCarrinhoMaisEconomico(int ListaId)
     {
         _OrcamentoItemViewList = (List<OrcamentoItemView>?)await OrcamentoItemViewService.SelectByListaId(ListaId);
 
         List<OrcamentoItemView> ListOrcamentoItemViewMaisBaratoParaCadaListaItem = GetListOrcamentoItemViewMaisBaratoParaCadaListaItem(_OrcamentoItemViewList);
 
+        Console.WriteLine("ListOrcamentoItemViewMaisBaratoParaCadaListaItem");
+        PrintList(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
+        Console.WriteLine("");
+        Console.WriteLine("");
+
         itensEconomia = RemoveItensDuplicadosEMantemAPenasUm(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
 
-        // PrintList(ListOrcamentoItemViewMaisBaratoParaCadaListaItem);
-        // Console.WriteLine("");
-        // Console.WriteLine("");        
-        // PrintList(itensEconomia);
+        Console.WriteLine("itensEconomia");        
+        
+        PrintList(itensEconomia);
+        Console.WriteLine("");
+        Console.WriteLine("");
+        
+        decimal? economiaTotal = itensEconomia.Sum( x => x.Preco * (x.OrcamentoItem_Quantidade ?? x.ListaItem_Quantidade ?? 1) );
+        Console.WriteLine("economiaTotal");
+        Console.WriteLine(economiaTotal);
 
+        // ---------
         // soma o total de taxa de entrega se houver itens de mais de uma loja diferente
         List<int> listOrcamentoId = itensEconomia.Select( x => x.OrcamentoId).Distinct().ToList();
         
@@ -364,23 +376,17 @@ public partial class Comparativo
         foreach (var item in listOrcamentoId)
         {
             OrcamentoView? orcamentoView = _OrcamentoViewList?.Find( x=> x.OrcamentoId == item);
-            totalOrcamentoEconomia += verifyNotNull(orcamentoView?.EntregaPreco, 0);
+            totalOrcamentoEconomia += orcamentoView?.EntregaPreco ?? 0;
         }        
-
-        decimal? economiaTotal = itensEconomia.Sum( x => x.Preco * verifyNotNull(x.ListaItem_Quantidade, 1) );
-        Console.WriteLine("economiaTotal");
-        Console.WriteLine(economiaTotal);
-        
         Console.WriteLine("totalOrcamentoEconomia");
         Console.WriteLine(totalOrcamentoEconomia);
-
 
         decimal? economiaTotalComEntrega = economiaTotal + totalOrcamentoEconomia;
 
         PrecoTotalCarrinhosMaisEconomico = "R$" + String.Format("{0:0.00}", economiaTotalComEntrega);
 
         decimal? PrecoOrcamentoMaisCaro = _OrcamentoViewList.Max( x => x.PrecoTotalComEntrega);
-        decimal? diferencaPrecoOrcamentoMaisCaro = PrecoOrcamentoMaisCaro - economiaTotalComEntrega;
+        diferencaPrecoOrcamentoMaisCaro = PrecoOrcamentoMaisCaro - economiaTotalComEntrega;
         
         EconomiaEmRelacaoAoOrcamentoMaisCaro = "R$" + String.Format("{0:0.00}", diferencaPrecoOrcamentoMaisCaro);
 
@@ -391,11 +397,6 @@ public partial class Comparativo
             porcentagemDiferencaPrecoOrcamentoMaisCaro = diferencaPrecoOrcamentoMaisCaro / PrecoOrcamentoMaisCaro * 100;
             
         EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = String.Format("{0:0.00}", porcentagemDiferencaPrecoOrcamentoMaisCaro )+"%";
-    }
-
-    private decimal verifyNotNull(decimal? originalValue, decimal returnValue)
-    {
-        return (decimal) (originalValue is not null ? originalValue : returnValue);
     }
 
     public List<OrcamentoItemView> GetListOrcamentoItemViewMaisBaratoParaCadaListaItem(List<OrcamentoItemView> _OrcamentoItemViewList)
