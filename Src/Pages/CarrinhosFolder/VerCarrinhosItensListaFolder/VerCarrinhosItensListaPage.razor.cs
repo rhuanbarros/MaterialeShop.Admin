@@ -144,11 +144,12 @@ public partial class VerCarrinhosItensListaPage
         return ((List<CarrinhoItemView>?)_tableList)?.FindAll( x => x.CarrinhoId == id);
     }
     
-    private async Task DeleteCarrinhoClickHandlerAsync(int ListaId)
+    private async Task DeleteCarrinhoClickHandlerAsync(int CarrinhoId)
     {
-        await CarrinhoService.SetStatus(Carrinho.StatusConstCarrinho.Cancelado, ListaId);
+        // await CarrinhoService.SetStatus(Carrinho.StatusConstCarrinho.Cancelado, ListaId);
+        await CarrinhoService.SetSoftDeleted(CarrinhoId);
         Snackbar.Add("Carrinho removido com sucesso.");
         
-        CarregaDadosAsync();
+        await CarregaDadosAsync();
     }
 }
