@@ -48,7 +48,7 @@ SELECT
     "Orcamento"."OrcamentoAnexo", 
     "Orcamento"."CodigoLoja", 
     COALESCE( "OrcamentoTotal"."PrecoTotal", 0 ) as "PrecoTotalSemEntrega", 
-    COALESCE( ("Orcamento"."EntregaPreco" + "OrcamentoTotal"."PrecoTotal" ), 0 ) as "PrecoTotalComEntrega", 
+    COALESCE( ( COALESCE("Orcamento"."EntregaPreco", 0) + "OrcamentoTotal"."PrecoTotal" ), 0 ) as "PrecoTotalComEntrega", 
     "OrcamentoTotal"."QuantidadeItens", 
     "Orcamento"."SoftDeleted", 
     "Orcamento"."SoftDeletedAt"

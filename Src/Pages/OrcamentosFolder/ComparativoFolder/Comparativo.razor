@@ -27,13 +27,14 @@
                 <MudCardHeader Class="pb-0">
                     <CardHeaderContent>
                         <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
-                            <MudIcon Icon="@Icons.Material.Filled.List" /><h3> Lista de compras </h3>
+                            <MudIcon Icon="@Icons.Material.Filled.List" /><h4> Lista de compras </h4>
                         </div>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <p>Endereço: @Endereco</p>
                     <p>Data de criação da lista de compras: @_ListaView?.CreatedAt</p>
+                    <p>Quantidade de orçamentos obetidos: @(_OrcamentoViewList?.Count())</p>
                 </MudCardContent>
             </MudCard>
         }
@@ -41,7 +42,10 @@
             <MudCardHeader Class="pb-0">
                 <CardHeaderContent>
                     <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
-                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Preço total do carrinho mais econômico</h3>
+                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h4> Preço total do carrinho mais econômico</h4>
+                        <MudTooltip Text="O preço total do carrinho mais econômico considera a seleção da oferta de preço unitário mais barato para cada item solicitado, somando, também, os valores de frete aplicáveis.">
+                            <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
+                        </MudTooltip>
                     </div>
                 </CardHeaderContent>
             </MudCardHeader>
@@ -49,10 +53,7 @@
 
                 <div class='d-flex flex-column justify-start align-center gap-1' style='width: 100% !important' COLUNA>
                     <MudText Text Typo="Typo.h6" Align="Align.Center">
-                        @PrecoTotalCarrinhosMaisEconomico
-                        <MudTooltip Text="O preço total do carrinho mais econômico considera a seleção da oferta de preço unitário mais barato para cada item solicitado, somando, também, os valores de frete aplicáveis.">
-                            <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
-                        </MudTooltip>
+                        @PrecoTotalCarrinhosMaisEconomico                        
                     </MudText>
                     
                     <MudButtonWithLoading titulo="Montar carrinho mais econômico"
@@ -66,7 +67,7 @@
             <MudCardHeader Class="pb-0">
                 <CardHeaderContent>
                     <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
-                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h3> Economia em relação ao orçamento mais caro</h3>
+                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h4> Economia em relação ao orçamento mais caro</h4>
                     </div>
                 </CardHeaderContent>
             </MudCardHeader>

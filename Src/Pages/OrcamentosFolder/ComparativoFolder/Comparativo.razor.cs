@@ -57,7 +57,7 @@ public partial class Comparativo
 
         // TODO quem sabe de para remover esta chamada ao banco de dados
         await GetLista(ListaId);
-        await GetOrcamentoItemView(ListaId);
+        await CalculaCarrinhoMaisEconomico(ListaId);
     }
 
     // ---------------- GET ListaView
@@ -344,7 +344,7 @@ public partial class Comparativo
     private string EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = "Carregando";
     protected List<OrcamentoItemView>? _OrcamentoItemViewList { get; set; } = new();
     List<OrcamentoItemView> itensEconomia;
-    protected async Task GetOrcamentoItemView(int ListaId)
+    protected async Task CalculaCarrinhoMaisEconomico(int ListaId)
     {
         _OrcamentoItemViewList = (List<OrcamentoItemView>?)await OrcamentoItemViewService.SelectByListaId(ListaId);
 
@@ -357,16 +357,23 @@ public partial class Comparativo
         // Console.WriteLine("");        
         // PrintList(itensEconomia);
 
+        // soma o total de taxa de entrega se houver itens de mais de uma loja diferente
         List<int> listOrcamentoId = itensEconomia.Select( x => x.OrcamentoId).Distinct().ToList();
         
         decimal totalOrcamentoEconomia = 0;
         foreach (var item in listOrcamentoId)
         {
             OrcamentoView? orcamentoView = _OrcamentoViewList?.Find( x=> x.OrcamentoId == item);
-            totalOrcamentoEconomia += verifyNotNull(orcamentoView?.EntregaPreco);
+            totalOrcamentoEconomia += verifyNotNull(orcamentoView?.EntregaPreco, 0);
         }        
 
-        decimal? economiaTotal = itensEconomia.Sum( x => x.Preco * x.ListaItem_Quantidade);
+        decimal? economiaTotal = itensEconomia.Sum( x => x.Preco * verifyNotNull(x.ListaItem_Quantidade, 1) );
+        Console.WriteLine("economiaTotal");
+        Console.WriteLine(economiaTotal);
+        
+        Console.WriteLine("totalOrcamentoEconomia");
+        Console.WriteLine(totalOrcamentoEconomia);
+
 
         decimal? economiaTotalComEntrega = economiaTotal + totalOrcamentoEconomia;
 
@@ -386,9 +393,9 @@ public partial class Comparativo
         EconomiaEmRelacaoAoOrcamentoMaisCaroPorcentagem = String.Format("{0:0.00}", porcentagemDiferencaPrecoOrcamentoMaisCaro )+"%";
     }
 
-    private decimal verifyNotNull(decimal? value)
+    private decimal verifyNotNull(decimal? originalValue, decimal returnValue)
     {
-        return (decimal) (value is not null ? value : 0);
+        return (decimal) (originalValue is not null ? originalValue : returnValue);
     }
 
     public List<OrcamentoItemView> GetListOrcamentoItemViewMaisBaratoParaCadaListaItem(List<OrcamentoItemView> _OrcamentoItemViewList)
