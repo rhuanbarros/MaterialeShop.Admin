@@ -552,7 +552,7 @@ public partial class Comparativo
             List<OrcamentoItemView>? orcamentoItemViews = itensEconomia?.FindAll(x => x.OrcamentoId == orcamentoId);
 
             //cria CarrinhoItem para cada item do orcamento
-            List<CarrinhoItem>? CarrinhoItemList = orcamentoItemViews?.Select(x => new CarrinhoItem(carrinho.Id, x.Id, x.ListaItem_Quantidade, null)).ToList();
+            List<CarrinhoItem>? CarrinhoItemList = orcamentoItemViews?.Select(x => new CarrinhoItem(carrinho.Id, x.Id, (x.OrcamentoItem_Quantidade ?? x.ListaItem_Quantidade ?? 1), null)).ToList();
 
             //insere todos os itens ao mesmo tempo no banco de dados
             await CarrinhoItemService.Upsert(CarrinhoItemList);            
