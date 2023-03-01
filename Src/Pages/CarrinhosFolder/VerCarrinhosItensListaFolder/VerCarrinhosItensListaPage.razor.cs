@@ -124,6 +124,11 @@ public partial class VerCarrinhosItensListaPage
 
             EntregaPrecoTotal = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 );
             PrecoTotalComEntrega = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView?.PrecoTotal + (_carrinhoGroupByListaView?.EntregaPrecoTotal is not null ? _carrinhoGroupByListaView?.EntregaPrecoTotal : 0 ) );
+        } else 
+        {
+            //caso de não haver nenhum carrinho de compras
+            EntregaPrecoTotal = "";
+            PrecoTotalComEntrega = "";
         }
     }
 

@@ -168,7 +168,9 @@ FROM
 		FROM "OrcamentoView" 
 		GROUP BY "OrcamentoView"."ListaId" ) AS "OV"
 		ON "OV"."ListaId" = "CarrinhoView"."ListaId"
-	WHERE "CarrinhoView"."Status" LIKE 'Em criação'
+    WHERE 
+		"CarrinhoView"."Status" LIKE 'Em criação'
+		AND "CarrinhoView"."SoftDeleted" = false 
 	GROUP BY "CarrinhoView"."ListaId" ) AS "CarrinhoGBLView"
 
 
