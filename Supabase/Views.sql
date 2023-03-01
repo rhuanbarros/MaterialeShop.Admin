@@ -62,7 +62,12 @@ CREATE OR REPLACE VIEW "OrcamentoTotal"
 -- A PROXIMA LINHA APLICA POLICIES NA VIEW
 WITH (security_invoker=on)
 AS
-SELECT "OrcamentoItem"."OrcamentoId", sum("OrcamentoItem"."Preco" * "OrcamentoItem"."Quantidade") as "PrecoTotal", count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" 
+SELECT 
+    "OrcamentoItem"."OrcamentoId",
+    sum("OrcamentoItem"."Preco" * coalesce("OrcamentoItem"."Quantidade", (select li."Quantidade"  
+                                                                            from "ListaItem" li 
+                                                                            where li."Id" = "OrcamentoItem"."ListaItemId") , 1) ) as "PrecoTotal", 
+    count("OrcamentoItem"."OrcamentoId") as "QuantidadeItens" 
 FROM "OrcamentoItem" 
 GROUP BY "OrcamentoItem"."OrcamentoId";
 
