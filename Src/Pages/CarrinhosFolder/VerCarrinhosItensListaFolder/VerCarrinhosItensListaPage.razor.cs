@@ -117,7 +117,7 @@ public partial class VerCarrinhosItensListaPage
         if(_carrinhoGroupByListaView is not null)
         {
             economiaTotal = "R$" + String.Format("{0:0.00}", _carrinhoGroupByListaView.Economia );
-            economiaTotalPercentual = String.Format("{0:0.00}", _carrinhoGroupByListaView?.Economia / _carrinhoGroupByListaView?.PrecoTotal )+"%";
+            economiaTotalPercentual = String.Format("{0:0.00}", _carrinhoGroupByListaView?.Economia / _carrinhoGroupByListaView?.PrecoTotalComEntrega * 100 )+"%";
 
             Console.WriteLine("_carrinhoGroupByListaView?.PrecoTotal");
             Console.WriteLine(_carrinhoGroupByListaView?.PrecoTotal);

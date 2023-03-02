@@ -39,14 +39,14 @@
             </MudCard>
         }
 
-        @if(economiaTotal != "Carregando")
+        @if(economiaTotal != "Carregando" && _carrinhoGroupByListaView?.Economia > 0)
         {
             <MudCard Elevation=3>
                 <MudCardHeader Class="pb-0">
                     <CardHeaderContent>
                         <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
                             <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Success" /><h4> Economia </h4>
-                            <MudTooltip Text="Em relação ao orçamento mais caro recebido.">
+                            <MudTooltip Text="Porcentagem em relação ao valor total dos itens selecionados nos carrinhos apresentados abaixo em contrapartida ao orçamento mais caro recebido.">
                                 <MudIconButton Icon="@Icons.Material.Filled.Info" Style="padding: 4px" Size="Size.Small"/>
                             </MudTooltip>
                         </div>
