@@ -13,18 +13,31 @@ SELECT
     "Lista"."SoftDeletedAt",
     "EconomiaOrcamentoItemTotalView"."PrecoTotal" AS "EconomiaPrecoTotalSemEntrega",
     "EconomiaOrcamentosEntregaTotalView"."EntregaPrecoTotal",
-    ( "EconomiaOrcamentoItemTotalView"."PrecoTotal" + "EconomiaOrcamentosEntregaTotalView"."EntregaPrecoTotal" ) as "EconomiaPrecoTotalComEntrega"
+    ( "EconomiaOrcamentoItemTotalView"."PrecoTotal" + "EconomiaOrcamentosEntregaTotalView"."EntregaPrecoTotal" ) as "EconomiaPrecoTotalComEntrega",
+    "QuantidadeOrcamentosByListaId"."QuantidadeOrcamentos"
 FROM 
     "Lista"
     LEFT JOIN "Perfil" ON "Lista"."PerfilId" = "Perfil"."Id"
     LEFT JOIN "EconomiaOrcamentoItemTotalView" ON "EconomiaOrcamentoItemTotalView"."ListaId"  = "Lista"."Id"
-    LEFT JOIN "EconomiaOrcamentosEntregaTotalView" on "EconomiaOrcamentosEntregaTotalView"."ListaId"  = "Lista"."Id"
+    LEFT JOIN "EconomiaOrcamentosEntregaTotalView" ON "EconomiaOrcamentosEntregaTotalView"."ListaId"  = "Lista"."Id"
+    LEFT JOIN "QuantidadeOrcamentosByListaId" on "QuantidadeOrcamentosByListaId"."ListaId" = "Lista"."Id"
 WHERE 
     "Perfil"."SoftDeleted" = false
 ORDER BY "Lista"."CreatedAt" DESC;
 
 
 
+
+
+CREATE OR REPLACE VIEW "QuantidadeOrcamentosByListaId"
+-- A PROXIMA LINHA APLICA POLICIES NA VIEW
+WITH (security_invoker=on)
+AS
+SELECT 
+	"OrcamentoView"."ListaId", 
+	COUNT("OrcamentoView"."OrcamentoId") AS "QuantidadeOrcamentos" 
+FROM "OrcamentoView"
+GROUP BY "OrcamentoView"."ListaId"
 
 
 

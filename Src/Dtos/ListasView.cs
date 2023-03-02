@@ -31,6 +31,9 @@ public class ListasView : BaseModelApp
     
     [Column("EconomiaPrecoTotalComEntrega")]
     public decimal? EconomiaPrecoTotalComEntrega { get; set; }
+    
+    [Column("QuantidadeOrcamentos")]
+    public int? QuantidadeOrcamentos { get; set; }
 
     public static class StatusConstLista
     {

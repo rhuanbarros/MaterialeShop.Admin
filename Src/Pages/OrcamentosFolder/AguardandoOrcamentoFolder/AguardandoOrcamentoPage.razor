@@ -53,13 +53,18 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.CreatedAt)">
-                        Data de criação
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
+                        Status
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.Status)">
-                        Status
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.QuantidadeOrcamentos)">
+                        QuantidadeOrcamentos
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ListasView, object>(x=>x.CreatedAt)">
+                        Data de criação
                     </MudTableSortLabel>
                 </MudTh>
                 
@@ -102,8 +107,13 @@
                 </MudTd>
                 <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
-                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
                 <MudTd DataLabel="Status">@context?.Status</MudTd>
+                <MudTd DataLabel="QuantidadeOrcamentos">
+                    <MudText Text Typo="Typo.body2" Align="Align.Center">
+                        @context?.QuantidadeOrcamentos
+                    </MudText>
+                </MudTd>
+                <MudTd DataLabel="Data de criação">@context?.CreatedAt</MudTd>
             </RowTemplate>
 
             <NoRecordsContent>
