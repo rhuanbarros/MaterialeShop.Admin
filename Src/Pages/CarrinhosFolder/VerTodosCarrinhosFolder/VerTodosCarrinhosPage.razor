@@ -57,8 +57,8 @@
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.PrecoTotal)">
-                        PrecoTotal
+                    <MudTableSortLabel SortBy="new Func<CarrinhoGroupByListaView, object>(x=>x.PrecoTotalComEntrega)">
+                        PrecoTotalComEntrega
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
@@ -92,7 +92,7 @@
                 <MudTd DataLabel="Ação">
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCartCheckout" aria-label="Ver carrinhos de compras desta lista"
                     Title="Ver carrinhos de compras desta lista" Size="MudBlazor.Size.Small"
-                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.Lista(context.ListaId)))' />
+                    OnClick='@(async (e) => NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(context.ListaId)))' />
                     
                     <MudIconButton Icon="@Icons.Material.Filled.TableChart"
                         Title="Ver comparativo de orçamentos" Size="MudBlazor.Size.Small"
@@ -102,8 +102,8 @@
                 <MudTd DataLabel="NomeCompleto">@context?.NomeCompleto</MudTd>
                 <MudTd DataLabel="Endereco">@context?.Endereco</MudTd>
                 <MudTd DataLabel="Lojas">@context?.Lojas</MudTd>
-                <MudTd DataLabel="PrecoTotal">
-                    @( "R$" + String.Format("{0:0.00}", @context?.PrecoTotal ) )
+                <MudTd DataLabel="PrecoTotalComEntrega">
+                    @( "R$" + String.Format("{0:0.00}", @context?.PrecoTotalComEntrega ) )
                 </MudTd>
                 <MudTd DataLabel="Economia">
                     @( "R$" + String.Format("{0:0.00}", @context?.Economia ) )

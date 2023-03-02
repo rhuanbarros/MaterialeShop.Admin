@@ -86,7 +86,7 @@ SELECT
     "Perfil"."NomeCompleto", 
     "Lista"."Id" AS "ListaId", 
     "Lista"."Endereco", 
-    "Lista"."CreatedAt" as "ListaCreatedAt",
+    "Lista"."CreatedAt" AS "ListaCreatedAt",
     "OrcamentoView"."LojaNome",
     "OrcamentoView"."EntregaPrazo",
     "OrcamentoView"."EntregaPreco",
@@ -96,10 +96,11 @@ SELECT
     "Carrinho"."CreatedAt",
     "CarrinhoTotal"."CarrinhoId",
     "CarrinhoTotal"."PrecoTotal",
-    "CarrinhoTotal"."QuantidadeItens"
+    "CarrinhoTotal"."QuantidadeItens",
+    ( "OrcamentoView"."EntregaPreco" + "CarrinhoTotal"."PrecoTotal" ) AS "PrecoTotalComEntrega"
 FROM "Carrinho"
 JOIN "Perfil" ON "Carrinho"."PerfilId" = "Perfil"."Id"
-JOIN "Lista" on "Carrinho"."ListaId" = "Lista"."Id"
+JOIN "Lista" ON "Carrinho"."ListaId" = "Lista"."Id"
 JOIN "OrcamentoView" ON "Carrinho"."OrcamentoId" = "OrcamentoView"."OrcamentoId"
 JOIN "CarrinhoTotal" ON "CarrinhoTotal"."CarrinhoId" = "Carrinho"."Id"
 
@@ -145,7 +146,7 @@ WITH (security_invoker=on)
 AS
 SELECT
 	*,
-	( COALESCE("CarrinhoGBLView"."PrecoTotal", 0) - COALESCE("CarrinhoGBLView"."OrcamentoMaisCaroPrecoTotalComEntrega", 0) ) AS "Economia"
+	( COALESCE("CarrinhoGBLView"."PrecoTotalComEntrega", 0) - COALESCE("CarrinhoGBLView"."OrcamentoMaisCaroPrecoTotalComEntrega", 0) ) AS "Economia"
 FROM
 	( SELECT
         "CarrinhoView"."ListaId",
@@ -158,6 +159,7 @@ FROM
         MIN("CarrinhoView"."EntregaPrazo") AS "EntregaPrazoMinimo",
         SUM("CarrinhoView"."EntregaPreco") AS "EntregaPrecoTotal",
         SUM("CarrinhoView"."PrecoTotal") AS "PrecoTotal",
+        SUM("CarrinhoView"."PrecoTotalComEntrega") AS "PrecoTotalComEntrega",
         SUM("CarrinhoView"."QuantidadeItens") AS "QuantidadeItens",
         MAX("OV"."OrcamentoMaisCaroPrecoTotalComEntrega") AS "OrcamentoMaisCaroPrecoTotalComEntrega"
 	FROM "CarrinhoView"

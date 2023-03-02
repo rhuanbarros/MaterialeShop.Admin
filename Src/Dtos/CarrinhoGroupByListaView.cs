@@ -31,6 +31,9 @@ public class CarrinhoGroupByListaView : BaseModelApp
 
     [Column("PrecoTotal")]
     public decimal? PrecoTotal { get; set; }
+    
+    [Column("PrecoTotalComEntrega")]
+    public decimal? PrecoTotalComEntrega { get; set; }
 
     [Column("QuantidadeItens")]
     public int? QuantidadeItens { get; set; }
@@ -41,10 +44,10 @@ public class CarrinhoGroupByListaView : BaseModelApp
     [Column("Economia")]
     public decimal? Economia { get; set; }
 
-    public override string ToString()
-    {
-        return $"ListaId: {ListaId}, PerfilId: {PerfilId}, NomeCompleto: {NomeCompleto}, Endereco: {Endereco}, ListaCreatedAt: {ListaCreatedAt}, Lojas: {Lojas}, EntregaPrecoTotal: {EntregaPrecoTotal}, EntregaPrazoMinimo: {EntregaPrazoMinimo}, PrecoTotal: {PrecoTotal}, QuantidadeItens: {QuantidadeItens}, OrcamentoMaisCaroPrecoTotalComEntrega: {OrcamentoMaisCaroPrecoTotalComEntrega}, Economia: {Economia}";
-    }
+    // public override string ToString()
+    // {
+    //     return $"ListaId: {ListaId}, PerfilId: {PerfilId}, NomeCompleto: {NomeCompleto}, Endereco: {Endereco}, ListaCreatedAt: {ListaCreatedAt}, Lojas: {Lojas}, EntregaPrecoTotal: {EntregaPrecoTotal}, EntregaPrazoMinimo: {EntregaPrazoMinimo}, PrecoTotal: {PrecoTotal}, QuantidadeItens: {QuantidadeItens}, OrcamentoMaisCaroPrecoTotalComEntrega: {OrcamentoMaisCaroPrecoTotalComEntrega}, Economia: {Economia}";
+    // }
 
 
 }

@@ -111,8 +111,8 @@ public partial class VerCarrinhosItensListaPage
         List<CarrinhoGroupByListaView> carrinhoGroupByListaViews = (List<CarrinhoGroupByListaView>) await CarrinhoGroupByListaViewService.SelectAllByListaId(ListaId);
         _carrinhoGroupByListaView = carrinhoGroupByListaViews?.FirstOrDefault();
 
-        Console.WriteLine("_carrinhoGroupByListaView");
-        Console.WriteLine(_carrinhoGroupByListaView.ToString());
+        // Console.WriteLine("_carrinhoGroupByListaView");
+        // Console.WriteLine(_carrinhoGroupByListaView.ToString());
 
         if(_carrinhoGroupByListaView is not null)
         {
