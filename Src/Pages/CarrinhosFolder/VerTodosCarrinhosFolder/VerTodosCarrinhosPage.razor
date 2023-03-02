@@ -106,7 +106,10 @@
                     @( "R$" + String.Format("{0:0.00}", @context?.PrecoTotalComEntrega ) )
                 </MudTd>
                 <MudTd DataLabel="Economia">
-                    @( "R$" + String.Format("{0:0.00}", @context?.Economia ) )
+                    @if(@context?.Economia > 0)
+                    {
+                        @( "R$" + String.Format("{0:0.00}", @context?.Economia ) )
+                    }
                 </MudTd>
                 <MudTd DataLabel="QuantidadeItens">@context?.QuantidadeItens</MudTd>
                 <MudTd DataLabel="EntregaPrecoTotal">

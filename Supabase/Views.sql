@@ -146,7 +146,7 @@ WITH (security_invoker=on)
 AS
 SELECT
 	*,
-	( COALESCE("CarrinhoGBLView"."PrecoTotalComEntrega", 0) - COALESCE("CarrinhoGBLView"."OrcamentoMaisCaroPrecoTotalComEntrega", 0) ) AS "Economia"
+	( COALESCE("CarrinhoGBLView"."OrcamentoMaisCaroPrecoTotalComEntrega", 0) - COALESCE("CarrinhoGBLView"."PrecoTotalComEntrega", 0) ) AS "Economia"
 FROM
 	( SELECT
         "CarrinhoView"."ListaId",
