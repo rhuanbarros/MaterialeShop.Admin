@@ -308,3 +308,68 @@
     -- totalmente bloqueado
     -- fazer edições direto no supabase
 
+
+
+----------------- | Carrinho
+    -- apenas ver linhas em que o ListaId seja de listas q ele pode ver
+    -- ou admin
+
+    ----------------- ADMIN POLICIES
+
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."Carrinho"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                    SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
+
+    ----------------- USERS POLICIES
+
+        CREATE POLICY "Users can SELECT if they own Lista"
+            ON "public"."Carrinho"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( "Carrinho"."ListaId" IN ( 
+                    SELECT get_Lista_Id_authenticated_user_own_Lista()
+                )
+            );
+
+
+----------------- | CarrinhoItem
+    -- apenas ver linhas em que o ListaId seja de listas q ele pode ver
+    -- ou admin
+
+    ----------------- ADMIN POLICIES
+
+        CREATE POLICY "Users can ALL QUERIES if they are admin"
+            ON "public"."CarrinhoItem"
+            FOR ALL 
+            USING (
+                auth.uid() IN (
+                    SELECT get_AdminUsers_row_for_authenticated_user()
+                )
+            );
+
+    ----------------- USERS POLICIES
+
+        CREATE POLICY "Users can SELECT if they own Lista"
+            ON "public"."CarrinhoItem"
+            AS PERMISSIVE
+            FOR SELECT
+            TO authenticated
+            USING ( "CarrinhoItem"."CarrinhoId" IN ( 
+                    SELECT "Carrinho"."Id" FROM "Carrinho" WHERE "Carrinho"."ListaId" IN (
+                            SELECT get_Lista_Id_authenticated_user_own_Lista()
+                        )
+                )
+            );
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+-------------------------------------| STORAGE | ---------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+
