@@ -1,7 +1,9 @@
+using System.Web;
 using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
 using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using MudBlazor;
 
 namespace MaterialeShop.Admin.Src.Pages.CarrinhosFolder.VerCarrinhosItensListaFolder;
@@ -160,4 +162,45 @@ public partial class VerCarrinhosItensListaPage
         
         await CarregaDadosAsync();
     }
+
+    private async Task ChamarWhatsappClickHandler(CarrinhoView carrinhoView)
+    {
+        string telefone = "55"+"51991700000";
+        string url = $"https://wa.me/{telefone}?text=";
+
+        // String quebraDeLinha = "%0A";
+        String quebraDeLinha = Enc(Environment.NewLine);
+        String mensagem;
+
+        mensagem = Enc("Olá, eu obtive o orçamento para os seguintes itens por meio da MaterialeShop e gostaria de realizar uma compra.");
+        mensagem += quebraDeLinha;
+        if(carrinhoView.CodigoLoja is not null)
+        {
+            mensagem += Enc($"O código do orçamento é {carrinhoView.CodigoLoja}");
+            mensagem += quebraDeLinha;
+        }
+        mensagem += Enc($"Os itens necessários são os listados abaixo:");
+        mensagem += quebraDeLinha;
+
+        List<CarrinhoItemView> carrinhoItemViews = getCarrinhoItemViewFromCarrinho(carrinhoView.CarrinhoId);
+
+        foreach (var item in carrinhoItemViews)
+        {
+            mensagem += Enc($"Produto: {item.Descricao} - Quantidade: {item.Quantidade}");
+            mensagem += quebraDeLinha;            
+        }
+        mensagem += Enc($"Aguardo retorno. Obrigado.");
+        
+        string urlCompleta = url + mensagem;
+
+        await JSRuntime.InvokeVoidAsync("open", urlCompleta, "_blank");
+
+    }
+
+    public string Enc(string texto)
+    {
+        string textoCodificado = HttpUtility.UrlEncode(texto);
+        return textoCodificado;
+    }
+    
 }
