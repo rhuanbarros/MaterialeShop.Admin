@@ -2,6 +2,7 @@ using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
 using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using MudBlazor;
 
 namespace MaterialeShop.Admin.Src.Pages.OrcamentosFolder.ComparativoFolder;
@@ -560,5 +561,26 @@ public partial class Comparativo
 
         NavigationManager.NavigateTo(Rotas.CarrinhosItensLista(ListaId));
     }
+
+    // download orcamento
+    private const string BucketName = "orcamentos";
+
+    // public Supabase.Storage.FileObject? fileObject;
+    // private async Task<String> GetFileToDownload(OrcamentoView orcamentoView)
+    // {
+    //     fileObject = await StorageService.GetLastFileFromBucket(BucketName, ListaId.ToString() +"/"+ orcamentoView.LojaId.ToString());
+        
+    //     System.Console.WriteLine("fileObject.Name");
+    //     System.Console.WriteLine(fileObject.Name);
+    // }
+
+
+    private async Task DownloadClick(OrcamentoView orcamentoView)
+    {
+        byte[] downloadedBytes = await StorageService.DownloadFile(BucketName, ListaId.ToString() +"/"+ orcamentoView.LojaId, orcamentoView?.OrcamentoAnexo);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", orcamentoView?.OrcamentoAnexo, downloadedBytes);
+    }
+
 
 }

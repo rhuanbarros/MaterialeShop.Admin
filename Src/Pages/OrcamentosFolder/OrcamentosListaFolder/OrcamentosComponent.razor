@@ -111,6 +111,7 @@
                                 if (row.Name != ".emptyFolderPlaceholder")
                                 {
                                     <MudIconButton Icon="@Icons.Material.Filled.Download" aria-label="download" Size="MudBlazor.Size.Small"
+                                        Title="Download do orçamento"
                                         OnClick="@(async (e) => {await DownloadClick(row);})" />
                                     <MudText Typo="Typo.body1">
                                         @row.Name

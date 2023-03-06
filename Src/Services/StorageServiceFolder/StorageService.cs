@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using Postgrest;
 using Storage.Interfaces;
+using Supabase.Storage;
 
 namespace MaterialeShop.Admin.Src.Services.StorageServiceFolder;
 
@@ -68,6 +69,16 @@ public class StorageService
     public async Task<List<Supabase.Storage.FileObject?>?> GetFilesFromBucket(String bucketName, String folderName)
     {
         return await Storage.From(bucketName).List(folderName);
+    }
+    
+    public async Task<Supabase.Storage.FileObject?> GetLastFileFromBucket(String bucketName, String folderName)
+    {
+        SearchOptions options = new SearchOptions();
+        options.SortBy.Column = "created_at";
+        options.SortBy.Order = "desc";
+
+        List<FileObject>? fileObjects = await Storage.From(bucketName).List(folderName, options);
+        return fileObjects?.First();
     }
 
     public async Task<byte[]> DownloadFile(String bucketName, String folderName, String fileName)
