@@ -2,10 +2,13 @@
 
 @using Dtos
 @using MaterialeShop.Admin.Src.Shared.Components
+@using MaterialeShop.Admin.Src.Services.StorageServiceFolder
 
 @inject UsuarioPerfilService UsuarioPerfilService
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
+@inject StorageService StorageService
+@inject IJSRuntime JS
 
 <ListaViewCard ListaId="ListaId"></ListaViewCard>
 <br>
@@ -64,6 +67,53 @@
 
                 <MudTextField Label="CodigoLoja" @bind-Value="model.CodigoLoja" For="@(() => model.CodigoLoja)"
                         Immediate="true" Variant="Variant.Outlined"/>
+
+                <div class='d-flex flex-row justify-start align-center gap-1' style='width: 100% !important' LINHA>
+
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFilesAsync">
+                        <ButtonTemplate Context="contextUpload">
+                            <MudButton HtmlTag="label"
+                                    Variant="Variant.Filled"
+                                    Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.CloudUpload"
+                                    for="@contextUpload">
+                                Anexar orçamento
+                            </MudButton>
+                        </ButtonTemplate>
+                    </MudFileUpload>
+                    @* <MudText Typo="Typo.caption">Max file size: @maxFileSizeInMB MB</MudText> *@
+                    
+                    @* 
+                    esse codigo nao fica legal, pq qdo nao tem nenhum orcamento selecionado ele tbm parece q esta carregando, mas nao esta.
+                    @if(fileObjects is null)
+                    {
+                        <MudText Typo="Typo.body1">
+                            Carregando lista de anexos.
+                        </MudText>
+                    } else  *@
+
+
+                    @if(fileObjects?.Count == 0)
+                    {
+                        <MudText Typo="Typo.body1">
+                            Não há anexos.
+                        </MudText>
+                    } else if(fileObjects?.Count > 0)
+                    {
+                        @foreach (var row in fileObjects)
+                        {
+                            if (row.Name != ".emptyFolderPlaceholder")
+                            {
+                                <MudIconButton Icon="@Icons.Material.Filled.Download" aria-label="download" Size="MudBlazor.Size.Small"
+                                    OnClick="@(async (e) => {await DownloadClick(row);})" />
+                                <MudText Typo="Typo.body1">
+                                    @row.Name
+                                </MudText>
+                            }
+                        }
+                    }
+
+                </div>
 
             </div>
         </MudCardContent>

@@ -13,6 +13,7 @@ using Supabase.Storage;
 using MaterialeShop.Admin.Src;
 using MaterialeShop.Admin.Src.Shared;
 using MaterialeShop.Admin.Src.Dtos;
+using MaterialeShop.Admin.Src.Services.StorageServiceFolder;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -81,6 +82,7 @@ builder.Services.AddScoped<CarrinhoViewService>();
 builder.Services.AddScoped<CarrinhoItemViewService>();
 builder.Services.AddScoped<CarrinhoGroupByListaViewService>();
 builder.Services.AddScoped<OrcamentoItemViewService>();
+builder.Services.AddScoped<StorageService>();
 
 
 

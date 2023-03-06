@@ -2,6 +2,8 @@ using MaterialeShop.Admin.Src.Dtos;
 using MaterialeShop.Admin.Src.Services;
 using MaterialeShop.Admin.Src.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using MudBlazor;
 
 namespace MaterialeShop.Admin.Src.Pages.OrcamentosFolder.OrcamentosListaFolder;
@@ -9,12 +11,12 @@ namespace MaterialeShop.Admin.Src.Pages.OrcamentosFolder.OrcamentosListaFolder;
 public partial class OrcamentosComponent
 {
     //TODO: fazer aparecer apenas as lojas nao apagadas
-    
+
     [Parameter]
     public int ListaId { get; set; }
 
-    [Inject] 
-    protected OrcamentoViewService OrcamentoViewService {get; set;}
+    [Inject]
+    protected OrcamentoViewService OrcamentoViewService { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -48,9 +50,9 @@ public partial class OrcamentosComponent
     protected override Orcamento SetModelIdToDelete(OrcamentoView item)
     {
         return new Orcamento()
-            {
-                Id = item.OrcamentoId
-            };
+        {
+            Id = item.OrcamentoId
+        };
     }
 
     protected override Orcamento SetModelReferenceId(Orcamento item)
@@ -85,7 +87,7 @@ public partial class OrcamentosComponent
     protected List<Loja>? _LojaList { get; set; }
     protected async Task GetTableLoja()
     {
-        _LojaList = (List<Loja>?) await CrudService.SelectAllFrom<Loja>();
+        _LojaList = (List<Loja>?)await CrudService.SelectAllFrom<Loja>();
         await InvokeAsync(StateHasChanged);
     }
 
@@ -110,11 +112,58 @@ public partial class OrcamentosComponent
         //     Console.WriteLine(item.Id);
         // }
 
-        int quantidade = _LojaList!.FindAll( x => x.Id == value).Count();
-        if(quantidade == 0)
+        int quantidade = _LojaList!.FindAll(x => x.Id == value).Count();
+        if (quantidade == 0)
             return false;
         else
             return true;
+    }
+
+    protected override async Task OnClickEdit(OrcamentoView item)
+    {
+        await base.OnClickEdit(item);
+        await GetFilesFromBucket();
+    }
+
+    // --------------------------- FILE UPLOAD
+
+    private const string BucketName = "orcamentos";
+
+    public List<Supabase.Storage.FileObject>? fileObjects;
+    private async Task GetFilesFromBucket()
+    {
+        fileObjects = await StorageService.GetFilesFromBucket(BucketName, ListaId.ToString() +"/"+ model.LojaId);
+    }
+
+    static long maxFileSizeInMB = 15;
+    private async Task UploadFilesAsync(IBrowserFile file)
+    {
+        try
+        {
+            Loja? loja = _LojaList.Find( f => f.Id == model.LojaId);
+            String nomeLoja = loja?.Nome;
+
+            string filename = await StorageService.UploadFile( file, BucketName, ListaId.ToString() +"/"+ model.LojaId, nomeLoja );
+
+            Snackbar.Add("File uploaded: " + filename.Split("/").Last());
+
+            await GetFilesFromBucket();
+            await InvokeAsync(StateHasChanged);
+        } catch ( NullReferenceException  ex)
+        {
+            Snackbar.Add("Não é possível fazer upload porque não foi possível carregar os nomes das lojas para colocar no nome do arquivo.");
+            return;
+        } catch (System.IO.IOException ex)
+        {
+            Snackbar.Add("Error: Max file size exceeded.");
+        }
+    }
+
+    private async Task DownloadClick(Supabase.Storage.FileObject row)
+    {
+        byte[] downloadedBytes = await StorageService.DownloadFile(BucketName, ListaId.ToString() +"/"+ model.LojaId, row.Name);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", row.Name, downloadedBytes);
     }
 
 }
