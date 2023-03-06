@@ -40,6 +40,8 @@
 	- TODO Ícone do carrinho em cima a direita na tela qdo a pessoa estive na tela de comparativo
 		- se nao houver carrinhos, aparcer a contagem 0
 		- se houver itens nos carrinhos, aparecer o total de itens
+	- TODO Tela de carrinhos. verificar se tem telefone cadastrado no perfil da loja, se sim, mostrar o botao do whats
+			nao sei se vou implementar esta funcionalidade.
 
 ## FUNCIONALIDADE
 	- TODO verificar se ta aplicando desconto nos produtos. 
@@ -49,6 +51,7 @@
 				devido ao RSL, simplesmente nao vai aparecer nada como se nem existisse.
 				Entretanto, a interface tem q verificar se a pessoa tem acesso a lista, e mostrar uma tela diferente
 	- TODO implementar controle de exceções nos crud bases e database services
+	- TODO colocar um link para o site da materiale na mensagem do whats pra loja
 		
 ## BACKEND
 	- TODO configurar backend em c# básico na nuvem
