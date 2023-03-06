@@ -72,4 +72,17 @@ public class OrcamentoService
         return modeledResponse.Models;
     }
 
+    public async Task<Orcamento> SetLastUploadedFileName(int itemId, string fileName)
+    {
+        logger.LogInformation("------------------- OrcamentoService SetLastUploadedFileName -------------------");
+
+        Postgrest.Responses.ModeledResponse<Orcamento> modeledResponse = await client
+            .From<Orcamento>()
+            .Set(x => x.OrcamentoAnexo, fileName)
+            .Where( x => x.Id == itemId)
+            .Update();
+
+        return modeledResponse.Models.First();        
+    }
+
 }

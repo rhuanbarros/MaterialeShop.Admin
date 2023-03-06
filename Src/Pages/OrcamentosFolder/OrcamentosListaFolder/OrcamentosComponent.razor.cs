@@ -17,6 +17,9 @@ public partial class OrcamentosComponent
 
     [Inject]
     protected OrcamentoViewService OrcamentoViewService { get; set; }
+    
+    [Inject]
+    protected OrcamentoService OrcamentoService { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -149,6 +152,9 @@ public partial class OrcamentosComponent
 
             await GetFilesFromBucket();
             await InvokeAsync(StateHasChanged);
+
+            await OrcamentoService.SetLastUploadedFileName(model.Id, filename.Split("/").Last() );
+
         } catch ( NullReferenceException  ex)
         {
             Snackbar.Add("Não é possível fazer upload porque não foi possível carregar os nomes das lojas para colocar no nome do arquivo.");
