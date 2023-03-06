@@ -91,6 +91,7 @@ public class BaseCrudPageComponent<TModel> : BasePageComponent where TModel : Ba
         model = CreateNewModel();
         ModoEdicao = false;
         success = false;
+        await InvokeAsync(StateHasChanged);
     }
 
     // ---------------- DELETE
