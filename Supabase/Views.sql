@@ -102,7 +102,7 @@ SELECT
     "Lista"."CreatedAt" AS "ListaCreatedAt",
     "OrcamentoView"."LojaNome",
     "OrcamentoView"."EntregaPrazo",
-    "OrcamentoView"."EntregaPreco",
+    "OrcamentoView"."EntregaPreco",    
     "Carrinho"."Status",
     "Carrinho"."SoftDeleted",
     "Carrinho"."SoftDeletedAt",
@@ -110,7 +110,8 @@ SELECT
     "CarrinhoTotal"."CarrinhoId",
     "CarrinhoTotal"."PrecoTotal",
     "CarrinhoTotal"."QuantidadeItens",
-    ( "OrcamentoView"."EntregaPreco" + "CarrinhoTotal"."PrecoTotal" ) AS "PrecoTotalComEntrega"
+    ( "OrcamentoView"."EntregaPreco" + "CarrinhoTotal"."PrecoTotal" ) AS "PrecoTotalComEntrega",
+    "OrcamentoView"."CodigoLoja"
 FROM "Carrinho"
 JOIN "Perfil" ON "Carrinho"."PerfilId" = "Perfil"."Id"
 JOIN "Lista" ON "Carrinho"."ListaId" = "Lista"."Id"

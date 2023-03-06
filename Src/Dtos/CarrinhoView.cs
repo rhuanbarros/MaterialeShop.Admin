@@ -43,4 +43,7 @@ public class CarrinhoView : BaseModelApp
 
     [Column("QuantidadeItens")]
     public int? QuantidadeItens { get; set; }
+
+    [Column("CodigoLoja")]
+    public string? CodigoLoja { get; set; }
 }
