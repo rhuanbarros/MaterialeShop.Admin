@@ -76,7 +76,9 @@
                                     Variant="Variant.Filled"
                                     Color="Color.Primary"
                                     StartIcon="@Icons.Material.Filled.CloudUpload"
-                                    for="@contextUpload">
+                                    for="@contextUpload"
+                                    Disabled="@(model.LojaId == 0)"
+                                    >
                                 Anexar orçamento
                             </MudButton>
                         </ButtonTemplate>
