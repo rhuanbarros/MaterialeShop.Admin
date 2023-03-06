@@ -168,18 +168,17 @@ public partial class VerCarrinhosItensListaPage
         string telefone = "55"+"51991700000";
         string url = $"https://wa.me/{telefone}?text=";
 
-        // String quebraDeLinha = "%0A";
         String quebraDeLinha = Enc(Environment.NewLine);
         String mensagem;
 
-        mensagem = Enc("Olá, eu obtive o orçamento para os seguintes itens por meio da MaterialeShop e gostaria de realizar uma compra.");
+        mensagem = Enc("Olá, eu gostaria de realizar uma compra.");
         mensagem += quebraDeLinha;
         if(carrinhoView.CodigoLoja is not null)
         {
-            mensagem += Enc($"O código do orçamento é {carrinhoView.CodigoLoja}");
+            mensagem += Enc($"O código do orçamento em que os itens foram cotados previamente é {carrinhoView.CodigoLoja}");
             mensagem += quebraDeLinha;
         }
-        mensagem += Enc($"Os itens necessários são os listados abaixo:");
+        mensagem += Enc($"Os itens que tenho interesse são os listados abaixo:");
         mensagem += quebraDeLinha;
 
         List<CarrinhoItemView> carrinhoItemViews = getCarrinhoItemViewFromCarrinho(carrinhoView.CarrinhoId);
@@ -187,9 +186,12 @@ public partial class VerCarrinhosItensListaPage
         foreach (var item in carrinhoItemViews)
         {
             mensagem += Enc($"Produto: {item.Descricao} - Quantidade: {item.Quantidade}");
-            mensagem += quebraDeLinha;            
+            mensagem += quebraDeLinha;
         }
         mensagem += Enc($"Aguardo retorno. Obrigado.");
+        mensagem += quebraDeLinha;
+        
+        mensagem = Enc("Orçamento obtido previamente por meio dos serviços prestados pela *Materiale*.");
         
         string urlCompleta = url + mensagem;
 
