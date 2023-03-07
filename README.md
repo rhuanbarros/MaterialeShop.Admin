@@ -24,11 +24,11 @@
 	
 ## INTERFACE
 	- TODO reduzir o tamanho das letras em 25% quando aberto em celular
-	- TODO arrumar bug se clica num campo e clica na tela, o botao de salvar fica ativado e tenta enviar e da erro.
+	- [X] arrumar bug se clica num campo e clica na tela, o botao de salvar fica ativado e tenta enviar e da erro.
 	- [X] campos de data e hora - permitir inserção com texto. usar componentes de mascara.
 	- [X] tabela Perfil, mudar o tipo do Campo UUid para tipo uuid e mudar o nome para UserUuid
-	- TODO tela de carrinho de compras
-	- TODO tela de pedidos
+	- [X] tela de carrinho de compras
+	- [X] tela de pedidos
 	- TODO tela de configurações
 	- TODO criar mascara para os componentes MudTimePicker
 
@@ -51,6 +51,7 @@
 				devido ao RSL, simplesmente nao vai aparecer nada como se nem existisse.
 				Entretanto, a interface tem q verificar se a pessoa tem acesso a lista, e mostrar uma tela diferente
 	- TODO implementar controle de exceções nos crud bases e database services
+			acho q nao precisa
 	- TODO colocar um link para o site da materiale na mensagem do whats pra loja
 		
 ## BACKEND
@@ -60,7 +61,10 @@
 
 ## NEGÓCIO
 	- TODO Implementar dashboard com dados básicos do livro sobre a jornada do cliente e uso do app
-	- 
+
+## LANDING PAGE
+	- TODO implementar LANDINDG PAGE
+
 
 # Custom Snippets
     
