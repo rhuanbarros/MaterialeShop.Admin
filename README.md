@@ -1,5 +1,8 @@
 # MaterialeShop.Admin
 
+Solution for managing construction material budgets for stores serving various clients. Deployed using Supabase Serverless technologies. The system works entirely on the front end, leveraging C# Blazor WebAssembly, and Supabase Realtime Postgres database.
+
+<!--
 # para fazer
 	- https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-lazy-load-assemblies?view=aspnetcore-7.0
 	- https://code-maze.com/lazy-loading-in-blazor-webassembly/#:~:text=Lazy%20Loading%20enables%20us%20to,we%20do%20not%20require%20yet.
@@ -65,6 +68,7 @@
 ## LANDING PAGE
 	- TODO implementar LANDINDG PAGE
 
+-->
 
 # Custom Snippets
     
