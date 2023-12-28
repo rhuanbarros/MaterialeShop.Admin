@@ -25,8 +25,8 @@ builder.Services.AddMudServices();
 builder.Services.AddBlazoredLocalStorage();
 
 // ---------- SUPABASE
-var url = "https://ybqilfcwesgbkvxmgxpm.supabase.co";
-var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicWlsZmN3ZXNnYmt2eG1neHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgyOTI4NDcsImV4cCI6MTk4Mzg2ODg0N30.HjO-uxNoe99XnviTPTtZ5kDFKG3z4T5CKuW8xZn-Ra0";
+var url = "";
+var key = "";
 
 builder.Services.AddScoped<Supabase.Client>(
     provider => new Supabase.Client(
